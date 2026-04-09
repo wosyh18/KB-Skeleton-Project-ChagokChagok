@@ -1,4 +1,5 @@
 ﻿<script setup>
+
 import NavigationBar from './navigationBar.vue';
 </script>
 
