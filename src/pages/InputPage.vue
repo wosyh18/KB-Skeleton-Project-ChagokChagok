@@ -3,6 +3,8 @@ import { computed, reactive, ref } from 'vue';
 import CategorySelector from '@/components/input/CategorySelector.vue';
 import QuickAmountButtons from '@/components/input/QuickAmountButtons.vue';
 import TransactionTypeTabs from '@/components/input/TransactionTypeTabs.vue';
+import expenseBadgeIcon from '@/assets/icons/icon-outcome.png';
+import incomeBadgeIcon from '@/assets/icons/icon-income.png';
 import { useFinanceStore } from '@/store/finance';
 
 const financeStore = useFinanceStore();
@@ -25,6 +27,15 @@ const form = reactive({
 
 const submitLabel = computed(() =>
   activeTab.value === 'income' ? '수입 등록하기' : '지출 등록하기',
+);
+const pageTitle = computed(() =>
+  activeTab.value === 'income' ? '수입 입력' : '지출 입력',
+);
+const pageBadgeLabel = computed(() =>
+  activeTab.value === 'income' ? '수입' : '지출',
+);
+const pageBadgeIcon = computed(() =>
+  activeTab.value === 'income' ? incomeBadgeIcon : expenseBadgeIcon,
 );
 
 function resetForm() {
@@ -86,8 +97,13 @@ async function submitForm() {
   <section class="content-page input-page">
     <div class="input-layout">
       <aside class="input-intro-card">
-        <div class="input-intro-badge">{{ activeTab === 'income' ? '수입' : '지출' }}</div>
-        <h1>용돈과 지출 입력</h1>
+        <div class="input-intro-badge">
+          <span class="input-intro-badge-icon">
+            <img :src="pageBadgeIcon" :alt="`${pageBadgeLabel} 아이콘`" />
+          </span>
+          <span>{{ pageBadgeLabel }}</span>
+        </div>
+        <h1>{{ pageTitle }}</h1>
         <p class="input-intro-text">
           {{ activeTab === 'income'
             ? '받은 돈을 바로 남겨두고 이번 달 흐름을 차곡차곡 정리해 보세요.'
