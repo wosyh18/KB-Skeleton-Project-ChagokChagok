@@ -8,7 +8,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close', 'save'])
-const form = reactive({ category: '', description: '', amount: '', time: '' })
+const form = reactive({ category: '', description: '', amount: '' })
 const isIncomeTransaction = computed(() => props.transaction?.type === 'income')
 const expenseCategories = ['식비', '교통', '문화', '취미', '교육', '기타']
 
@@ -19,7 +19,6 @@ watch(
     form.category = transaction.category
     form.description = transaction.description
     form.amount = String(transaction.amount)
-    form.time = transaction.time
   },
   { immediate: true },
 )
@@ -29,7 +28,6 @@ function submit() {
     category: form.category,
     description: form.description,
     amount: Number(form.amount) || 0,
-    time: form.time,
   })
 }
 </script>
@@ -58,10 +56,6 @@ function submit() {
       <label>
         <span>금액</span>
         <input v-model="form.amount" type="number" />
-      </label>
-      <label>
-        <span>시간</span>
-        <input v-model="form.time" type="time" />
       </label>
       <div class="modal-actions">
         <button type="button" class="ghost-button" @click="emit('close')">취소</button>
