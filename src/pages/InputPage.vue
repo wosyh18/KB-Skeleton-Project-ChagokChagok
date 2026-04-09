@@ -16,7 +16,6 @@ const form = reactive({
   description: '',
   from: '',
   date: '2026-04-08',
-  time: '16:30',
 })
 
 const submitLabel = computed(() => activeTab.value === 'income' ? '수입 등록하기' : '지출 등록하기')
@@ -26,10 +25,14 @@ function resetForm() {
   form.category = ''
   form.description = ''
   form.from = ''
-  form.time = '16:30'
 }
 
-function submitForm() {
+function appendAmount(amount) {
+  const currentAmount = Number(form.amount || 0)
+  form.amount = String(currentAmount + amount)
+}
+
+async function submitForm() {
   if (!form.amount || !form.date) {
     message.value = '날짜와 금액을 먼저 입력해 주세요.'
     return
@@ -38,17 +41,21 @@ function submitForm() {
   const category = activeTab.value === 'income' ? (form.from || '용돈') : (form.category || '기타')
   const description = activeTab.value === 'income' ? `${form.from || '보호자'}에게 받은 금액` : (form.description || '메모 없음')
 
-  financeStore.addTransaction({
-    type: activeTab.value,
-    category,
-    description,
-    amount: Number(form.amount),
-    date: form.date,
-    time: form.time,
-  })
+  try {
+    await financeStore.addTransaction({
+      type: activeTab.value,
+      category,
+      description,
+      amount: Number(form.amount),
+      date: form.date,
+      time: '',
+    })
 
-  message.value = activeTab.value === 'income' ? '수입이 저장되었어요.' : '지출이 저장되었어요.'
-  resetForm()
+    message.value = activeTab.value === 'income' ? '수입이 저장되었어요.' : '지출이 저장되었어요.'
+    resetForm()
+  } catch {
+    message.value = '저장에 실패했어요. json-server 연결을 확인해 주세요.'
+  }
 }
 </script>
 
@@ -65,16 +72,11 @@ function submitForm() {
         </label>
 
         <label>
-          <span>시간</span>
-          <input v-model="form.time" type="time" />
-        </label>
-
-        <label>
           <span>금액</span>
           <input v-model="form.amount" type="number" placeholder="금액을 입력해 주세요" />
         </label>
 
-        <QuickAmountButtons :amounts="quickAmounts" @select="form.amount = String($event)" />
+        <QuickAmountButtons :amounts="quickAmounts" @select="appendAmount" />
 
         <template v-if="activeTab === 'income'">
           <label>

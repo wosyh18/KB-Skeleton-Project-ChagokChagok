@@ -15,14 +15,14 @@ const emit = defineEmits(['add', 'edit', 'delete'])
 
     <div v-if="transactions.length" class="transaction-list">
       <article v-for="item in transactions" :key="item.id" class="transaction-row">
-        <div class="transaction-main">
-          <div class="transaction-icon">{{ item.type === 'income' ? '수입' : '지출' }}</div>
-          <div>
-            <strong>{{ item.category }}</strong>
-            <p>{{ item.description }}</p>
-            <small>{{ item.time }}</small>
+          <div class="transaction-main">
+            <div class="transaction-icon">{{ item.type === 'income' ? '수입' : '지출' }}</div>
+            <div>
+              <strong>{{ item.category }}</strong>
+              <p>{{ item.description }}</p>
+              <small v-if="item.time">{{ item.time }}</small>
+            </div>
           </div>
-        </div>
 
         <div class="transaction-actions">
           <strong :class="item.type">{{ item.type === 'income' ? '+' : '-' }}{{ item.amount.toLocaleString() }}원</strong>

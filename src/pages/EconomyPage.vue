@@ -1,10 +1,14 @@
 ﻿<script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useLearningStore } from '@/store/learning'
 
 const learningStore = useLearningStore()
 const selectedAnswer = ref(null)
 const showResult = ref(false)
+
+onMounted(async () => {
+  await learningStore.initialize()
+})
 
 function answerQuiz(value) {
   selectedAnswer.value = value
