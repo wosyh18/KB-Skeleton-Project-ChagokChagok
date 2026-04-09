@@ -27,15 +27,15 @@ const title = computed(() => {
   return `${year}년 ${Number(month)}월 ${Number(day)}일`
 })
 
-function saveEdit(payload) {
+async function saveEdit(payload) {
   if (!editingId.value) return
-  financeStore.updateTransaction(editingId.value, payload)
+  await financeStore.updateTransaction(editingId.value, payload)
   editingId.value = null
 }
 
-function confirmDelete() {
+async function confirmDelete() {
   if (!deletingId.value) return
-  financeStore.deleteTransaction(deletingId.value)
+  await financeStore.deleteTransaction(deletingId.value)
   deletingId.value = null
 }
 </script>

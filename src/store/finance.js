@@ -1,14 +1,16 @@
 import { defineStore } from 'pinia'
 
-import { seedTransactions } from './data'
-import { STORAGE_KEYS, loadJson, saveJson } from './storage'
+import { api } from '@/api/client'
+import { useAuthStore } from '@/store/auth'
 
 export const useFinanceStore = defineStore('finance', {
   state: () => ({
     initialized: false,
     monthlyGoal: 150000,
-    points: 500,
+    points: 0,
     transactions: [],
+    isLoading: false,
+    error: '',
     selectedMonth: '2026-04',
   }),
   getters: {
@@ -30,62 +32,96 @@ export const useFinanceStore = defineStore('finance', {
     setSelectedMonth(month) {
       this.selectedMonth = month
     },
-    initialize() {
+    async initialize() {
       if (this.initialized) return
 
-      const saved = loadJson(STORAGE_KEYS.finance, null)
-      this.monthlyGoal = saved?.monthlyGoal ?? 150000
-      this.points = saved?.points ?? 500
-      this.transactions = Array.isArray(saved?.transactions) && saved.transactions.length
-        ? saved.transactions
-        : [...seedTransactions]
+      const authStore = useAuthStore()
+      if (!authStore.userId) {
+        this.initialized = true
+        return
+      }
 
+      await this.refreshAll()
       this.initialized = true
-      this.persist()
     },
-    persist() {
-      saveJson(STORAGE_KEYS.finance, {
-        monthlyGoal: this.monthlyGoal,
-        points: this.points,
-        transactions: this.transactions,
-      })
+    async refreshAll() {
+      const authStore = useAuthStore()
+      if (!authStore.userId) return
+
+      this.isLoading = true
+      this.error = ''
+
+      try {
+        const [userResponse, transactionResponse] = await Promise.all([
+          api.get(`/users/${authStore.userId}`),
+          api.get('/transactions', { params: { userId: authStore.userId } }),
+        ])
+
+        this.monthlyGoal = userResponse.data.monthlyGoal ?? 150000
+        this.points = userResponse.data.points ?? 0
+        this.transactions = transactionResponse.data
+      } catch (error) {
+        this.error = '가계부 데이터를 불러오지 못했어요.'
+        throw error
+      } finally {
+        this.isLoading = false
+      }
     },
     getTransactionsByDate(date) {
       return [...this.transactions]
         .filter((item) => item.date === date)
-        .sort((a, b) => a.time.localeCompare(b.time))
+        .sort((a, b) => String(a.time || '').localeCompare(String(b.time || '')))
     },
     getExpenseByDate(date) {
       return this.getTransactionsByDate(date)
         .filter((item) => item.type === 'expense')
         .reduce((sum, item) => sum + item.amount, 0)
     },
-    addTransaction(payload) {
-      this.transactions.push({ id: Date.now(), ...payload })
-      this.points += payload.type === 'expense' ? 10 : 5
-      this.persist()
+    async addTransaction(payload) {
+      const authStore = useAuthStore()
+      if (!authStore.userId) return null
+
+      const transactionPayload = {
+        userId: authStore.userId,
+        time: '',
+        ...payload,
+      }
+
+      const { data } = await api.post('/transactions', transactionPayload)
+      this.transactions.push(data)
+
+      const nextPoints = this.points + (payload.type === 'expense' ? 10 : 5)
+      this.points = nextPoints
+      await authStore.updateUser({ points: nextPoints })
+
+      return data
     },
-    updateTransaction(id, payload) {
+    async updateTransaction(id, payload) {
+      const { data } = await api.patch(`/transactions/${id}`, payload)
       const index = this.transactions.findIndex((item) => item.id === id)
-      if (index === -1) return
-      this.transactions[index] = { ...this.transactions[index], ...payload }
-      this.persist()
+      if (index !== -1) {
+        this.transactions[index] = data
+      }
+      return data
     },
-    deleteTransaction(id) {
+    async deleteTransaction(id) {
+      await api.delete(`/transactions/${id}`)
       this.transactions = this.transactions.filter((item) => item.id !== id)
-      this.persist()
     },
-    updateMonthlyGoal(value) {
+    async updateMonthlyGoal(value) {
+      const authStore = useAuthStore()
       this.monthlyGoal = value
-      this.persist()
+      await authStore.updateUser({ monthlyGoal: value })
     },
-    spendPoints(amount) {
+    async spendPoints(amount) {
+      const authStore = useAuthStore()
       if (amount > this.points) {
         return false
       }
 
-      this.points -= amount
-      this.persist()
+      const nextPoints = this.points - amount
+      this.points = nextPoints
+      await authStore.updateUser({ points: nextPoints })
       return true
     },
   },

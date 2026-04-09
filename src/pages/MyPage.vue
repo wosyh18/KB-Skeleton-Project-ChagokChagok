@@ -1,5 +1,5 @@
 ﻿<script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import GoalBadge from '@/components/my/GoalBadge.vue'
@@ -16,8 +16,7 @@ const financeStore = useFinanceStore()
 const themeStore = useThemeStore()
 const { user } = storeToRefs(authStore)
 const { points } = storeToRefs(financeStore)
-const { currentTheme, selectedThemeId } = storeToRefs(themeStore)
-const themes = computed(() => themeStore.themes)
+const { currentTheme, selectedThemeId, normalizedThemes } = storeToRefs(themeStore)
 const showThemeDialog = ref(false)
 const feedback = ref('')
 const goalInput = computed({
@@ -30,8 +29,14 @@ const goalInput = computed({
   },
 })
 
-function chooseTheme(themeId) {
-  const result = themeStore.selectTheme(themeId)
+onMounted(async () => {
+  if (!themeStore.initialized) {
+    await themeStore.initialize()
+  }
+})
+
+async function chooseTheme(themeId) {
+  const result = await themeStore.selectTheme(themeId)
   feedback.value = result.ok ? '테마가 적용되었어요.' : result.message
   if (result.ok) {
     showThemeDialog.value = false
@@ -54,7 +59,7 @@ function logout() {
 
     <ThemeSelectionModal
       :open="showThemeDialog"
-      :themes="themes"
+      :themes="normalizedThemes"
       :selected-theme-id="selectedThemeId"
       @close="showThemeDialog = false"
       @select="chooseTheme"
