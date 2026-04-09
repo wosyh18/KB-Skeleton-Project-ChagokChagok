@@ -51,6 +51,19 @@ function appendAmount(amount) {
   form.amount = String(currentAmount + amount);
 }
 
+function sanitizeAmountInput(event) {
+  const value = event.target.value;
+  if (value === '') {
+    form.amount = '';
+    return;
+  }
+
+  const numericValue = Number(value);
+  form.amount = Number.isNaN(numericValue)
+    ? ''
+    : String(Math.max(0, numericValue));
+}
+
 function changeTab(tab) {
   activeTab.value = tab;
   message.value = '';
@@ -58,8 +71,28 @@ function changeTab(tab) {
 }
 
 async function submitForm() {
-  if (!form.amount || !form.date) {
-    message.value = '날짜와 금액을 먼저 입력해 주세요.';
+  if (!form.date) {
+    message.value = '날짜를 선택해 주세요.';
+    return;
+  }
+
+  if (!form.amount) {
+    message.value = '금액을 입력해 주세요.';
+    return;
+  }
+
+  if (Number(form.amount) <= 0) {
+    message.value = '금액은 0원보다 크게 입력해 주세요.';
+    return;
+  }
+
+  if (activeTab.value === 'income' && !form.from.trim()) {
+    message.value = '수입 출처를 입력해 주세요.';
+    return;
+  }
+
+  if (activeTab.value === 'expense' && !form.category) {
+    message.value = '지출 카테고리를 선택해 주세요.';
     return;
   }
 
@@ -148,7 +181,9 @@ async function submitForm() {
             <input
               v-model="form.amount"
               type="number"
+              min="0"
               placeholder="금액을 입력해 주세요"
+              @input="sanitizeAmountInput"
             />
           </label>
 
