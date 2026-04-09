@@ -6,11 +6,11 @@ const router = useRouter()
 const route = useRoute()
 
 const items = [
-  { path: '/', label: '메인', icon: '홈' },
-  { path: '/input', label: '입력', icon: '입' },
-  { path: '/stats', label: '통계', icon: '통' },
-  { path: '/economy', label: '경제', icon: '경' },
-  { path: '/mypage', label: '마이', icon: '마' },
+  { path: '/', label: '메인' },
+  { path: '/input', label: '용돈/지출' },
+  { path: '/stats', label: '통계' },
+  { path: '/economy', label: '경제' },
+  { path: '/mypage', label: '마이' },
 ]
 
 const currentPath = computed(() => route.path)
@@ -34,7 +34,6 @@ function go(path) {
       :class="{ active: isActive(item.path) }"
       @click="go(item.path)"
     >
-      <span class="nav-icon">{{ item.icon }}</span>
       <span class="nav-label">{{ item.label }}</span>
     </button>
   </nav>

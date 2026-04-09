@@ -306,8 +306,9 @@ p {
 }
 
 .calendar-day small {
-  color: #c25858;
+  color: #d32f2f;
   font-weight: 700;
+  font-size: 0.75rem;
 }
 
 .floating-tip {
@@ -724,8 +725,7 @@ p {
 .nav-item {
   display: grid;
   justify-items: center;
-  gap: 0.2rem;
-  padding: 0.65rem 0.25rem;
+  padding: 0.8rem 0.25rem;
   border-radius: 18px;
   background: transparent;
   color: #84927c;
@@ -736,7 +736,7 @@ p {
 }
 
 .nav-label {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 700;
 }
 
@@ -796,9 +796,56 @@ p {
     width: min(100%, 1180px);
   }
 
+  .bottom-nav {
+    width: min(calc(100% - 2rem), 1172px);
+    padding: 0.75rem 1rem;
+    gap: 1rem;
+  }
+
+  .nav-item {
+    padding: 0.9rem 0.5rem;
+  }
+
+  .nav-label {
+    font-size: 1.1rem;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .summary-grid article {
+    padding: 1.2rem;
+  }
+
+  .calendar-card {
+    padding: 2rem;
+  }
+
+  .calendar-day {
+    padding: 0.75rem;
+    font-size: 1.1rem;
+  }
+
+  .calendar-day small {
+    font-size: 0.95rem;
+  }
+
   .content-page.input-page {
     align-items: start;
     padding: 2rem;
+  }
+
+  .stats-page {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .stats-page .accent-card,
+  .stats-page .floating-tip {
+    grid-column: 1 / -1;
   }
 
   .input-layout {
