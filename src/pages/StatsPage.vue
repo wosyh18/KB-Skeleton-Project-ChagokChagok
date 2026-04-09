@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import InfoTipCard from '@/components/common/InfoTipCard.vue'
@@ -48,11 +48,6 @@ const weeklyData = computed(() => {
 
 const maxWeeklyValue = computed(() => Math.max(...weeklyData.value.map((item) => item.value), 1))
 
-function ratio(value) {
-  const top = categoryData.value[0]?.value || 1
-  return `${Math.max((value / top) * 100, 12)}%`
-}
-
 function weeklyHeight(value) {
   return `${Math.max((value / maxWeeklyValue.value) * 100, 8)}%`
 }
@@ -66,7 +61,7 @@ function weeklyHeight(value) {
       <p>기록된 지출을 기준으로 가장 많이 쓴 영역을 한눈에 볼 수 있어요.</p>
     </div>
 
-    <CategorySpendingList :items="categoryData" :ratio="ratio" />
+    <CategorySpendingList :items="categoryData" />
     <WeeklySpendingChart :items="weeklyData" :weekly-height="weeklyHeight" />
 
     <InfoTipCard
