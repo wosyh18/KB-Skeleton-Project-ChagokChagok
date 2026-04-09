@@ -34,32 +34,30 @@ export const useAuthStore = defineStore('auth', {
         this.isLoading = false
       }
     },
-    async login({ name, email }) {
+    async login({ email, password }) {
       this.isLoading = true
       this.error = ''
 
       try {
         const { data: users } = await api.get('/users', { params: { email } })
 
-        if (users.length > 0) {
-          this.user = users[0]
-        } else {
-          const payload = {
-            email,
-            password: '',
-            name,
-            age: 14,
-            monthlyGoal: 150000,
-            points: 0,
-            currentTheme: 'default',
-          }
-          const { data } = await api.post('/users', payload)
-          this.user = data
+        if (users.length === 0) {
+          this.error = '등록된 이메일이 아니에요.'
+          throw new Error(this.error)
         }
 
+        const matchedUser = users.find((user) => user.password === password)
+        if (!matchedUser) {
+          this.error = '비밀번호가 올바르지 않아요.'
+          throw new Error(this.error)
+        }
+
+        this.user = matchedUser
         setSessionUserId(this.user.id)
       } catch (error) {
-        this.error = '로그인 처리 중 오류가 발생했어요.'
+        if (!this.error) {
+          this.error = '로그인 처리 중 오류가 발생했어요.'
+        }
         throw error
       } finally {
         this.isLoading = false
