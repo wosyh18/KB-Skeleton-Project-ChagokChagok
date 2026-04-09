@@ -2,6 +2,9 @@
 import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
+import InfoTipCard from '@/components/common/InfoTipCard.vue'
+import MainSummaryCard from '@/components/main/MainSummaryCard.vue'
+import MonthlyCalendar from '@/components/main/MonthlyCalendar.vue'
 import { useAuthStore } from '@/store/auth'
 import { useFinanceStore } from '@/store/finance'
 
@@ -42,60 +45,29 @@ function expenseFor(day) {
 
 <template>
   <section class="content-page home-page">
-    <div class="hero-card">
-      <div class="hero-header">
-        <button type="button" class="icon-button" @click="previousMonth">&lt;</button>
-        <h1>{{ monthName }}</h1>
-        <button type="button" class="icon-button" @click="nextMonth">&gt;</button>
-      </div>
+    <MainSummaryCard
+      :month-name="monthName"
+      :monthly-goal="monthlyGoal"
+      :total-income="totalIncome"
+      :current-month-total-expense="currentMonthTotalExpense"
+      :remaining-allowance="remainingAllowance"
+      @previous="previousMonth"
+      @next="nextMonth"
+    />
 
-      <div class="summary-grid">
-        <article>
-          <span>이번 달 목표</span>
-          <strong>{{ monthlyGoal.toLocaleString() }}원</strong>
-        </article>
-        <article>
-          <span>받은 금액</span>
-          <strong>{{ totalIncome.toLocaleString() }}원</strong>
-        </article>
-        <article>
-          <span>총 지출</span>
-          <strong>{{ currentMonthTotalExpense.toLocaleString() }}원</strong>
-        </article>
-        <article>
-          <span>남은 금액</span>
-          <strong>{{ remainingAllowance.toLocaleString() }}원</strong>
-        </article>
-      </div>
-    </div>
+    <MonthlyCalendar
+      :weekday-labels="weekdayLabels"
+      :first-day="firstDay"
+      :days-in-month="daysInMonth"
+      :expense-for="expenseFor"
+      :format-date="formatDate"
+      @select-day="openDaily"
+    />
 
-    <div class="calendar-card">
-      <div class="calendar-weekdays">
-        <span v-for="label in weekdayLabels" :key="label">{{ label }}</span>
-      </div>
-
-      <div class="calendar-grid">
-        <span v-for="blank in firstDay" :key="`blank-${blank}`" class="calendar-blank"></span>
-        <button
-          v-for="day in daysInMonth"
-          :key="day"
-          type="button"
-          class="calendar-day"
-          :class="{ marked: expenseFor(day) > 0, today: formatDate(day) === '2026-04-08' }"
-          @click="openDaily(day)"
-        >
-          <span>{{ day }}</span>
-          <small v-if="expenseFor(day) > 0">-{{ Math.round(expenseFor(day) / 1000) }}k</small>
-        </button>
-      </div>
-    </div>
-
-    <div class="floating-tip">
-      <div class="floating-icon">기록</div>
-      <div>
-        <strong>{{ user?.name || '친구' }}님, 오늘도 기록해 볼까요?</strong>
-        <p>날짜를 눌러 하루 지출을 확인하거나 입력 화면에서 바로 추가할 수 있어요.</p>
-      </div>
-    </div>
+    <InfoTipCard
+      icon="기록"
+      :title="`${user?.name || '친구'}님, 오늘도 기록해 볼까요?`"
+      description="날짜를 눌러 하루 지출을 확인하거나 입력 화면에서 바로 추가할 수 있어요."
+    />
   </section>
 </template>

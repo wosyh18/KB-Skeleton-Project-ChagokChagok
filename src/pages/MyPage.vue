@@ -2,6 +2,10 @@
 import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
+import GoalBadge from '@/components/my/GoalBadge.vue'
+import ProfileHeader from '@/components/my/ProfileHeader.vue'
+import ThemeSelectionModal from '@/components/my/ThemeSelectionModal.vue'
+import UserInfoCard from '@/components/my/UserInfoCard.vue'
 import { useAuthStore } from '@/store/auth'
 import { useFinanceStore } from '@/store/finance'
 import { useThemeStore } from '@/store/theme'
@@ -42,57 +46,18 @@ function logout() {
 
 <template>
   <section class="content-page my-page" :style="{ backgroundColor: currentTheme.background }">
-    <div class="profile-top">
-      <div class="point-pill" :style="{ backgroundColor: currentTheme.primary, color: currentTheme.accent }">
-        <span>포인트</span>
-        <strong>{{ points }}P</strong>
-      </div>
-      <button type="button" class="chip-button" :style="{ backgroundColor: currentTheme.secondary, color: currentTheme.accent }" @click="showThemeDialog = true">
-        테마 변경
-      </button>
-    </div>
+    <ProfileHeader :points="points" :current-theme="currentTheme" @open-theme="showThemeDialog = true" />
 
-    <div class="profile-character">
-      <div class="character-orb" :style="{ background: `linear-gradient(135deg, ${currentTheme.primary}, ${currentTheme.secondary})` }">내</div>
-      <div class="speech-badge" :style="{ borderColor: currentTheme.accent }">
-        <span>이번 달 목표</span>
-        <input v-model="goalInput" type="text" inputmode="numeric" />
-        <strong>원</strong>
-      </div>
-    </div>
+    <GoalBadge :current-theme="currentTheme" :goal-input="goalInput" @update:goal-input="goalInput = $event" />
 
-    <div class="section-card">
-      <h2>내 정보</h2>
-      <div class="info-list">
-        <div><span>이름</span><strong>{{ user?.name }}</strong></div>
-        <div><span>나이</span><strong>{{ user?.age }}세</strong></div>
-        <div><span>이메일</span><strong>{{ user?.email }}</strong></div>
-      </div>
-      <p v-if="feedback" class="success-message">{{ feedback }}</p>
-      <button type="button" class="ghost-button full-width" @click="logout">로그아웃</button>
-    </div>
+    <UserInfoCard :user="user" :feedback="feedback" @logout="logout" />
 
-    <div v-if="showThemeDialog" class="modal-overlay" @click.self="showThemeDialog = false">
-      <div class="modal-card large">
-        <div class="section-headline">
-          <h3>테마 선택</h3>
-          <span>포인트로 잠금 해제</span>
-        </div>
-        <div class="theme-grid">
-          <button
-            v-for="theme in themes"
-            :key="theme.id"
-            type="button"
-            class="theme-card"
-            :class="{ selected: selectedThemeId === theme.id }"
-            :style="{ background: `linear-gradient(135deg, ${theme.primary}, ${theme.secondary})` }"
-            @click="chooseTheme(theme.id)"
-          >
-            <strong>{{ theme.name }}</strong>
-            <span>{{ theme.cost === 0 ? '무료' : `${theme.cost}P` }}</span>
-          </button>
-        </div>
-      </div>
-    </div>
+    <ThemeSelectionModal
+      :open="showThemeDialog"
+      :themes="themes"
+      :selected-theme-id="selectedThemeId"
+      @close="showThemeDialog = false"
+      @select="chooseTheme"
+    />
   </section>
 </template>

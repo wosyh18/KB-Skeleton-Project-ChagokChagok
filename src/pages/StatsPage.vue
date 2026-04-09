@@ -1,6 +1,9 @@
 ﻿<script setup>
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
+import InfoTipCard from '@/components/common/InfoTipCard.vue'
+import CategorySpendingList from '@/components/stats/CategorySpendingList.vue'
+import WeeklySpendingChart from '@/components/stats/WeeklySpendingChart.vue'
 import { useFinanceStore } from '@/store/finance'
 
 const financeStore = useFinanceStore()
@@ -63,49 +66,14 @@ function weeklyHeight(value) {
       <p>기록된 지출을 기준으로 가장 많이 쓴 영역을 한눈에 볼 수 있어요.</p>
     </div>
 
-    <div class="section-card">
-      <div class="section-headline">
-        <h2>카테고리별 지출</h2>
-        <span>{{ categoryData.length }}개 카테고리</span>
-      </div>
+    <CategorySpendingList :items="categoryData" :ratio="ratio" />
+    <WeeklySpendingChart :items="weeklyData" :weekly-height="weeklyHeight" />
 
-      <div class="category-list">
-        <article v-for="item in categoryData" :key="item.name" class="category-row">
-          <div class="category-meta">
-            <span class="category-dot" :style="{ backgroundColor: item.color }"></span>
-            <strong>{{ item.name }}</strong>
-          </div>
-          <div class="category-bar-track">
-            <div class="category-bar-fill" :style="{ width: ratio(item.value), backgroundColor: item.color }"></div>
-          </div>
-          <span>{{ item.value.toLocaleString() }}원</span>
-        </article>
-      </div>
-    </div>
-
-    <div class="section-card">
-      <div class="section-headline">
-        <h2>주차별 지출</h2>
-        <span>4월 기준</span>
-      </div>
-
-      <div class="weekly-chart">
-        <article v-for="item in weeklyData" :key="item.label" class="weekly-bar-card">
-          <div class="weekly-bar-track">
-            <div class="weekly-bar-fill" :style="{ height: weeklyHeight(item.value) }"></div>
-          </div>
-          <strong>{{ item.label }}</strong>
-          <span>{{ item.value.toLocaleString() }}원</span>
-        </article>
-      </div>
-    </div>
-
-    <div class="floating-tip secondary">
-      <div class="floating-icon">요약</div>
-      <div>
-        <strong>문화와 식비 지출이 크다면 예산을 따로 잡아보세요.</strong>
-        <p>자주 쓰는 카테고리 한두 개만 먼저 관리해도 소비 습관이 훨씬 선명해집니다.</p>
-      </div>
-    </div>
+    <InfoTipCard
+      icon="요약"
+      title="문화와 식비 지출이 크다면 예산을 따로 잡아보세요."
+      description="자주 쓰는 카테고리 한두 개만 먼저 관리해도 소비 습관이 훨씬 선명해집니다."
+      secondary
+    />
   </section>
 </template>

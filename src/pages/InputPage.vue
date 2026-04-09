@@ -1,5 +1,8 @@
 ﻿<script setup>
 import { computed, reactive, ref } from 'vue'
+import CategorySelector from '@/components/input/CategorySelector.vue'
+import QuickAmountButtons from '@/components/input/QuickAmountButtons.vue'
+import TransactionTypeTabs from '@/components/input/TransactionTypeTabs.vue'
 import { useFinanceStore } from '@/store/finance'
 
 const financeStore = useFinanceStore()
@@ -53,10 +56,7 @@ function submitForm() {
   <section class="content-page input-page">
     <div class="section-card">
       <h1>용돈과 지출 입력</h1>
-      <div class="tab-switch">
-        <button type="button" :class="{ active: activeTab === 'income' }" @click="activeTab = 'income'">수입</button>
-        <button type="button" :class="{ active: activeTab === 'expense' }" @click="activeTab = 'expense'">지출</button>
-      </div>
+      <TransactionTypeTabs :active-tab="activeTab" @change="activeTab = $event" />
 
       <form class="stack-form" @submit.prevent="submitForm">
         <label>
@@ -74,11 +74,7 @@ function submitForm() {
           <input v-model="form.amount" type="number" placeholder="금액을 입력해 주세요" />
         </label>
 
-        <div class="quick-grid">
-          <button v-for="amount in quickAmounts" :key="amount" type="button" class="chip-button" @click="form.amount = String(amount)">
-            {{ amount.toLocaleString() }}원
-          </button>
-        </div>
+        <QuickAmountButtons :amounts="quickAmounts" @select="form.amount = String($event)" />
 
         <template v-if="activeTab === 'income'">
           <label>
@@ -88,21 +84,7 @@ function submitForm() {
         </template>
 
         <template v-else>
-          <div>
-            <span class="field-label">카테고리</span>
-            <div class="quick-grid categories">
-              <button
-                v-for="category in categories"
-                :key="category"
-                type="button"
-                class="chip-button"
-                :class="{ selected: form.category === category }"
-                @click="form.category = category"
-              >
-                {{ category }}
-              </button>
-            </div>
-          </div>
+          <CategorySelector :categories="categories" :selected-category="form.category" @select="form.category = $event" />
 
           <label>
             <span>메모</span>
