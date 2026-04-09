@@ -84,61 +84,96 @@ async function submitForm() {
 
 <template>
   <section class="content-page input-page">
-    <div class="section-card">
-      <h1>용돈과 지출 입력</h1>
-      <TransactionTypeTabs
-        :active-tab="activeTab"
-        @change="changeTab"
-      />
+    <div class="input-layout">
+      <aside class="input-intro-card">
+        <div class="input-intro-badge">{{ activeTab === 'income' ? '수입' : '지출' }}</div>
+        <h1>용돈과 지출 입력</h1>
+        <p class="input-intro-text">
+          {{ activeTab === 'income'
+            ? '받은 돈을 바로 남겨두고 이번 달 흐름을 차곡차곡 정리해 보세요.'
+            : '오늘 쓴 돈을 가볍게 적어두고 소비 패턴을 한눈에 확인해 보세요.' }}
+        </p>
 
-      <form class="stack-form" @submit.prevent="submitForm">
-        <label>
-          <span>날짜</span>
-          <input v-model="form.date" type="date" />
-        </label>
+        <div class="input-intro-points">
+          <article>
+            <span>선택된 날짜</span>
+            <strong>{{ form.date }}</strong>
+          </article>
+          <article>
+            <span>현재 입력 금액</span>
+            <strong>{{ form.amount ? `${Number(form.amount).toLocaleString()}원` : '0원' }}</strong>
+          </article>
+        </div>
 
-        <label>
-          <span>금액</span>
-          <input
-            v-model="form.amount"
-            type="number"
-            placeholder="금액을 입력해 주세요"
-          />
-        </label>
+        <div class="input-intro-tip input-intro-tip-desktop">
+          <strong>{{ activeTab === 'income' ? '받은 돈의 출처를 적어두세요.' : '지출 이유를 짧게 남겨두세요.' }}</strong>
+          <p>
+            {{ activeTab === 'income'
+              ? '누가 준 돈인지 적어두면 수입 흐름을 나중에 다시 보기 쉬워요.'
+              : '무엇을 왜 샀는지 한 줄 메모만 남겨도 소비 패턴을 찾기 쉬워집니다.' }}
+          </p>
+        </div>
+      </aside>
 
-        <QuickAmountButtons :amounts="quickAmounts" @select="appendAmount" />
+      <div class="section-card input-form-card">
+        <TransactionTypeTabs
+          :active-tab="activeTab"
+          @change="changeTab"
+        />
 
-        <template v-if="activeTab === 'income'">
-          <label>
-            <span>누구에게 받았나요?</span>
+        <form class="stack-form input-form-grid" @submit.prevent="submitForm">
+          <label class="input-field span-two">
+            <span>날짜</span>
+            <input v-model="form.date" type="date" />
+          </label>
+
+          <label class="input-field span-two">
+            <span>금액</span>
             <input
-              v-model="form.from"
-              type="text"
-              placeholder="예: 엄마, 아빠, 할머니"
+              v-model="form.amount"
+              type="number"
+              placeholder="금액을 입력해 주세요"
             />
           </label>
-        </template>
 
-        <template v-else>
-          <CategorySelector
-            :categories="categories"
-            :selected-category="form.category"
-            @select="form.category = $event"
-          />
+          <div class="span-two">
+            <QuickAmountButtons :amounts="quickAmounts" @select="appendAmount" />
+          </div>
 
-          <label>
-            <span>메모</span>
-            <textarea
-              v-model="form.description"
-              rows="3"
-              placeholder="무엇을 샀는지 적어 주세요"
-            ></textarea>
-          </label>
-        </template>
+          <template v-if="activeTab === 'income'">
+            <label class="input-field span-two">
+              <span>누구에게 받았나요?</span>
+              <input
+                v-model="form.from"
+                type="text"
+                placeholder="예: 엄마, 아빠, 할머니"
+              />
+            </label>
+          </template>
 
-        <p v-if="message" class="success-message">{{ message }}</p>
-        <button type="submit" class="primary-button">{{ submitLabel }}</button>
-      </form>
+          <template v-else>
+            <div class="span-two">
+              <CategorySelector
+                :categories="categories"
+                :selected-category="form.category"
+                @select="form.category = $event"
+              />
+            </div>
+
+            <label class="input-field span-two">
+              <span>메모</span>
+              <textarea
+                v-model="form.description"
+                rows="4"
+                placeholder="무엇을 샀는지 적어 주세요"
+              ></textarea>
+            </label>
+          </template>
+
+          <p v-if="message" class="success-message span-two">{{ message }}</p>
+          <button type="submit" class="primary-button span-two">{{ submitLabel }}</button>
+        </form>
+      </div>
     </div>
   </section>
 </template>
