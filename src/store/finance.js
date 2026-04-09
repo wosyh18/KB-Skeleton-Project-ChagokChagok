@@ -11,6 +11,9 @@ export const useFinanceStore = defineStore('finance', {
     monthlyGoal: 150000,
     points: 0,
     transactions: [],
+    categories: [],
+    isLoading: false,
+    error: '',
     selectedMonth: '2026-04',
   }),
   getters: {
@@ -31,6 +34,29 @@ export const useFinanceStore = defineStore('finance', {
     remainingAllowance() {
       return this.monthlyGoal + this.totalIncome - this.currentMonthTotalExpense
     },
+    topCategory(state) {
+      if (!state.transactions.length || !state.categories.length) return null
+      
+      let targetTransactions = state.transactions.filter(
+        (item) => item.type === 'expense' && item.date.startsWith(state.selectedMonth)
+      )
+      
+      if (!targetTransactions.length) {
+        targetTransactions = state.transactions.filter((item) => item.type === 'expense')
+      }
+      
+      if (!targetTransactions.length) return null
+      
+      const summary = {}
+      targetTransactions.forEach((item) => {
+        summary[item.category] = (summary[item.category] || 0) + item.amount
+      })
+      
+      const sorted = Object.entries(summary).sort((a, b) => b[1] - a[1])
+      const topName = sorted[0][0]
+      
+      return state.categories.find(c => c.name === topName) || null
+    }
   },
   actions: {
     setSelectedMonth(month) {
@@ -45,8 +71,16 @@ export const useFinanceStore = defineStore('finance', {
         return
       }
 
-      await this.refreshAll()
+      await Promise.all([this.refreshAll(), this.fetchCategories()])
       this.initialized = true
+    },
+    async fetchCategories() {
+      try {
+        const { data } = await api.get('/categories')
+        this.categories = data
+      } catch (error) {
+        console.error('Failed to fetch categories:', error)
+      }
     },
     async refreshAll() {
       const authStore = useAuthStore()

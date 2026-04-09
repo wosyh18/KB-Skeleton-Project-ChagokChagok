@@ -676,12 +676,9 @@ p {
   display: grid;
   place-items: center;
   font-size: 4.2rem;
-  box-shadow: 0 25px 55px rgba(90, 92, 49, 0.15);
 }
 
 .speech-badge {
-  background: rgba(255, 255, 255, 0.84);
-  border: 3px solid #6b8e23;
   border-radius: 24px;
   padding: 0.75rem 1rem;
   flex-wrap: wrap;
