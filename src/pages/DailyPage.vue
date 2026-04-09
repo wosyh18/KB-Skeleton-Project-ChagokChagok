@@ -1,5 +1,5 @@
-﻿<script setup>
-import { computed, ref } from 'vue'
+<script setup>
+import { computed, ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRoute, useRouter } from 'vue-router'
 import ConfirmModal from '@/components/common/ConfirmModal.vue'
@@ -14,14 +14,36 @@ const router = useRouter()
 const financeStore = useFinanceStore()
 const { monthlyGoal } = storeToRefs(financeStore)
 const selectedDate = computed(() => route.params.date || '2026-04-08')
-const transactions = computed(() => financeStore.getTransactionsByDate(selectedDate.value))
+const transactions = computed(() =>
+  financeStore.getTransactionsByDate(selectedDate.value),
+)
 const editingId = ref(null)
 const deletingId = ref(null)
 
-const selectedTransaction = computed(() => transactions.value.find((item) => item.id === editingId.value) || null)
-const todayIncome = computed(() => transactions.value.filter((item) => item.type === 'income').reduce((sum, item) => sum + item.amount, 0))
-const todayExpense = computed(() => transactions.value.filter((item) => item.type === 'expense').reduce((sum, item) => sum + item.amount, 0))
-const remaining = computed(() => monthlyGoal.value + todayIncome.value - todayExpense.value)
+onMounted(async () => {
+  await financeStore.fetchTransactions()
+})
+
+const selectedTransaction = computed(
+  () => transactions.value.find((item) => item.id === editingId.value) || null,
+)
+
+const todayIncome = computed(() =>
+  transactions.value
+    .filter((item) => item.type === 'income')
+    .reduce((sum, item) => sum + item.amount, 0),
+)
+
+const todayExpense = computed(() =>
+  transactions.value
+    .filter((item) => item.type === 'expense')
+    .reduce((sum, item) => sum + item.amount, 0),
+)
+
+const remaining = computed(
+  () => monthlyGoal.value + todayIncome.value - todayExpense.value,
+)
+
 const title = computed(() => {
   const [year, month, day] = selectedDate.value.split('-')
   return `${year}년 ${Number(month)}월 ${Number(day)}일`
@@ -40,9 +62,12 @@ async function confirmDelete() {
 }
 </script>
 
+
 <template>
   <section class="content-page detail-page">
-    <button type="button" class="back-button" @click="router.push('/')">달력으로 돌아가기</button>
+    <button type="button" class="back-button" @click="router.push('/')">
+      달력으로 돌아가기
+    </button>
 
     <DailySummaryCard
       :title="title"
