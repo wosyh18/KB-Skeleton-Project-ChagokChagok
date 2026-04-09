@@ -1,5 +1,6 @@
 ﻿<script setup>
-import { reactive, watch } from 'vue'
+import { computed, reactive, watch } from 'vue'
+import CategorySelector from '@/components/input/CategorySelector.vue'
 
 const props = defineProps({
   open: { type: Boolean, default: false },
@@ -8,6 +9,8 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'save'])
 const form = reactive({ category: '', description: '', amount: '', time: '' })
+const isIncomeTransaction = computed(() => props.transaction?.type === 'income')
+const expenseCategories = ['식비', '교통', '문화', '취미', '교육', '기타']
 
 watch(
   () => props.transaction,
@@ -35,10 +38,19 @@ function submit() {
   <div v-if="open" class="modal-overlay" @click.self="emit('close')">
     <div class="modal-card">
       <h3>거래 수정</h3>
-      <label>
-        <span>카테고리</span>
-        <input v-model="form.category" type="text" />
-      </label>
+      <template v-if="isIncomeTransaction">
+        <label>
+          <span>수입 출처</span>
+          <input v-model="form.category" type="text" />
+        </label>
+      </template>
+      <template v-else>
+        <CategorySelector
+          :categories="expenseCategories"
+          :selected-category="form.category"
+          @select="form.category = $event"
+        />
+      </template>
       <label>
         <span>내용</span>
         <input v-model="form.description" type="text" />
