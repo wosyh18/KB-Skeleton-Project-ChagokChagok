@@ -397,6 +397,8 @@ p {
   padding: 0.65rem 0.9rem;
   border-radius: 16px;
   font-weight: 600;
+  border: 1px solid #d7dec7;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65);
 }
 
 .chip-button.selected,
@@ -404,6 +406,7 @@ p {
 .tab-switch button.active {
   background: linear-gradient(135deg, #ffe66d, #b4e88e);
   color: #324619;
+  border-color: #9eb56b;
 }
 
 .chip-button.danger {
@@ -432,6 +435,11 @@ p {
 
 .quick-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.quick-grid .chip-button,
+.quick-grid.categories .chip-button {
+  min-height: 48px;
 }
 
 .quick-grid.categories {
