@@ -1,67 +1,81 @@
 <script setup>
-import { computed, ref, onMounted } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useRoute, useRouter } from 'vue-router'
-import ConfirmModal from '@/components/common/ConfirmModal.vue'
-import InfoTipCard from '@/components/common/InfoTipCard.vue'
-import DailySummaryCard from '@/components/daily/DailySummaryCard.vue'
-import EditTransactionModal from '@/components/daily/EditTransactionModal.vue'
-import TransactionList from '@/components/daily/TransactionList.vue'
-import { useFinanceStore } from '@/store/finance'
+import { computed, ref, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useRoute, useRouter } from 'vue-router';
+import ConfirmModal from '@/components/common/ConfirmModal.vue';
+import InfoTipCard from '@/components/common/InfoTipCard.vue';
+import DailySummaryCard from '@/components/daily/DailySummaryCard.vue';
+import EditTransactionModal from '@/components/daily/EditTransactionModal.vue';
+import TransactionList from '@/components/daily/TransactionList.vue';
+import { useFinanceStore } from '@/store/finance';
 
-const route = useRoute()
-const router = useRouter()
-const financeStore = useFinanceStore()
-const { monthlyGoal } = storeToRefs(financeStore)
-const selectedDate = computed(() => route.params.date || '2026-04-08')
+const route = useRoute();
+const router = useRouter();
+const financeStore = useFinanceStore();
+const { monthlyGoal } = storeToRefs(financeStore);
+const selectedDate = computed(() => route.params.date || '2026-04-08');
 const transactions = computed(() =>
   financeStore.getTransactionsByDate(selectedDate.value),
-)
-const editingId = ref(null)
-const deletingId = ref(null)
+);
+const editingId = ref(null);
+const deletingId = ref(null);
 
 onMounted(async () => {
-  await financeStore.fetchTransactions()
-})
+  await financeStore.fetchTransactions();
+});
 
 const selectedTransaction = computed(
   () => transactions.value.find((item) => item.id === editingId.value) || null,
-)
+);
 
 const todayIncome = computed(() =>
   transactions.value
     .filter((item) => item.type === 'income')
     .reduce((sum, item) => sum + item.amount, 0),
-)
+);
 
 const todayExpense = computed(() =>
   transactions.value
     .filter((item) => item.type === 'expense')
     .reduce((sum, item) => sum + item.amount, 0),
-)
+);
+
+const cumulativeTransactions = computed(() =>
+  financeStore.transactions.filter(
+    (item) =>
+      item.date.startsWith(selectedDate.value.slice(0, 7)) &&
+      item.date <= selectedDate.value,
+  ),
+);
 
 const remaining = computed(
-  () => monthlyGoal.value + todayIncome.value - todayExpense.value,
-)
+  () =>
+    monthlyGoal.value +
+    cumulativeTransactions.value
+      .filter((item) => item.type === 'income')
+      .reduce((sum, item) => sum + item.amount, 0) -
+    cumulativeTransactions.value
+      .filter((item) => item.type === 'expense')
+      .reduce((sum, item) => sum + item.amount, 0),
+);
 
 const title = computed(() => {
-  const [year, month, day] = selectedDate.value.split('-')
-  return `${year}년 ${Number(month)}월 ${Number(day)}일`
-})
+  const [year, month, day] = selectedDate.value.split('-');
+  return `${year}년 ${Number(month)}월 ${Number(day)}일`;
+});
 
 async function saveEdit(payload) {
-  if (!editingId.value) return
-  await financeStore.updateTransaction(editingId.value, payload)
-  editingId.value = null
+  if (!editingId.value) return;
+  await financeStore.updateTransaction(editingId.value, payload);
+  editingId.value = null;
 }
 
 async function confirmDelete() {
-  if (!deletingId.value) return
-  await financeStore.deleteTransaction(deletingId.value)
-  deletingId.value = null
+  if (!deletingId.value) return;
+  await financeStore.deleteTransaction(deletingId.value);
+  deletingId.value = null;
 }
 </script>
-
 
 <template>
   <section class="content-page detail-page">
