@@ -6,17 +6,21 @@ import { useAuthStore } from '@/store/auth'
 export const useFinanceStore = defineStore('finance', {
   state: () => ({
     initialized: false,
+    isLoading: false,
+    error: '',
     monthlyGoal: 150000,
     points: 0,
     transactions: [],
-    isLoading: false,
-    error: '',
     selectedMonth: '2026-04',
   }),
   getters: {
     currentMonthTotalExpense(state) {
       return state.transactions
-        .filter((item) => item.type === 'expense' && item.date.startsWith(state.selectedMonth))
+        .filter(
+          (item) =>
+            item.type === 'expense' &&
+            item.date.startsWith(state.selectedMonth),
+        )
         .reduce((sum, item) => sum + item.amount, 0)
     },
     totalIncome(state) {
@@ -66,6 +70,10 @@ export const useFinanceStore = defineStore('finance', {
       } finally {
         this.isLoading = false
       }
+    },
+    async fetchTransactions() {
+      await this.refreshAll()
+      return this.transactions
     },
     getTransactionsByDate(date) {
       return [...this.transactions]
