@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "email": "yongdon@example.com",
       "password": "hashed_password_123",
       "name": "김용돈",
@@ -13,7 +13,7 @@
   ],
   "transactions": [
     {
-      "id": 1,
+      "id": "1",
       "userId": 1,
       "type": "income",
       "amount": 50000,
@@ -23,7 +23,7 @@
       "description": "엄마에게 받은 주간 용돈"
     },
     {
-      "id": 2,
+      "id": "2",
       "userId": 1,
       "type": "expense",
       "amount": 4500,
@@ -33,7 +33,7 @@
       "description": "점심 김밥"
     },
     {
-      "id": 3,
+      "id": "3",
       "userId": 1,
       "type": "expense",
       "amount": 3000,
@@ -43,7 +43,7 @@
       "description": "버스 카드 충전"
     },
     {
-      "id": 4,
+      "id": "4",
       "userId": 1,
       "type": "expense",
       "amount": 12000,
@@ -53,7 +53,7 @@
       "description": "만화책 구매"
     },
     {
-      "id": 5,
+      "id": "5",
       "userId": 1,
       "type": "expense",
       "amount": 5000,
@@ -63,7 +63,7 @@
       "description": "떡볶이 간식"
     },
     {
-      "id": 6,
+      "id": "6",
       "userId": 1,
       "type": "expense",
       "amount": 3000,
@@ -73,7 +73,7 @@
       "description": "지하철 이동"
     },
     {
-      "id": 7,
+      "id": "7",
       "userId": 1,
       "type": "expense",
       "amount": 15000,
@@ -83,7 +83,7 @@
       "description": "영화 관람"
     },
     {
-      "id": 8,
+      "id": "8",
       "userId": 1,
       "type": "expense",
       "amount": 8000,
@@ -95,76 +95,58 @@
   ],
   "categories": [
     {
-      "id": 1,
+      "id": "1",
       "name": "식비",
       "icon": "food",
       "color": "#FFD93D",
       "characterName": "먹보 참새",
-      "characterImg": "/images/char-food.png",
+      "characterImg": "/images/eat.png",
       "description": "이번 주에 간식과 식사에 가장 많이 지출했어요. 자주 사 먹는 메뉴를 먼저 점검해 보세요."
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "교통",
       "icon": "bus",
       "color": "#6BCF7F",
       "characterName": "부지런 버스",
-      "characterImg": "/images/char-bus.png",
+      "characterImg": "/images/transport.png",
       "description": "학교와 학원 이동이 많을수록 교통비가 꾸준히 쌓여요. 이동 패턴을 한 번 정리해 보세요."
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "교육",
       "icon": "book",
       "color": "#A8E6CF",
       "characterName": "공부 박사",
-      "characterImg": "/images/char-study.png",
+      "characterImg": "/images/smart.png",
       "description": "배움을 위한 지출은 미래를 위한 투자예요. 필요한 항목인지 한 번 더 확인하면 더 좋아요."
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "취미",
       "icon": "star",
       "color": "#FFE66D",
       "characterName": "반짝 고양이",
-      "characterImg": "/images/char-hobby.png",
+      "characterImg": "/images/hobby.png",
       "description": "좋아하는 활동에 쓰는 돈도 중요해요. 예산을 정해 두면 더 즐겁게 취미를 이어갈 수 있어요."
     },
     {
-      "id": 5,
-      "name": "의류",
-      "icon": "shirt",
-      "color": "#C7EA46",
-      "characterName": "패션 여우",
-      "characterImg": "/images/char-cloth.png",
-      "description": "옷이나 액세서리 지출은 한 번에 커질 수 있어요. 꼭 필요한지 체크하고 구매해 보세요."
-    },
-    {
-      "id": 6,
+      "id": "5",
       "name": "기타",
       "icon": "etc",
       "color": "#B4E197",
       "characterName": "만능 문어",
-      "characterImg": "/images/char-etc.png",
+      "characterImg": "/images/gita.png",
       "description": "여러 항목에 흩어진 지출은 기타로 남기기 쉬워요. 쌓이면 새로운 카테고리로 분리해도 좋아요."
     },
     {
-      "id": 7,
+      "id": "6",
       "name": "문화",
       "icon": "movie",
       "color": "#FFB4A2",
       "characterName": "문화 탐험대",
-      "characterImg": "/images/char-culture.png",
+      "characterImg": "/images/playing.png",
       "description": "영화, 책, 전시처럼 즐거움을 위한 문화 지출이에요. 만족도가 높은 소비인지 확인해 보세요."
-    },
-    {
-      "id": 8,
-      "name": "용돈",
-      "icon": "coin",
-      "color": "#B4E88E",
-      "characterName": "행운 병아리",
-      "characterImg": "/images/char-income.png",
-      "description": "용돈이나 보상처럼 들어오는 돈을 기록하는 카테고리예요. 수입도 꾸준히 기록해 두세요."
     }
   ],
   "themes": [
@@ -216,7 +198,7 @@
   ],
   "economicStories": [
     {
-      "id": 1,
+      "id": "1",
       "title": "용돈 관리의 첫걸음",
       "description": [
         "용돈을 받으면 먼저 저축할 금액을 정해두는 습관이 중요해요.",
@@ -235,14 +217,15 @@
   ],
   "unlockedThemes": [
     {
-      "id": 1,
+      "id": "1",
       "userId": 1,
       "themeId": "default"
     },
     {
-      "id": 2,
+      "id": "2",
       "userId": 1,
       "themeId": "berry"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
