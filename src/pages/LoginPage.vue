@@ -2,21 +2,34 @@
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/auth'
+import { useFinanceStore } from '@/store/finance'
+import { useThemeStore } from '@/store/theme'
 
 const router = useRouter()
 const authStore = useAuthStore()
+const financeStore = useFinanceStore()
+const themeStore = useThemeStore()
 const form = reactive({ name: '', email: '' })
 const errorMessage = ref('')
 
-function submitForm() {
+async function submitForm() {
   if (!form.name.trim() || !form.email.trim()) {
     errorMessage.value = '이름과 이메일을 모두 입력해 주세요.'
     return
   }
 
   errorMessage.value = ''
-  authStore.login({ name: form.name.trim(), email: form.email.trim() })
-  router.replace('/')
+
+  try {
+    await authStore.login({ name: form.name.trim(), email: form.email.trim() })
+    financeStore.initialized = false
+    themeStore.initialized = false
+    await financeStore.initialize()
+    await themeStore.initialize()
+    router.replace('/')
+  } catch {
+    errorMessage.value = authStore.error || '로그인에 실패했어요. json-server가 실행 중인지 확인해 주세요.'
+  }
 }
 </script>
 

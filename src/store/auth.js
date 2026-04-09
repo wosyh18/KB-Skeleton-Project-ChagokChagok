@@ -1,53 +1,84 @@
 ﻿import { defineStore } from 'pinia'
 
-import { STORAGE_KEYS, loadJson, saveJson } from './storage'
+import { api, clearSessionUserId, getSessionUserId, setSessionUserId } from '@/api/client'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     initialized: false,
     user: null,
+    isLoading: false,
+    error: '',
   }),
+  getters: {
+    userId: (state) => state.user?.id ?? null,
+    isLoggedIn: (state) => Boolean(state.user),
+  },
   actions: {
-    initialize() {
+    async initialize() {
       if (this.initialized) return
 
-      const saved = loadJson(STORAGE_KEYS.auth, null)
-      this.user = saved?.user ?? null
+      this.isLoading = true
+      this.error = ''
 
-      if (!this.user && localStorage.getItem('userId')) {
-        this.user = {
-          id: localStorage.getItem('userId'),
-          name: localStorage.getItem('userName') || '차곡이',
-          email: localStorage.getItem('userEmail') || 'chagok@example.com',
-          age: 14,
+      try {
+        const sessionUserId = getSessionUserId()
+        if (sessionUserId) {
+          const { data } = await api.get(`/users/${sessionUserId}`)
+          this.user = data
         }
+      } catch {
+        this.user = null
+        clearSessionUserId()
+      } finally {
+        this.initialized = true
+        this.isLoading = false
       }
+    },
+    async login({ name, email }) {
+      this.isLoading = true
+      this.error = ''
 
-      this.initialized = true
-      this.persist()
-    },
-    persist() {
-      saveJson(STORAGE_KEYS.auth, { user: this.user })
-    },
-    login({ name, email }) {
-      this.user = {
-        id: `user-${Date.now()}`,
-        name,
-        email,
-        age: 14,
+      try {
+        const { data: users } = await api.get('/users', { params: { email } })
+
+        if (users.length > 0) {
+          this.user = users[0]
+        } else {
+          const payload = {
+            email,
+            password: '',
+            name,
+            age: 14,
+            monthlyGoal: 150000,
+            points: 0,
+            currentTheme: 'default',
+          }
+          const { data } = await api.post('/users', payload)
+          this.user = data
+        }
+
+        setSessionUserId(this.user.id)
+      } catch (error) {
+        this.error = '로그인 처리 중 오류가 발생했어요.'
+        throw error
+      } finally {
+        this.isLoading = false
       }
-
-      localStorage.setItem('userId', this.user.id)
-      localStorage.setItem('userName', this.user.name)
-      localStorage.setItem('userEmail', this.user.email)
-      this.persist()
     },
     logout() {
       this.user = null
-      localStorage.removeItem('userId')
-      localStorage.removeItem('userName')
-      localStorage.removeItem('userEmail')
-      this.persist()
+      clearSessionUserId()
+    },
+    async refreshUser() {
+      if (!this.userId) return
+      const { data } = await api.get(`/users/${this.userId}`)
+      this.user = data
+    },
+    async updateUser(patch) {
+      if (!this.userId) return null
+      const { data } = await api.patch(`/users/${this.userId}`, patch)
+      this.user = data
+      return data
     },
   },
 })
