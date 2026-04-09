@@ -1,1 +1,248 @@
-{}
+﻿{
+  "users": [
+    {
+      "id": 1,
+      "email": "yongdon@example.com",
+      "password": "hashed_password_123",
+      "name": "김용돈",
+      "age": 16,
+      "monthlyGoal": 150000,
+      "points": 350,
+      "currentTheme": "default"
+    }
+  ],
+  "transactions": [
+    {
+      "id": 1,
+      "userId": 1,
+      "type": "income",
+      "amount": 50000,
+      "date": "2026-04-01",
+      "time": "09:00",
+      "category": "용돈",
+      "description": "엄마에게 받은 주간 용돈"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "type": "expense",
+      "amount": 4500,
+      "date": "2026-04-07",
+      "time": "12:20",
+      "category": "식비",
+      "description": "점심 김밥"
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "type": "expense",
+      "amount": 3000,
+      "date": "2026-04-07",
+      "time": "15:10",
+      "category": "교통",
+      "description": "버스 카드 충전"
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "type": "expense",
+      "amount": 12000,
+      "date": "2026-04-07",
+      "time": "18:40",
+      "category": "문화",
+      "description": "만화책 구매"
+    },
+    {
+      "id": 5,
+      "userId": 1,
+      "type": "expense",
+      "amount": 5000,
+      "date": "2026-04-02",
+      "time": "16:00",
+      "category": "식비",
+      "description": "떡볶이 간식"
+    },
+    {
+      "id": 6,
+      "userId": 1,
+      "type": "expense",
+      "amount": 3000,
+      "date": "2026-04-02",
+      "time": "08:30",
+      "category": "교통",
+      "description": "지하철 이동"
+    },
+    {
+      "id": 7,
+      "userId": 1,
+      "type": "expense",
+      "amount": 15000,
+      "date": "2026-04-05",
+      "time": "14:00",
+      "category": "문화",
+      "description": "영화 관람"
+    },
+    {
+      "id": 8,
+      "userId": 1,
+      "type": "expense",
+      "amount": 8000,
+      "date": "2026-04-10",
+      "time": "11:45",
+      "category": "취미",
+      "description": "스티커 세트"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "식비",
+      "icon": "food",
+      "color": "#FFD93D",
+      "characterName": "먹보 참새",
+      "characterImg": "/images/char-food.png",
+      "description": "이번 주에 간식과 식사에 가장 많이 지출했어요. 자주 사 먹는 메뉴를 먼저 점검해 보세요."
+    },
+    {
+      "id": 2,
+      "name": "교통",
+      "icon": "bus",
+      "color": "#6BCF7F",
+      "characterName": "부지런 버스",
+      "characterImg": "/images/char-bus.png",
+      "description": "학교와 학원 이동이 많을수록 교통비가 꾸준히 쌓여요. 이동 패턴을 한 번 정리해 보세요."
+    },
+    {
+      "id": 3,
+      "name": "교육",
+      "icon": "book",
+      "color": "#A8E6CF",
+      "characterName": "공부 박사",
+      "characterImg": "/images/char-study.png",
+      "description": "배움을 위한 지출은 미래를 위한 투자예요. 필요한 항목인지 한 번 더 확인하면 더 좋아요."
+    },
+    {
+      "id": 4,
+      "name": "취미",
+      "icon": "star",
+      "color": "#FFE66D",
+      "characterName": "반짝 고양이",
+      "characterImg": "/images/char-hobby.png",
+      "description": "좋아하는 활동에 쓰는 돈도 중요해요. 예산을 정해 두면 더 즐겁게 취미를 이어갈 수 있어요."
+    },
+    {
+      "id": 5,
+      "name": "의류",
+      "icon": "shirt",
+      "color": "#C7EA46",
+      "characterName": "패션 여우",
+      "characterImg": "/images/char-cloth.png",
+      "description": "옷이나 액세서리 지출은 한 번에 커질 수 있어요. 꼭 필요한지 체크하고 구매해 보세요."
+    },
+    {
+      "id": 6,
+      "name": "기타",
+      "icon": "etc",
+      "color": "#B4E197",
+      "characterName": "만능 문어",
+      "characterImg": "/images/char-etc.png",
+      "description": "여러 항목에 흩어진 지출은 기타로 남기기 쉬워요. 쌓이면 새로운 카테고리로 분리해도 좋아요."
+    },
+    {
+      "id": 7,
+      "name": "문화",
+      "icon": "movie",
+      "color": "#FFB4A2",
+      "characterName": "문화 탐험대",
+      "characterImg": "/images/char-culture.png",
+      "description": "영화, 책, 전시처럼 즐거움을 위한 문화 지출이에요. 만족도가 높은 소비인지 확인해 보세요."
+    },
+    {
+      "id": 8,
+      "name": "용돈",
+      "icon": "coin",
+      "color": "#B4E88E",
+      "characterName": "행운 병아리",
+      "characterImg": "/images/char-income.png",
+      "description": "용돈이나 보상처럼 들어오는 돈을 기록하는 카테고리예요. 수입도 꾸준히 기록해 두세요."
+    }
+  ],
+  "themes": [
+    {
+      "id": "default",
+      "name": "기본 테마",
+      "primary": "#FFE66D",
+      "secondary": "#B4E88E",
+      "accent": "#6B8E23",
+      "background": "#FFFEF0",
+      "requiredPoints": 0
+    },
+    {
+      "id": "berry",
+      "name": "베리 테마",
+      "primary": "#FFCAD4",
+      "secondary": "#F4ACB7",
+      "accent": "#B23A48",
+      "background": "#FFF6F7",
+      "requiredPoints": 120
+    },
+    {
+      "id": "sky",
+      "name": "하늘 테마",
+      "primary": "#CDE7FF",
+      "secondary": "#8ECAE6",
+      "accent": "#1877B8",
+      "background": "#F3FBFF",
+      "requiredPoints": 160
+    },
+    {
+      "id": "mint",
+      "name": "민트 테마",
+      "primary": "#C7F9CC",
+      "secondary": "#80ED99",
+      "accent": "#2D6A4F",
+      "background": "#F4FFF6",
+      "requiredPoints": 180
+    },
+    {
+      "id": "sunset",
+      "name": "노을 테마",
+      "primary": "#FFD6A5",
+      "secondary": "#FFADAD",
+      "accent": "#E76F51",
+      "background": "#FFF7F2",
+      "requiredPoints": 220
+    }
+  ],
+  "economicStories": [
+    {
+      "id": 1,
+      "title": "용돈 관리의 첫걸음",
+      "description": [
+        "용돈을 받으면 먼저 저축할 금액을 정해두는 습관이 중요해요.",
+        "남은 금액 안에서 식비, 교통비, 문화생활처럼 용도를 나누면 계획적으로 쓸 수 있어요.",
+        "작은 금액도 기록하면 어디에 돈이 새는지 금방 보이기 시작해요."
+      ],
+      "quiz": {
+        "question": "용돈을 받자마자 먼저 저축할 금액을 정해두는 것이 좋다.",
+        "answer": true,
+        "correct": "정답이에요. 먼저 남길 돈을 정하면 계획적인 소비가 쉬워져요.",
+        "incorrect": "아쉬워요. 먼저 저축 금액을 정해두면 충동 지출을 줄이는 데 도움이 돼요."
+      },
+      "rewardPoints": 50,
+      "completedUserIds": []
+    }
+  ],
+  "unlockedThemes": [
+    {
+      "id": 1,
+      "userId": 1,
+      "themeId": "default"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "themeId": "berry"
+    }
+  ]
+}

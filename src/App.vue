@@ -1,11 +1,17 @@
-<script setup></script>
+﻿<script setup>
+import { useAuthStore } from '@/store/auth'
+import { useFinanceStore } from '@/store/finance'
+import { useThemeStore } from '@/store/theme'
+
+const authStore = useAuthStore()
+const financeStore = useFinanceStore()
+const themeStore = useThemeStore()
+
+authStore.initialize()
+financeStore.initialize()
+themeStore.initialize()
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <RouterView />
 </template>
-
-<style scoped></style>
