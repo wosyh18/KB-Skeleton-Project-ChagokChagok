@@ -1,142 +1,412 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "email": "yongdon@example.com",
       "password": "hashed_password_123",
       "name": "김용돈",
       "age": 16,
       "monthlyGoal": 150000,
       "points": 370,
-      "currentTheme": "default"
+      "currentTheme": "berry"
     }
   ],
   "transactions": [
+    {
+      "id": "34",
+      "userId": 1,
+      "type": "income",
+      "amount": 50000,
+      "date": "2025-11-01",
+      "category": "용돈",
+      "description": "11월 정기 용돈"
+    },
+    {
+      "id": "35",
+      "userId": 1,
+      "type": "expense",
+      "amount": 9000,
+      "date": "2025-11-03",
+      "category": "식비",
+      "description": "친구들과 분식집 저녁"
+    },
+    {
+      "id": "36",
+      "userId": 1,
+      "type": "expense",
+      "amount": 8500,
+      "date": "2025-11-11",
+      "category": "식비",
+      "description": "편의점 간식과 음료 여러 번 구매"
+    },
+    {
+      "id": "37",
+      "userId": 1,
+      "type": "expense",
+      "amount": 5000,
+      "date": "2025-11-18",
+      "category": "문화",
+      "description": "웹툰 쿠키 결제"
+    },
+    {
+      "id": "38",
+      "userId": 1,
+      "type": "expense",
+      "amount": 4000,
+      "date": "2025-11-26",
+      "category": "교통",
+      "description": "학원 왕복 버스비"
+    },
+    {
+      "id": "39",
+      "userId": 1,
+      "type": "income",
+      "amount": 50000,
+      "date": "2025-12-01",
+      "category": "용돈",
+      "description": "12월 정기 용돈"
+    },
+    {
+      "id": "40",
+      "userId": 1,
+      "type": "expense",
+      "amount": 12000,
+      "date": "2025-12-05",
+      "category": "교통",
+      "description": "겨울방학 대비 교통카드 충전"
+    },
+    {
+      "id": "41",
+      "userId": 1,
+      "type": "expense",
+      "amount": 8000,
+      "date": "2025-12-12",
+      "category": "교통",
+      "description": "친구들과 시내 나들이 왕복 지하철"
+    },
+    {
+      "id": "42",
+      "userId": 1,
+      "type": "expense",
+      "amount": 7000,
+      "date": "2025-12-20",
+      "category": "취미",
+      "description": "겨울 다이어리 꾸미기 용품"
+    },
+    {
+      "id": "43",
+      "userId": 1,
+      "type": "expense",
+      "amount": 4500,
+      "date": "2025-12-28",
+      "category": "식비",
+      "description": "붕어빵과 어묵 간식"
+    },
     {
       "id": "1",
       "userId": 1,
       "type": "income",
       "amount": 50000,
-      "date": "2026-04-01",
+      "date": "2026-01-01",
       "category": "용돈",
-      "description": "엄마에게 받은 주간 용돈"
+      "description": "1월 정기 용돈"
     },
     {
-      "id": "2",
+      "id": "02",
       "userId": 1,
       "type": "expense",
       "amount": 4500,
-      "date": "2026-04-07",
+      "date": "2026-01-03",
       "category": "식비",
-      "description": "점심 김밥"
+      "description": "편의점 컵라면과 삼각김밥"
     },
     {
-      "id": "3",
+      "id": "03",
       "userId": 1,
       "type": "expense",
-      "amount": 3000,
-      "date": "2026-04-07",
-      "category": "교통",
-      "description": "버스 카드 충전"
-    },
-    {
-      "id": "4",
-      "userId": 1,
-      "type": "expense",
-      "amount": 12000,
-      "date": "2026-04-07",
+      "amount": 17000,
+      "date": "2026-01-08",
       "category": "문화",
-      "description": "만화책 구매"
+      "description": "친구들과 영화 예매"
     },
     {
-      "id": "5",
+      "id": "04",
       "userId": 1,
       "type": "expense",
-      "amount": 5000,
-      "date": "2026-04-02",
+      "amount": 6000,
+      "date": "2026-01-08",
       "category": "식비",
-      "description": "떡볶이 간식"
+      "description": "영화관 팝콘 세트 분담"
     },
     {
-      "id": "6",
+      "id": "05",
       "userId": 1,
       "type": "expense",
       "amount": 3000,
-      "date": "2026-04-02",
+      "date": "2026-01-12",
       "category": "교통",
-      "description": "지하철 이동"
+      "description": "시내버스 왕복"
     },
     {
-      "id": "7",
+      "id": "06",
       "userId": 1,
       "type": "expense",
       "amount": 15000,
-      "date": "2026-04-05",
-      "category": "문화",
-      "description": "영화 관람"
+      "date": "2026-01-15",
+      "category": "취미",
+      "description": "스팀 게임 구매 (할인)"
     },
     {
-      "id": "8",
+      "id": "07",
+      "userId": 1,
+      "type": "expense",
+      "amount": 2500,
+      "date": "2026-01-22",
+      "category": "식비",
+      "description": "길거리 붕어빵"
+    },
+    {
+      "id": "08",
+      "userId": 1,
+      "type": "income",
+      "amount": 10000,
+      "date": "2026-01-25",
+      "category": "기타",
+      "description": "심부름 보상 (아빠)"
+    },
+    {
+      "id": "09",
+      "userId": 1,
+      "type": "income",
+      "amount": 50000,
+      "date": "2026-02-01",
+      "category": "용돈",
+      "description": "2월 정기 용돈"
+    },
+    {
+      "id": "10",
+      "userId": 1,
+      "type": "expense",
+      "amount": 5000,
+      "date": "2026-02-05",
+      "category": "교통",
+      "description": "교통카드 충전"
+    },
+    {
+      "id": "11",
       "userId": 1,
       "type": "expense",
       "amount": 8000,
-      "date": "2026-04-10",
-      "category": "취미",
-      "description": "스티커 세트"
+      "date": "2026-02-10",
+      "category": "문화",
+      "description": "코인 노래방 밎 오락실"
     },
     {
+      "id": "12",
       "userId": 1,
       "type": "income",
-      "category": "엄마",
-      "description": "엄마에게 받은 금액",
-      "amount": 3000,
-      "date": "2026-04-10",
-      "id": "lkte5wLU_RQ"
+      "amount": 150000,
+      "date": "2026-02-17",
+      "category": "기타",
+      "description": "설날 세뱃돈 (할머니, 친척들)"
     },
     {
+      "id": "13",
       "userId": 1,
       "type": "expense",
-      "category": "식비",
-      "description": "친구랑 샌드위치 먹었음",
-      "amount": 5000,
-      "date": "2026-04-10",
-      "id": "D4TV-rO5k9Q"
+      "amount": 45000,
+      "date": "2026-02-18",
+      "category": "취미",
+      "description": "원하던 운동화 구매 (일부 보태기)"
     },
     {
+      "id": "14",
       "userId": 1,
       "type": "expense",
-      "category": "교통",
-      "description": "기차",
-      "amount": 10000,
-      "date": "2026-04-10",
-      "id": "2hTCM1lRjYY"
-    },
-    {
-      "userId": 1,
-      "type": "expense",
-      "category": "교통",
-      "description": "기차",
-      "amount": 20000,
-      "date": "2026-04-10",
-      "id": "PjtNjz4K0QY"
-    },
-    {
-      "userId": 1,
-      "type": "expense",
+      "amount": 12000,
+      "date": "2026-02-24",
       "category": "교육",
-      "description": "참고서 구매",
-      "amount": 15000,
-      "date": "2026-04-10",
-      "id": "s7EXSqg8nMg"
+      "description": "새 학기 노트 및 필기구 세트"
     },
     {
+      "id": "15",
       "userId": 1,
       "type": "expense",
+      "amount": 4000,
+      "date": "2026-02-28",
+      "category": "식비",
+      "description": "마라탕 (친구들과 더치페이)"
+    },
+    {
+      "id": "16",
+      "userId": 1,
+      "type": "income",
+      "amount": 50000,
+      "date": "2026-03-01",
+      "category": "용돈",
+      "description": "3월 정기 용돈"
+    },
+    {
+      "id": "17",
+      "userId": 1,
+      "type": "expense",
+      "amount": 10000,
+      "date": "2026-03-02",
       "category": "교통",
-      "description": "택시",
-      "amount": 5000,
-      "date": "2026-04-10",
-      "id": "dw-oVPRdQD8"
+      "description": "새 학기 교통카드 넉넉히 충전"
+    },
+    {
+      "id": "18",
+      "userId": 1,
+      "type": "expense",
+      "amount": 18000,
+      "date": "2026-03-04",
+      "category": "교육",
+      "description": "수학 문제집 구매"
+    },
+    {
+      "id": "19",
+      "userId": 1,
+      "type": "expense",
+      "amount": 3500,
+      "date": "2026-03-06",
+      "category": "식비",
+      "description": "학교 앞 분식집 떡꼬치"
+    },
+    {
+      "id": "20",
+      "userId": 1,
+      "type": "expense",
+      "amount": 5500,
+      "date": "2026-03-10",
+      "category": "기타",
+      "description": "준비물 (미술용품)"
+    },
+    {
+      "id": "21",
+      "userId": 1,
+      "type": "expense",
+      "amount": 4500,
+      "date": "2026-03-14",
+      "category": "식비",
+      "description": "하교 후 아이스크림"
+    },
+    {
+      "id": "22",
+      "userId": 1,
+      "type": "expense",
+      "amount": 6000,
+      "date": "2026-03-18",
+      "category": "문화",
+      "description": "PC방 4시간"
+    },
+    {
+      "id": "23",
+      "userId": 1,
+      "type": "expense",
+      "amount": 2500,
+      "date": "2026-03-22",
+      "category": "교통",
+      "description": "지하철 (주말 외출)"
+    },
+    {
+      "id": "24",
+      "userId": 1,
+      "type": "expense",
+      "amount": 11000,
+      "date": "2026-03-22",
+      "category": "식비",
+      "description": "햄버거 세트 (주말 외출)"
+    },
+    {
+      "id": "25",
+      "userId": 1,
+      "type": "income",
+      "amount": 20000,
+      "date": "2026-03-25",
+      "category": "기타",
+      "description": "용돈 부족해서 엄마가 더 주심"
+    },
+    {
+      "id": "26",
+      "userId": 1,
+      "type": "expense",
+      "amount": 15000,
+      "date": "2026-03-27",
+      "category": "교육",
+      "description": "영어 단어장 및 형광펜"
+    },
+    {
+      "id": "27",
+      "userId": 1,
+      "type": "expense",
+      "amount": 3000,
+      "date": "2026-03-29",
+      "category": "취미",
+      "description": "다이어리 꾸미기 스티커"
+    },
+    {
+      "id": "28",
+      "userId": 1,
+      "type": "expense",
+      "amount": 4000,
+      "date": "2026-03-31",
+      "category": "식비",
+      "description": "편의점 간식 결산"
+    },
+    {
+      "id": "29",
+      "userId": 1,
+      "type": "income",
+      "amount": 50000,
+      "date": "2026-04-01",
+      "category": "용돈",
+      "description": "4월 정기 용돈"
+    },
+    {
+      "id": "30",
+      "userId": 1,
+      "type": "expense",
+      "amount": 5500,
+      "date": "2026-04-03",
+      "category": "식비",
+      "description": "학교 끝나고 토스트와 음료"
+    },
+    {
+      "id": "31",
+      "userId": 1,
+      "type": "expense",
+      "amount": 3000,
+      "date": "2026-04-05",
+      "category": "교통",
+      "description": "주말 도서관 버스비"
+    },
+    {
+      "id": "32",
+      "userId": 1,
+      "type": "expense",
+      "amount": 13500,
+      "date": "2026-04-08",
+      "category": "문화",
+      "description": "웹툰 쿠키와 전자책 결제"
+    },
+    {
+      "id": "33",
+      "userId": 1,
+      "type": "expense",
+      "amount": 4500,
+      "date": "2026-04-09",
+      "category": "식비",
+      "description": "친구와 떡볶이 간식"
+    },
+    {
+      "id": "44",
+      "userId": 1,
+      "type": "expense",
+      "amount": 16000,
+      "date": "2026-04-09",
+      "category": "기타",
+      "description": "분실한 무선 이어폰 한쪽 재구매"
     }
   ],
   "categories": [
@@ -145,54 +415,54 @@
       "name": "식비",
       "icon": "food",
       "color": "#FFD93D",
-      "characterName": "먹보 참새",
+      "characterName": "간식 홀릭 삐약",
       "characterImg": "/images/eat.png",
-      "description": "이번 주에 간식과 식사에 가장 많이 지출했어요. 자주 사 먹는 메뉴를 먼저 점검해 보세요."
+      "description": "이번 달 식비 지출이 가장 많아요. 간식과 편의점 소비처럼 자주 반복되는 항목부터 점검해 보세요."
     },
     {
       "id": "2",
       "name": "교통",
       "icon": "bus",
       "color": "#6BCF7F",
-      "characterName": "부지런 버스",
+      "characterName": "씽씽 토끼",
       "characterImg": "/images/transport.png",
-      "description": "학교와 학원 이동이 많을수록 교통비가 꾸준히 쌓여요. 이동 패턴을 한 번 정리해 보세요."
+      "description": "교통비 지출이 이번 달 1위예요. 버스, 지하철, 충전 비용처럼 반복되는 이동 지출을 먼저 확인해 보세요."
     },
     {
       "id": "3",
       "name": "교육",
       "icon": "book",
       "color": "#A8E6CF",
-      "characterName": "공부 박사",
+      "characterName": "척척 부엉이",
       "characterImg": "/images/smart.png",
-      "description": "배움을 위한 지출은 미래를 위한 투자예요. 필요한 항목인지 한 번 더 확인하면 더 좋아요."
+      "description": "교육비 지출이 이번 달 1위예요. 문제집, 필기구, 준비물처럼 공부에 필요한 소비를 계획적으로 관리해 보세요."
     },
     {
       "id": "4",
       "name": "취미",
       "icon": "star",
       "color": "#FFE66D",
-      "characterName": "반짝 고양이",
+      "characterName": "소확행 공룡",
       "characterImg": "/images/hobby.png",
-      "description": "좋아하는 활동에 쓰는 돈도 중요해요. 예산을 정해 두면 더 즐겁게 취미를 이어갈 수 있어요."
+      "description": "취미 관련 지출이 이번 달 1위예요. 좋아하는 활동에 쓰는 돈도 좋지만, 예산 안에서 계획적으로 즐겨 보세요."
     },
     {
       "id": "5",
       "name": "기타",
       "icon": "etc",
       "color": "#B4E197",
-      "characterName": "만능 문어",
+      "characterName": "요모조모 다람쥐",
       "characterImg": "/images/gita.png",
-      "description": "여러 항목에 흩어진 지출은 기타로 남기기 쉬워요. 쌓이면 새로운 카테고리로 분리해도 좋아요."
+      "description": "기타 항목 지출이 이번 달 1위예요. 여러 항목에 나뉜 소비가 쌓였을 수 있으니 무엇에 썼는지 한 번 정리해 보세요."
     },
     {
       "id": "6",
       "name": "문화",
       "icon": "movie",
       "color": "#FFB4A2",
-      "characterName": "문화 탐험대",
+      "characterName": "문화냥",
       "characterImg": "/images/playing.png",
-      "description": "영화, 책, 전시처럼 즐거움을 위한 문화 지출이에요. 만족도가 높은 소비인지 확인해 보세요."
+      "description": "문화 관련 지출이 이번 달 1위예요. 게임, 음악, 영상처럼 즐거움을 위한 소비가 얼마나 쌓였는지 확인해 보세요"
     }
   ],
   "themes": [
@@ -343,6 +613,125 @@
       },
       "rewardPoints": 50,
       "completedUserIds": []
+    },
+    {
+      "id": "7",
+      "title": "예산: 돈에도 사용 계획표가 필요해요",
+      "description": [
+        "예산은 앞으로 들어오고 나갈 돈을 미리 계획하는 표예요.",
+        "식비, 교통비, 취미비처럼 항목별 한도를 정해두면 용돈이 어디서 많이 쓰이는지 쉽게 보여요.",
+        "예산을 세우면 돈이 부족해지기 전에 미리 조정할 수 있어요."
+      ],
+      "quiz": {
+        "question": "예산은 돈을 다 쓴 뒤에 어디에 썼는지 확인하는 용도로만 필요하다.",
+        "answer": false,
+        "correct": "정답이에요! 예산은 미리 계획해서 돈을 더 잘 쓰기 위해 세우는 거예요.",
+        "incorrect": "아쉬워요. 예산은 지출 후 확인보다 지출 전에 계획하는 데 더 큰 의미가 있어요."
+      },
+      "rewardPoints": 50,
+      "completedUserIds": []
+    },
+    {
+      "id": "8",
+      "title": "비상금: 갑자기 필요할 때를 위한 안전망",
+      "description": [
+        "비상금은 예상하지 못한 상황을 위해 따로 모아두는 돈이에요.",
+        "우산을 새로 사야 하거나 준비물이 급하게 필요할 때 비상금이 있으면 당황하지 않아요.",
+        "작은 금액이라도 꾸준히 따로 떼어두면 도움이 됩니다."
+      ],
+      "quiz": {
+        "question": "비상금은 사고 싶은 것이 생겼을 때 바로 써도 되는 자유 자금이다.",
+        "answer": false,
+        "correct": "정답! 비상금은 예상하지 못한 필요를 대비하는 돈이라 함부로 쓰지 않는 게 좋아요.",
+        "incorrect": "다시 생각해 볼까요? 비상금은 급하게 꼭 필요한 상황을 위한 돈이에요."
+      },
+      "rewardPoints": 50,
+      "completedUserIds": []
+    },
+    {
+      "id": "9",
+      "title": "고정비와 변동비: 매달 같은 돈, 달라지는 돈",
+      "description": [
+        "고정비는 매달 비슷하게 나가는 돈이고, 변동비는 달마다 달라지는 돈이에요.",
+        "예를 들어 정기 구독료는 고정비에 가깝고, 간식비는 변동비에 가까워요.",
+        "어떤 지출이 고정비인지 알면 줄일 수 있는 부분을 더 쉽게 찾을 수 있어요."
+      ],
+      "quiz": {
+        "question": "간식비는 매달 똑같이 나가므로 고정비라고 볼 수 있다.",
+        "answer": false,
+        "correct": "정답이에요. 간식비처럼 달마다 바뀌는 지출은 보통 변동비예요.",
+        "incorrect": "아쉬워요. 간식비는 상황에 따라 달라지기 쉬워서 변동비로 보는 편이 맞아요."
+      },
+      "rewardPoints": 50,
+      "completedUserIds": []
+    },
+    {
+      "id": "10",
+      "title": "할인과 세일: 싸다고 다 이득은 아니에요",
+      "description": [
+        "할인은 원래 가격보다 싸게 사는 것이지만, 필요 없는 물건을 사면 오히려 손해일 수 있어요.",
+        "'1+1'이나 '오늘만 특가' 같은 문구는 빨리 사고 싶게 만드는 효과가 있어요.",
+        "정말 필요한 것인지 한 번 더 생각하는 습관이 중요해요."
+      ],
+      "quiz": {
+        "question": "반값 할인 상품은 필요하지 않아도 사면 무조건 이득이다.",
+        "answer": false,
+        "correct": "정답! 필요 없는 물건을 사면 아무리 싸도 결국 돈을 쓴 거예요.",
+        "incorrect": "땡! 할인은 필요한 물건일 때만 이득이 될 수 있어요."
+      },
+      "rewardPoints": 50,
+      "completedUserIds": []
+    },
+    {
+      "id": "11",
+      "title": "광고의 힘: 사고 싶게 만드는 장치들",
+      "description": [
+        "광고는 제품의 장점을 강조해서 우리 마음을 움직이도록 만들어요.",
+        "예쁜 디자인, 한정판, 인기 캐릭터 같은 요소는 꼭 필요하지 않아도 사고 싶게 만들 수 있어요.",
+        "광고를 볼 때는 '정말 필요한가?'를 먼저 떠올리는 연습이 필요해요."
+      ],
+      "quiz": {
+        "question": "광고는 사실만 전달하므로 소비자는 고민 없이 바로 구매해도 된다.",
+        "answer": false,
+        "correct": "정답이에요. 광고는 사고 싶은 마음을 키우는 데 집중하기 때문에 한 번 더 생각해야 해요.",
+        "incorrect": "아쉬워요. 광고는 제품을 더 좋아 보이게 만드는 표현이 많아서 판단이 필요해요."
+      },
+      "rewardPoints": 50,
+      "completedUserIds": []
+    },
+    {
+      "id": "12",
+      "title": "투자의 기본: 저축과는 뭐가 다를까요?",
+      "description": [
+        "저축은 원금을 지키는 데 초점을 두고, 투자는 더 큰 수익을 기대하지만 손실 위험도 함께 있어요.",
+        "투자는 무조건 돈이 불어나는 것이 아니라, 가격이 오르내릴 수 있다는 점을 이해해야 해요.",
+        "기본 개념을 모르고 시작하면 손해를 볼 가능성이 커져요."
+      ],
+      "quiz": {
+        "question": "투자는 항상 원금이 보장되고 수익만 나는 방법이다.",
+        "answer": false,
+        "correct": "정답! 투자는 수익 가능성과 함께 손실 가능성도 있는 활동이에요.",
+        "incorrect": "아니에요. 투자는 원금이 줄어들 수도 있어서 위험을 이해하는 게 중요해요."
+      },
+      "rewardPoints": 50,
+      "completedUserIds": []
+    },
+    {
+      "id": "13",
+      "title": "예금과 적금: 둘 다 저축이지만 방식이 달라요",
+      "description": [
+        "예금은 목돈을 한 번에 넣고 일정 기간 맡겨두는 방식이에요.",
+        "적금은 매달 또는 매주 조금씩 정해진 금액을 모아가는 방식이에요.",
+        "이미 큰돈이 있으면 예금이, 꾸준히 모으는 습관을 만들고 싶다면 적금이 더 잘 맞을 수 있어요."
+      ],
+      "quiz": {
+        "question": "적금은 큰돈을 한 번에 넣고 기다리는 방식이고, 예금은 매달 조금씩 모으는 방식이다.",
+        "answer": false,
+        "correct": "정답이에요! 예금은 목돈을 한 번에 맡기고, 적금은 일정 금액을 꾸준히 모아가는 방식이에요.",
+        "incorrect": "아쉬워요. 예금과 적금의 방식이 서로 바뀌었어요. 예금은 목돈, 적금은 꾸준한 납입이 핵심이에요."
+      },
+      "rewardPoints": 50,
+      "completedUserIds": []
     }
   ],
   "unlockedThemes": [
@@ -356,7 +745,6 @@
       "userId": 1,
       "themeId": "berry"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
-
-
