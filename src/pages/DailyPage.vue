@@ -1,6 +1,5 @@
 ﻿<script setup>
 import { computed, onMounted, ref } from 'vue'
-import { storeToRefs } from 'pinia'
 import { useRoute, useRouter } from 'vue-router'
 import ConfirmModal from '@/components/common/ConfirmModal.vue'
 import InfoTipCard from '@/components/common/InfoTipCard.vue'
@@ -20,7 +19,6 @@ function getTodayDate() {
 const route = useRoute()
 const router = useRouter()
 const financeStore = useFinanceStore()
-const { monthlyGoal } = storeToRefs(financeStore)
 const selectedDate = computed(() => route.params.date || getTodayDate())
 const transactions = computed(() =>
   financeStore.getTransactionsByDate(selectedDate.value),
@@ -48,24 +46,7 @@ const todayExpense = computed(() =>
     .reduce((sum, item) => sum + item.amount, 0),
 )
 
-const cumulativeTransactions = computed(() =>
-  financeStore.transactions.filter(
-    (item) =>
-      item.date.startsWith(selectedDate.value.slice(0, 7)) &&
-      item.date <= selectedDate.value,
-  ),
-)
-
-const remaining = computed(
-  () =>
-    monthlyGoal.value +
-    cumulativeTransactions.value
-      .filter((item) => item.type === 'income')
-      .reduce((sum, item) => sum + item.amount, 0) -
-    cumulativeTransactions.value
-      .filter((item) => item.type === 'expense')
-      .reduce((sum, item) => sum + item.amount, 0),
-)
+const remaining = computed(() => financeStore.getRemainingByDate(selectedDate.value))
 
 const title = computed(() => {
   const [year, month, day] = selectedDate.value.split('-')
