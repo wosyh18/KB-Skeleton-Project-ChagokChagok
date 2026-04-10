@@ -105,6 +105,20 @@ p {
   align-content: start;
 }
 
+.daily-layout {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.daily-main {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.daily-side-panel {
+  display: none;
+}
+
 .login-page {
   min-height: 100vh;
   display: grid;
@@ -943,6 +957,24 @@ label span {
 
   .quick-grid.categories {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .content-page.detail-page {
+    padding: 2rem;
+  }
+
+  .daily-layout {
+    grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .daily-side-panel {
+    display: grid;
+    position: sticky;
+    top: 2rem;
   }
 }
 
