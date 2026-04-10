@@ -3,6 +3,7 @@ import { onMounted } from 'vue'
 import { useAuthStore } from '@/store/auth'
 import { useFinanceStore } from '@/store/finance'
 import { useThemeStore } from '@/store/theme'
+import AppHeader from '@/components/common/AppHeader.vue'
 
 const authStore = useAuthStore()
 const financeStore = useFinanceStore()
@@ -19,5 +20,6 @@ onMounted(async () => {
 </script>
 
 <template>
+  <AppHeader />
   <RouterView />
 </template>
