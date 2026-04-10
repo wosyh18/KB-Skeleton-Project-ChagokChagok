@@ -1,6 +1,7 @@
 <script setup>
 defineProps({
   icon: { type: String, default: '' },
+  image: { type: String, default: '' },
   label: { type: String, default: '' },
   title: { type: String, required: true },
   description: { type: String, required: true },
@@ -10,7 +11,10 @@ defineProps({
 
 <template>
   <div class="floating-tip" :class="{ secondary }">
-    <div v-if="icon" class="floating-icon">{{ icon }}</div>
+    <div v-if="image || icon" class="floating-icon">
+      <img v-if="image" :src="image" alt="icon" class="icon-img" />
+      <template v-else>{{ icon }}</template>
+    </div>
     <div class="tip-content">
       <span v-if="label" class="tip-label">{{ label }}</span>
       <h3 class="tip-title">{{ title }}</h3>
@@ -50,6 +54,14 @@ defineProps({
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
+  overflow: hidden;
+}
+
+.icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 8px;
 }
 
 .tip-content {

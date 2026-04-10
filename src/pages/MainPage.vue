@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
@@ -7,6 +7,7 @@ import MainSummaryCard from '@/components/main/MainSummaryCard.vue'
 import MonthlyCalendar from '@/components/main/MonthlyCalendar.vue'
 import { useAuthStore } from '@/store/auth'
 import { useFinanceStore } from '@/store/finance'
+import iconPaper from '@/assets/icons/icon-paper.png'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -76,7 +77,7 @@ function expenseFor(day) {
     />
 
     <InfoTipCard
-      icon="기록"
+      :image="iconPaper"
       :title="`${user?.name || '친구'}님, 오늘도 기록해 볼까요?`"
       description="날짜를 눌러 하루 지출을 확인하거나 입력 화면에서 바로 추가할 수 있어요."
     />
