@@ -3,6 +3,11 @@ import { defineStore } from 'pinia'
 import { api } from '@/api/client'
 import { useAuthStore } from '@/store/auth'
 
+function getCurrentMonth() {
+  const today = new Date()
+  return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`
+}
+
 export const useFinanceStore = defineStore('finance', {
   state: () => ({
     initialized: false,
@@ -12,9 +17,7 @@ export const useFinanceStore = defineStore('finance', {
     points: 0,
     transactions: [],
     categories: [],
-    isLoading: false,
-    error: '',
-    selectedMonth: '2026-04',
+    selectedMonth: getCurrentMonth(),
   }),
   getters: {
     currentMonthTotalExpense(state) {
@@ -36,29 +39,42 @@ export const useFinanceStore = defineStore('finance', {
     },
     topCategory(state) {
       if (!state.transactions.length || !state.categories.length) return null
-      
+
       let targetTransactions = state.transactions.filter(
-        (item) => item.type === 'expense' && item.date.startsWith(state.selectedMonth)
+        (item) =>
+          item.type === 'expense' && item.date.startsWith(state.selectedMonth),
       )
-      
+
       if (!targetTransactions.length) {
-        targetTransactions = state.transactions.filter((item) => item.type === 'expense')
+        targetTransactions = state.transactions.filter(
+          (item) => item.type === 'expense',
+        )
       }
-      
+
       if (!targetTransactions.length) return null
-      
+
       const summary = {}
       targetTransactions.forEach((item) => {
         summary[item.category] = (summary[item.category] || 0) + item.amount
       })
-      
+
       const sorted = Object.entries(summary).sort((a, b) => b[1] - a[1])
       const topName = sorted[0][0]
-      
-      return state.categories.find(c => c.name === topName) || null
-    }
+
+      return state.categories.find((c) => c.name === topName) || null
+    },
   },
   actions: {
+    resetState() {
+      this.initialized = false
+      this.isLoading = false
+      this.error = ''
+      this.monthlyGoal = 150000
+      this.points = 0
+      this.transactions = []
+      this.categories = []
+      this.selectedMonth = getCurrentMonth()
+    },
     setSelectedMonth(month) {
       this.selectedMonth = month
     },
@@ -66,7 +82,12 @@ export const useFinanceStore = defineStore('finance', {
       if (this.initialized) return
 
       const authStore = useAuthStore()
+      if (!authStore.initialized) {
+        await authStore.initialize()
+      }
+
       if (!authStore.userId) {
+        this.resetState()
         this.initialized = true
         return
       }
@@ -92,12 +113,14 @@ export const useFinanceStore = defineStore('finance', {
       try {
         const [userResponse, transactionResponse] = await Promise.all([
           api.get(`/users/${authStore.userId}`),
-          api.get('/transactions', { params: { userId: authStore.userId } }),
+          api.get('/transactions'),
         ])
 
         this.monthlyGoal = userResponse.data.monthlyGoal ?? 150000
         this.points = userResponse.data.points ?? 0
-        this.transactions = transactionResponse.data
+        this.transactions = transactionResponse.data.filter(
+          (item) => String(item.userId) === String(authStore.userId),
+        )
       } catch (error) {
         this.error = '가계부 데이터를 불러오지 못했어요.'
         throw error
@@ -110,9 +133,7 @@ export const useFinanceStore = defineStore('finance', {
       return this.transactions
     },
     getTransactionsByDate(date) {
-      return [...this.transactions]
-        .filter((item) => item.date === date)
-        .sort((a, b) => String(a.time || '').localeCompare(String(b.time || '')))
+      return [...this.transactions].filter((item) => item.date === date)
     },
     getExpenseByDate(date) {
       return this.getTransactionsByDate(date)
@@ -124,8 +145,7 @@ export const useFinanceStore = defineStore('finance', {
       if (!authStore.userId) return null
 
       const transactionPayload = {
-        userId: authStore.userId,
-        time: '',
+        userId: Number(authStore.userId),
         ...payload,
       }
 

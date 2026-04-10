@@ -8,6 +8,14 @@ defineProps({
 })
 
 const emit = defineEmits(['select-day'])
+
+function getTodayDate() {
+  const today = new Date()
+  const year = today.getFullYear()
+  const month = String(today.getMonth() + 1).padStart(2, '0')
+  const day = String(today.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
 </script>
 
 <template>
@@ -23,7 +31,7 @@ const emit = defineEmits(['select-day'])
         :key="day"
         type="button"
         class="calendar-day"
-        :class="{ marked: expenseFor(day) > 0, today: formatDate(day) === '2026-04-08' }"
+        :class="{ marked: expenseFor(day) > 0, today: formatDate(day) === getTodayDate() }"
         @click="emit('select-day', day)"
       >
         <span>{{ day }}</span>

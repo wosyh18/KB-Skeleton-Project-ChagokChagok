@@ -50,6 +50,8 @@ async function chooseTheme(themeId) {
 }
 
 function logout() {
+  financeStore.resetState()
+  themeStore.resetState()
   authStore.logout()
   router.replace('/login')
 }

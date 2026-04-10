@@ -13,7 +13,7 @@ const authStore = useAuthStore()
 const financeStore = useFinanceStore()
 const { user } = storeToRefs(authStore)
 const { monthlyGoal, currentMonthTotalExpense, remainingAllowance, totalIncome } = storeToRefs(financeStore)
-const currentDate = ref(new Date(2026, 3, 1))
+const currentDate = ref(new Date())
 const weekdayLabels = ['일', '월', '화', '수', '목', '금', '토']
 
 const monthName = computed(() => `${currentDate.value.getMonth() + 1}월`)
@@ -28,10 +28,16 @@ function formatDate(day) {
 
 function previousMonth() {
   currentDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() - 1, 1)
+  financeStore.setSelectedMonth(formatMonth(currentDate.value))
 }
 
 function nextMonth() {
   currentDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() + 1, 1)
+  financeStore.setSelectedMonth(formatMonth(currentDate.value))
+}
+
+function formatMonth(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
 }
 
 function openDaily(day) {
