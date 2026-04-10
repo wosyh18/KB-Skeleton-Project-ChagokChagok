@@ -7,8 +7,9 @@
       "name": "김용돈",
       "age": 16,
       "monthlyGoal": 150000,
-      "points": 370,
-      "currentTheme": "berry"
+      "points": 20,
+      "currentTheme": "mint"
+
     }
   ],
   "transactions": [
@@ -528,7 +529,9 @@
         "incorrect": "아쉬워요. 먼저 저축 금액을 정해두면 충동 지출을 줄이는 데 도움이 돼요."
       },
       "rewardPoints": 50,
-      "completedUserIds": []
+      "completedUserIds": [
+        1
+      ]
     },
     {
       "id": "2",
@@ -744,7 +747,18 @@
       "id": "2",
       "userId": 1,
       "themeId": "berry"
+    },
+    {
+      "userId": 1,
+      "themeId": "mint",
+      "id": "dU7wSVl_Jv8"
+    },
+    {
+      "userId": 1,
+      "themeId": "sunset",
+      "id": "YzPtKH90bko"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
 }
+

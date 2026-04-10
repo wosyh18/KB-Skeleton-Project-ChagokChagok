@@ -90,13 +90,13 @@ function logout() {
 
 <style scoped>
 .character-description-card {
-  background: #fff;
+  background: color-mix(in srgb, var(--theme-background) 55%, white);
   border-radius: 24px;
   border: 2px solid;
   padding: 24px;
   margin: 0 20px 24px;
   text-align: center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--theme-accent) 10%, transparent);
 }
 
 .category-tag {
@@ -112,12 +112,12 @@ function logout() {
   font-size: 1.2rem;
   font-weight: 800;
   margin: 0 0 8px 0;
-  color: #333;
+  color: var(--theme-accent);
 }
 
 .character-text {
   font-size: 0.95rem;
-  color: #666;
+  color: color-mix(in srgb, var(--theme-accent) 60%, #666);
   margin: 0;
   line-height: 1.6;
   word-break: keep-all;

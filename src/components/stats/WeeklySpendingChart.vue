@@ -129,14 +129,18 @@ function getBarHeight(value) {
 
 .weekly-bar-fill {
   width: 100%;
-  background: linear-gradient(180deg, #ffd54f 0%, #ffbf1b 100%);
+  background: linear-gradient(
+    180deg,
+    var(--theme-primary) 0%,
+    color-mix(in srgb, var(--theme-primary) 55%, var(--theme-accent)) 100%
+  );
   border-radius: 14px;
   transition: height 0.45s ease;
   position: relative;
 }
 
 .is-max .weekly-bar-fill {
-  background: linear-gradient(180deg, #8fd78c 0%, #58b95b 100%);
+  background: linear-gradient(180deg, var(--theme-secondary) 0%, var(--theme-accent) 100%);
 }
 
 .is-zero .weekly-bar-fill {
@@ -159,8 +163,8 @@ function getBarHeight(value) {
   left: 50%;
   transform: translateX(-50%);
   background: rgba(255, 255, 255, 0.92);
-  color: #4b9a4d;
-  border: 1px solid rgba(88, 185, 91, 0.22);
+  color: var(--theme-accent);
+  border: 1px solid color-mix(in srgb, var(--theme-accent) 22%, white);
   box-shadow: 0 6px 14px rgba(76, 126, 53, 0.12);
   white-space: nowrap;
   line-height: 1;
@@ -173,9 +177,9 @@ function getBarHeight(value) {
 
 .trend-label {
   font-size: 0.76rem;
-  color: #657055;
+  color: var(--theme-accent);
   font-weight: 600;
-  background: #f3f4ee;
+  background: color-mix(in srgb, var(--theme-secondary) 20%, white);
   padding: 0.35rem 0.7rem;
   border-radius: 999px;
   word-break: keep-all;
