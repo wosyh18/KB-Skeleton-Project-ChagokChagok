@@ -33,8 +33,27 @@ export const useThemeStore = defineStore('theme', {
     },
   },
   actions: {
+    resetState() {
+      this.initialized=false
+      this.selectedThemeId = 'default'
+      this.themes = []
+      this.unlockedThemeIds =[]
+      this.isLoading = false
+      this.error = ''
+    },
     async initialize() {
       if (this.initialized) return
+      
+      const authStore = useAuthStore();
+      if (!authStore.initialized) {
+        await authStore.initialize();
+      }
+
+      if (!authStore.userId) {
+        this.resetState();
+        return;
+      }
+
       await this.refreshAll()
       this.initialized = true
     },
