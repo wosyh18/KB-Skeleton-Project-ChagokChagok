@@ -315,21 +315,36 @@ p {
   align-content: center;
   justify-items: center;
   padding: 0.35rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04), inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+  transition: transform 0.1s ease;
+}
+
+.calendar-day:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.calendar-day span {
+  font-weight: 700;
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
 }
 
 .calendar-day.marked {
   background: var(--theme-primary-soft);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04), inset 0 -2px 0 rgba(0, 0, 0, 0.08);
 }
 
 .calendar-day.today {
   background: linear-gradient(135deg, var(--theme-primary), color-mix(in srgb, var(--theme-primary) 75%, #d79b00));
   font-weight: 700;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 0 -2px 0 rgba(0, 0, 0, 0.15);
 }
 
 .calendar-day small {
   color: #d32f2f;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 0.75rem;
+  text-shadow: 0.5px 0.5px 0px rgba(255, 255, 255, 0.5);
 }
 
 .floating-tip {
