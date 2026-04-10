@@ -7,6 +7,7 @@ import DailySummaryCard from '@/components/daily/DailySummaryCard.vue'
 import EditTransactionModal from '@/components/daily/EditTransactionModal.vue'
 import TransactionList from '@/components/daily/TransactionList.vue'
 import { useFinanceStore } from '@/store/finance'
+import tipIcon from '@/assets/icons/tip-icon.png'
 
 function getTodayDate() {
   const today = new Date()
@@ -87,9 +88,10 @@ async function confirmDelete() {
     />
 
     <InfoTipCard
-      icon="팁"
+      :icon-src="tipIcon"
       title="하루 기록이 쌓이면 소비 습관이 보여요"
       description="작은 금액도 적어두면 어디에 많이 쓰는지 금방 알 수 있어요."
+      :compact="transactions.length === 0"
       secondary
     />
 
