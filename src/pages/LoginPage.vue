@@ -27,6 +27,8 @@ async function submitForm() {
     })
     financeStore.initialized = false
     themeStore.initialized = false
+    financeStore.resetState()
+    themeStore.resetState()
     await financeStore.initialize()
     await themeStore.initialize()
     router.replace('/')
