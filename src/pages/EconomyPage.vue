@@ -126,9 +126,9 @@ function resetQuiz() {
 
 /* 전체 페이지 배경 및 기본 패딩 */
 .economy-page {
-  /* ⭐️ 하단 패딩 120px로 수정: 스크롤을 끝까지 내려도 퀴즈가 네비바에 가려지지 않게 함 */
-  padding: 16px 20px 120px;
-  background-color: var(--theme-background);
+
+  padding: 16px 20px 180px;
+  background-color: #f7f4df;
   min-height: 50vh;
   font-family: 'Pretendard', sans-serif;
 }
@@ -321,13 +321,11 @@ function resetQuiz() {
   background-color: white;
   border-radius: 24px;
   padding: 24px 20px;
-  margin: -52px 8px 20px 8px;
+  margin: -52px 8px 96px 8px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
   display: flex;
   align-items: center;
   gap: 16px;
-  position: relative;
-  z-index: 2;
 }
 
 .completion-icon {
