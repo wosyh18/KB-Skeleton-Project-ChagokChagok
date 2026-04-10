@@ -22,9 +22,9 @@ const dynamicFontSize = computed(() => {
   <div class="character-goal-container">
     <div class="vertical-wrapper">
       <!-- 이번 달 목표 말풍선 (위) -->
-      <div class="speech-badge-center" style="border-color: #FFD93D">
+      <div class="speech-badge-center">
         <span class="bubble-label">이번 달 목표</span>
-        <div class="goal-input-row" style="border-bottom: 3px solid #FFD93D">
+        <div class="goal-input-row">
           <input 
             :value="goalInput" 
             type="text" 
@@ -35,7 +35,7 @@ const dynamicFontSize = computed(() => {
           <strong>원</strong>
         </div>
         <!-- 말풍선 꼬리 (아래쪽 향함) -->
-        <div class="badge-tail-down" style="border-top-color: #FFD93D"></div>
+        <div class="badge-tail-down"></div>
       </div>
 
       <!-- 캐릭터 원형 (아래) -->
@@ -68,8 +68,8 @@ const dynamicFontSize = computed(() => {
 }
 
 .speech-badge-center {
-  background: #fff;
-  border: 3px solid;
+  background: color-mix(in srgb, var(--theme-background) 60%, white);
+  border: 3px solid var(--theme-primary);
   border-radius: 20px;
   padding: 12px 20px;
   display: flex;
@@ -82,7 +82,7 @@ const dynamicFontSize = computed(() => {
 
 .bubble-label {
   font-size: 0.75rem;
-  color: #888;
+  color: color-mix(in srgb, var(--theme-accent) 55%, #888);
   margin-bottom: 4px;
 }
 
@@ -93,6 +93,7 @@ const dynamicFontSize = computed(() => {
   padding-bottom: 2px;
   width: 100%;
   justify-content: center;
+  border-bottom: 3px solid var(--theme-primary);
 }
 
 .goal-input-row input {
@@ -124,6 +125,7 @@ const dynamicFontSize = computed(() => {
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-top: 12px solid;
+  border-top-color: var(--theme-primary);
 }
 
 .character-orb-main {

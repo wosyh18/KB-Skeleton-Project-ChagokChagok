@@ -18,7 +18,7 @@ import logo from '@/assets/icons/kb로고.png';
   left: 0;
   width: 100%;
   height: 40px;
-  background: transparent;
+  background: color-mix(in srgb, var(--theme-background) 72%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   z-index: 100;
@@ -51,7 +51,7 @@ import logo from '@/assets/icons/kb로고.png';
   font-family: 'Gowun Dodum', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   font-size: 1.15rem;
   font-weight: 800;
-  color: #253220;
+  color: var(--theme-accent);
   letter-spacing: -0.3px;
 }
 </style>

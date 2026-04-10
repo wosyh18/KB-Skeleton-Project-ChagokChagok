@@ -5,9 +5,12 @@ import InfoTipCard from '@/components/common/InfoTipCard.vue'
 import CategorySpendingList from '@/components/stats/CategorySpendingList.vue'
 import WeeklySpendingChart from '@/components/stats/WeeklySpendingChart.vue'
 import { useFinanceStore } from '@/store/finance'
+import { useThemeStore } from '@/store/theme'
 
 const financeStore = useFinanceStore()
+const themeStore = useThemeStore()
 const { transactions, currentMonthTotalExpense, selectedMonth } = storeToRefs(financeStore)
+const { currentTheme } = storeToRefs(themeStore)
 
 const displayMonthFull = computed(() => {
   if (!selectedMonth.value) return ''
@@ -27,6 +30,14 @@ const filteredTransactions = computed(() => {
 })
 
 const categoryData = computed(() => {
+  const palette = [
+    currentTheme.value.primary,
+    currentTheme.value.secondary,
+    currentTheme.value.accent,
+    '#ffb86b',
+    '#8ecae6',
+    '#cdb4db',
+  ]
   const summary = {}
   filteredTransactions.value
     .filter((item) => item.type === 'expense')
@@ -38,7 +49,7 @@ const categoryData = computed(() => {
     .map(([name, value], index) => ({
       name,
       value,
-      color: ['#ff6b6b', '#4ecdc4', '#95e1d3', '#ffe66d', '#7fb069', '#f4a261'][index % 6],
+      color: palette[index % palette.length],
     }))
     .sort((a, b) => b.value - a.value)
 })
@@ -131,8 +142,12 @@ const tipTitle = computed(() => `${topCategoryName.value} 지출 비중이 가�
 }
 
 .summary-card {
-  background: linear-gradient(135deg, #fff9e6 0%, #f7ffed 100%);
-  border: 1px solid #f0f4e8;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--theme-primary) 18%, white) 0%,
+    color-mix(in srgb, var(--theme-secondary) 20%, white) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--theme-secondary) 22%, white);
   padding: 1.25rem;
   display: grid;
   gap: 1rem;
@@ -152,13 +167,13 @@ const tipTitle = computed(() => `${topCategoryName.value} 지출 비중이 가�
 .summary-eyebrow {
   font-size: 0.78rem;
   font-weight: 700;
-  color: #7d8658;
+  color: var(--theme-accent);
   letter-spacing: 0.04em;
 }
 
 .summary-caption {
   font-size: 0.92rem;
-  color: #65714f;
+  color: color-mix(in srgb, var(--theme-accent) 65%, #65714f);
   line-height: 1.45;
   word-break: keep-all;
 }
@@ -175,15 +190,15 @@ const tipTitle = computed(() => `${topCategoryName.value} 지출 비중이 가�
   flex: 1;
   font-size: 1.15rem;
   font-weight: 700;
-  color: #445038;
+  color: var(--theme-accent);
   margin: 0;
   text-align: center;
   word-break: keep-all;
 }
 
 .nav-btn {
-  background: #fff;
-  border: 1px solid #ece9d4;
+  background: color-mix(in srgb, var(--theme-background) 55%, white);
+  border: 1px solid color-mix(in srgb, var(--theme-primary) 20%, white);
   border-radius: 14px;
   width: 40px;
   height: 40px;
@@ -193,8 +208,8 @@ const tipTitle = computed(() => `${topCategoryName.value} 지출 비중이 가�
   cursor: pointer;
   font-size: 1rem;
   transition: all 0.2s;
-  color: #445038;
-  box-shadow: 0 8px 18px rgba(92, 110, 58, 0.08);
+  color: var(--theme-accent);
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--theme-accent) 12%, transparent);
   flex-shrink: 0;
 }
 
@@ -204,21 +219,21 @@ const tipTitle = computed(() => `${topCategoryName.value} 지출 비중이 가�
   gap: 0.35rem;
   padding: 1rem 1.05rem;
   border-radius: 22px;
-  background: rgba(255, 255, 255, 0.62);
-  border: 1px solid rgba(240, 237, 217, 0.9);
+  background: color-mix(in srgb, var(--theme-background) 35%, white);
+  border: 1px solid color-mix(in srgb, var(--theme-primary) 18%, white);
 }
 
 .total-expense-box .label {
   font-size: 0.9rem;
   font-weight: 700;
-  color: #7c8460;
+  color: color-mix(in srgb, var(--theme-accent) 65%, #7c8460);
   word-break: keep-all;
 }
 
 .total-amount {
   font-size: clamp(2rem, 8vw, 2.8rem);
   font-weight: 800;
-  color: #222;
+  color: var(--theme-accent);
   margin: 0;
   line-height: 1.12;
   letter-spacing: -0.04em;
@@ -227,7 +242,7 @@ const tipTitle = computed(() => `${topCategoryName.value} 지출 비중이 가�
 
 .total-expense-box .description {
   font-size: 0.88rem;
-  color: #7d836f;
+  color: color-mix(in srgb, var(--theme-accent) 55%, #7d836f);
   line-height: 1.45;
   word-break: keep-all;
 }
