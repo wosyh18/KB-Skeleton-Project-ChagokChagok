@@ -26,6 +26,15 @@ export const useFinanceStore = defineStore('finance', {
     selectedMonth: getCurrentMonth(),
   }),
   getters: {
+    currentMonthTotalIncome(state) {
+      return state.transactions
+        .filter(
+          (item) =>
+            item.type === 'income' &&
+            item.date.startsWith(state.selectedMonth),
+        )
+        .reduce((sum, item) => sum + item.amount, 0)
+    },
     currentMonthTotalExpense(state) {
       return state.transactions
         .filter(
