@@ -64,3 +64,14 @@ function submit() {
     </div>
   </div>
 </template>
+
+<style scoped>
+.modal-card h3,
+.modal-card label span {
+  color: var(--theme-accent);
+}
+
+.modal-card label {
+  gap: 0.45rem;
+}
+</style>
