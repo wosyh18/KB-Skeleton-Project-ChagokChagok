@@ -10,7 +10,10 @@ export const useAuthStore = defineStore('auth', {
     error: '',
   }),
   getters: {
-    userId: (state) => state.user?.id ?? null,
+    userId: (state) => {
+      if (state.user?.id == null) return null
+      return Number(state.user.id)
+    },
     isLoggedIn: (state) => Boolean(state.user),
   },
   actions: {

@@ -68,12 +68,14 @@ export const useThemeStore = defineStore('theme', {
         const [themesResponse, userResponse, unlockedResponse] = await Promise.all([
           api.get('/themes'),
           api.get(`/users/${authStore.userId}`),
-          api.get('/unlockedThemes', { params: { userId: authStore.userId } }),
+          api.get('/unlockedThemes'),
         ])
 
         this.themes = themesResponse.data
         this.selectedThemeId = userResponse.data.currentTheme || 'default'
-        this.unlockedThemeIds = unlockedResponse.data.map((item) => item.themeId)
+        this.unlockedThemeIds = unlockedResponse.data
+          .filter((item) => String(item.userId) === String(authStore.userId))
+          .map((item) => item.themeId)
       } catch (error) {
         this.error = '테마 정보를 불러오지 못했어요.'
         throw error
@@ -102,7 +104,7 @@ export const useThemeStore = defineStore('theme', {
         }
 
         const { data } = await api.post('/unlockedThemes', {
-          userId: authStore.userId,
+          userId: Number(authStore.userId),
           themeId,
         })
         this.unlockedThemeIds.push(data.themeId)

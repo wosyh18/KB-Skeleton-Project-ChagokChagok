@@ -20,7 +20,6 @@ const emit = defineEmits(['add', 'edit', 'delete'])
             <div>
               <strong>{{ item.category }}</strong>
               <p>{{ item.description }}</p>
-              <small v-if="item.time">{{ item.time }}</small>
             </div>
           </div>
 
