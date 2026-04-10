@@ -9,19 +9,22 @@ const router = useRouter()
 const authStore = useAuthStore()
 const financeStore = useFinanceStore()
 const themeStore = useThemeStore()
-const form = reactive({ name: '', email: '' })
+const form = reactive({ email: '', password: '' })
 const errorMessage = ref('')
 
 async function submitForm() {
-  if (!form.name.trim() || !form.email.trim()) {
-    errorMessage.value = '이름과 이메일을 모두 입력해 주세요.'
+  if (!form.email.trim() || !form.password.trim()) {
+    errorMessage.value = '이메일과 비밀번호를 모두 입력해 주세요.'
     return
   }
 
   errorMessage.value = ''
 
   try {
-    await authStore.login({ name: form.name.trim(), email: form.email.trim() })
+    await authStore.login({
+      email: form.email.trim(),
+      password: form.password,
+    })
     financeStore.initialized = false
     themeStore.initialized = false
     await financeStore.initialize()
@@ -42,17 +45,17 @@ async function submitForm() {
 
       <form class="login-form" @submit.prevent="submitForm">
         <label>
-          <span>이름</span>
-          <input v-model="form.name" type="text" placeholder="이름을 입력해 주세요" />
-        </label>
-
-        <label>
           <span>이메일</span>
           <input v-model="form.email" type="email" placeholder="이메일을 입력해 주세요" />
         </label>
 
+        <label>
+          <span>비밀번호</span>
+          <input v-model="form.password" type="password" placeholder="비밀번호를 입력해 주세요" />
+        </label>
+
         <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-        <button type="submit" class="primary-button">시작하기</button>
+        <button type="submit" class="primary-button">로그인</button>
       </form>
     </div>
   </section>
