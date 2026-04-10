@@ -1,11 +1,14 @@
 <script setup>
 defineProps({
   icon: { type: String, default: '' },
+
   image: { type: String, default: '' },
+
   label: { type: String, default: '' },
   title: { type: String, required: true },
   description: { type: String, required: true },
   secondary: { type: Boolean, default: false },
+  compact: { type: Boolean, default: false },
 })
 </script>
 
@@ -64,6 +67,12 @@ defineProps({
   padding: 8px;
 }
 
+.floating-icon-image {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
 .tip-content {
   display: flex;
   flex-direction: column;
@@ -91,5 +100,32 @@ defineProps({
   color: #666;
   margin: 0;
   line-height: 1.4;
+}
+
+.floating-tip.compact {
+  gap: 0.7rem;
+  padding: 0.72rem 0.82rem;
+  border-radius: 18px;
+}
+
+.floating-tip.compact .floating-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+}
+
+.floating-tip.compact .floating-icon-image {
+  width: 18px;
+  height: 18px;
+}
+
+.floating-tip.compact .tip-title {
+  font-size: 0.92rem;
+  line-height: 1.2;
+}
+
+.floating-tip.compact .tip-description {
+  font-size: 0.76rem;
+  line-height: 1.25;
 }
 </style>

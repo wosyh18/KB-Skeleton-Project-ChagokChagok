@@ -30,17 +30,21 @@ const form = reactive({
 });
 
 const submitLabel = computed(() =>
-  activeTab.value === 'income' ? '수입 등록하기' : '지출 등록하기',
+  activeTab.value === 'income' ? '용돈 등록하기' : '지출 등록하기',
 );
 const pageTitle = computed(() =>
-  activeTab.value === 'income' ? '수입 입력' : '지출 입력',
+  activeTab.value === 'income' ? '용돈 입력' : '지출 입력',
 );
 const pageBadgeLabel = computed(() =>
-  activeTab.value === 'income' ? '수입' : '지출',
+  activeTab.value === 'income' ? '용돈' : '지출',
 );
 const pageBadgeIcon = computed(() =>
   activeTab.value === 'income' ? incomeBadgeIcon : expenseBadgeIcon,
 );
+const formattedAmount = computed(() => {
+  if (!form.amount) return '';
+  return Number(form.amount).toLocaleString();
+});
 
 function resetForm() {
   form.amount = '';
@@ -56,16 +60,14 @@ function appendAmount(amount) {
 }
 
 function sanitizeAmountInput(event) {
-  const value = event.target.value;
-  if (value === '') {
+  const digitsOnly = event.target.value.replace(/[^\d]/g, '');
+
+  if (!digitsOnly) {
     form.amount = '';
     return;
   }
 
-  const numericValue = Number(value);
-  form.amount = Number.isNaN(numericValue)
-    ? ''
-    : String(Math.max(0, numericValue));
+  form.amount = String(Number(digitsOnly));
 }
 
 function changeTab(tab) {
@@ -120,7 +122,7 @@ async function submitForm() {
 
     message.value =
       activeTab.value === 'income'
-        ? '수입이 저장되었어요.'
+        ? '용돈이 저장되었어요.'
         : '지출이 저장되었어요.';
     resetForm();
   } catch {
@@ -141,9 +143,11 @@ async function submitForm() {
         </div>
         <h1>{{ pageTitle }}</h1>
         <p class="input-intro-text">
-          {{ activeTab === 'income'
-            ? '받은 돈을 바로 남겨두고 이번 달 흐름을 차곡차곡 정리해 보세요.'
-            : '오늘 쓴 돈을 가볍게 적어두고 소비 패턴을 한눈에 확인해 보세요.' }}
+          {{
+            activeTab === 'income'
+              ? '받은 돈을 바로 남겨두고 이번 달 흐름을 차곡차곡 정리해 보세요.'
+              : '오늘 쓴 돈을 가볍게 적어두고 소비 패턴을 한눈에 확인해 보세요.'
+          }}
         </p>
 
         <div class="input-intro-points">
@@ -153,25 +157,30 @@ async function submitForm() {
           </article>
           <article>
             <span>현재 입력 금액</span>
-            <strong>{{ form.amount ? `${Number(form.amount).toLocaleString()}원` : '0원' }}</strong>
+            <strong>{{
+              form.amount ? `${Number(form.amount).toLocaleString()}원` : '0원'
+            }}</strong>
           </article>
         </div>
 
         <div class="input-intro-tip input-intro-tip-desktop">
-          <strong>{{ activeTab === 'income' ? '받은 돈의 출처를 적어두세요.' : '지출 이유를 짧게 남겨두세요.' }}</strong>
+          <strong>{{
+            activeTab === 'income'
+              ? '받은 돈의 출처를 적어두세요.'
+              : '지출 이유를 짧게 남겨두세요.'
+          }}</strong>
           <p>
-            {{ activeTab === 'income'
-              ? '누가 준 돈인지 적어두면 수입 흐름을 나중에 다시 보기 쉬워요.'
-              : '무엇을 왜 샀는지 한 줄 메모만 남겨도 소비 패턴을 찾기 쉬워집니다.' }}
+            {{
+              activeTab === 'income'
+                ? '누가 준 돈인지 적어두면 수입 흐름을 나중에 다시 보기 쉬워요.'
+                : '무엇을 왜 샀는지 한 줄 메모만 남겨도 소비 패턴을 찾기 쉬워집니다.'
+            }}
           </p>
         </div>
       </aside>
 
       <div class="section-card input-form-card">
-        <TransactionTypeTabs
-          :active-tab="activeTab"
-          @change="changeTab"
-        />
+        <TransactionTypeTabs :active-tab="activeTab" @change="changeTab" />
 
         <form class="stack-form input-form-grid" @submit.prevent="submitForm">
           <label class="input-field span-two">
@@ -182,16 +191,19 @@ async function submitForm() {
           <label class="input-field span-two">
             <span>금액</span>
             <input
-              v-model="form.amount"
-              type="number"
-              min="0"
+              :value="formattedAmount"
+              type="text"
+              inputmode="numeric"
               placeholder="금액을 입력해 주세요"
               @input="sanitizeAmountInput"
             />
           </label>
 
           <div class="span-two">
-            <QuickAmountButtons :amounts="quickAmounts" @select="appendAmount" />
+            <QuickAmountButtons
+              :amounts="quickAmounts"
+              @select="appendAmount"
+            />
           </div>
 
           <template v-if="activeTab === 'income'">
@@ -225,9 +237,25 @@ async function submitForm() {
           </template>
 
           <p v-if="message" class="success-message span-two">{{ message }}</p>
-          <button type="submit" class="primary-button span-two">{{ submitLabel }}</button>
+          <button type="submit" class="primary-button span-two">
+            {{ submitLabel }}
+          </button>
         </form>
       </div>
     </div>
   </section>
 </template>
+
+<style scoped>
+.input-intro-card,
+.input-intro-card h1,
+.input-intro-card strong,
+.input-intro-card span {
+  color: var(--theme-accent);
+}
+
+.input-intro-text,
+.input-intro-tip p {
+  color: color-mix(in srgb, var(--theme-accent) 68%, #5f6e4f);
+}
+</style>

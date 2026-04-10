@@ -3,10 +3,12 @@ import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ConfirmModal from '@/components/common/ConfirmModal.vue'
 import InfoTipCard from '@/components/common/InfoTipCard.vue'
+import DailyInputPanel from '@/components/daily/DailyInputPanel.vue'
 import DailySummaryCard from '@/components/daily/DailySummaryCard.vue'
 import EditTransactionModal from '@/components/daily/EditTransactionModal.vue'
 import TransactionList from '@/components/daily/TransactionList.vue'
 import { useFinanceStore } from '@/store/finance'
+import tipIcon from '@/assets/icons/tip-icon.png'
 
 function getTodayDate() {
   const today = new Date()
@@ -64,34 +66,49 @@ async function confirmDelete() {
   await financeStore.deleteTransaction(deletingId.value)
   deletingId.value = null
 }
+
+async function refreshTransactions() {
+  await financeStore.fetchTransactions()
+}
 </script>
 
 <template>
   <section class="content-page detail-page">
-    <button type="button" class="back-button" @click="router.push('/')">
-      달력으로 돌아가기
-    </button>
+    <div class="daily-layout">
+      <div class="daily-main">
+        <button type="button" class="back-button" @click="router.push('/')">
+          달력으로 돌아가기
+        </button>
 
-    <DailySummaryCard
-      :title="title"
-      :today-income="todayIncome"
-      :today-expense="todayExpense"
-      :remaining="remaining"
-    />
+        <DailySummaryCard
+          :title="title"
+          :today-income="todayIncome"
+          :today-expense="todayExpense"
+          :remaining="remaining"
+        />
 
-    <TransactionList
-      :transactions="transactions"
-      @add="router.push('/input')"
-      @edit="editingId = $event"
-      @delete="deletingId = $event"
-    />
+        <TransactionList
+          :transactions="transactions"
+          @add="router.push('/input')"
+          @edit="editingId = $event"
+          @delete="deletingId = $event"
+        />
 
-    <InfoTipCard
-      icon="팁"
-      title="하루 기록이 쌓이면 소비 습관이 보여요"
-      description="작은 금액도 적어두면 어디에 많이 쓰는지 금방 알 수 있어요."
-      secondary
-    />
+        <InfoTipCard
+          :icon-src="tipIcon"
+          title="하루 기록이 쌓이면 소비 습관이 보여요"
+          description="작은 금액도 적어두면 어디에 많이 쓰는지 금방 알 수 있어요."
+          :compact="transactions.length === 0"
+          secondary
+        />
+      </div>
+
+      <DailyInputPanel
+        class="daily-side-panel"
+        :selected-date="selectedDate"
+        @saved="refreshTransactions"
+      />
+    </div>
 
     <EditTransactionModal
       :open="Boolean(editingId)"

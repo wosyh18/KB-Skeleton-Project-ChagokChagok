@@ -113,6 +113,7 @@ const dynamicFontSize = computed(() => {
 .goal-input-row strong {
   font-size: 1.1rem;
   font-weight: 700;
+  color: var(--theme-accent);
 }
 
 .badge-tail-down {
@@ -138,7 +139,6 @@ const dynamicFontSize = computed(() => {
   font-size: 2.5rem;
   font-weight: 700;
   overflow: hidden;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.06);
 }
 
 .orb-img-main {

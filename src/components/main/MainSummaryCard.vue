@@ -24,15 +24,15 @@ const emit = defineEmits(['previous', 'next'])
         <strong>{{ monthlyGoal.toLocaleString() }}원</strong>
       </article>
       <article>
-        <span>받은 금액</span>
+        <span>이번 달 받은 금액</span>
         <strong>{{ totalIncome.toLocaleString() }}원</strong>
       </article>
       <article>
-        <span>총 지출</span>
+        <span>이번 달 총 지출</span>
         <strong>{{ currentMonthTotalExpense.toLocaleString() }}원</strong>
       </article>
       <article>
-        <span>남은 금액</span>
+        <span>현재 잔액 (전월 이월 포함)</span>
         <strong>{{ remainingAllowance.toLocaleString() }}원</strong>
       </article>
     </div>
