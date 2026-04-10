@@ -5,19 +5,27 @@ import { useLearningStore } from '@/store/learning';
 const learningStore = useLearningStore();
 const selectedAnswer = ref(null);
 const showResult = ref(false);
+const rewardMessage = ref('');
 
 onMounted(() => {
   learningStore.fetchDailyLesson();
 });
 
-function answerQuiz(value) {
+async function answerQuiz(value) {
   selectedAnswer.value = value;
   showResult.value = true;
+  rewardMessage.value = '';
+
+  if (value === learningStore.lessons.quiz.answer) {
+    const result = await learningStore.rewardForCorrectAnswer();
+    rewardMessage.value = result.message || '';
+  }
 }
 
 function resetQuiz() {
   selectedAnswer.value = null;
   showResult.value = false;
+  rewardMessage.value = '';
 }
 </script>
 
@@ -87,6 +95,9 @@ function resetQuiz() {
                 ? learningStore.lessons.quiz.correct
                 : learningStore.lessons.quiz.incorrect
             }}
+          </p>
+          <p v-if="rewardMessage" class="reward-message">
+            {{ rewardMessage }}
           </p>
           <button type="button" class="btn-retry" @click="resetQuiz">
             다시 풀기
@@ -280,6 +291,13 @@ function resetQuiz() {
 
 .quiz-result-card.incorrect strong {
   color: #c62828;
+}
+
+.reward-message {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #2e7d32;
 }
 
 .btn-retry {
