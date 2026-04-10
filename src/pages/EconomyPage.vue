@@ -5,19 +5,27 @@ import { useLearningStore } from '@/store/learning';
 const learningStore = useLearningStore();
 const selectedAnswer = ref(null);
 const showResult = ref(false);
+const rewardMessage = ref('');
 
 onMounted(() => {
   learningStore.fetchDailyLesson();
 });
 
-function answerQuiz(value) {
+async function answerQuiz(value) {
   selectedAnswer.value = value;
   showResult.value = true;
+  rewardMessage.value = '';
+
+  if (value === learningStore.lessons.quiz.answer) {
+    const result = await learningStore.rewardForCorrectAnswer();
+    rewardMessage.value = result.message || '';
+  }
 }
 
 function resetQuiz() {
   selectedAnswer.value = null;
   showResult.value = false;
+  rewardMessage.value = '';
 }
 </script>
 
@@ -88,6 +96,9 @@ function resetQuiz() {
                 : learningStore.lessons.quiz.incorrect
             }}
           </p>
+          <p v-if="rewardMessage" class="reward-message">
+            {{ rewardMessage }}
+          </p>
           <button type="button" class="btn-retry" @click="resetQuiz">
             다시 풀기
           </button>
@@ -110,11 +121,12 @@ function resetQuiz() {
 .app-wrapper {
   position: relative;
   min-height: 100vh;
-  background-color: #f7f4df;
+  background-color: var(--theme-background);
 }
 
 /* 전체 페이지 배경 및 기본 패딩 */
 .economy-page {
+
   padding: 16px 20px 180px;
   background-color: #f7f4df;
   min-height: 50vh;
@@ -124,7 +136,7 @@ function resetQuiz() {
 /* 1. 상단 제목: 별도로 분리된 느낌 */
 .page-title {
   text-align: center;
-  color: #5d7a45;
+  color: var(--theme-accent);
   margin-bottom: 4px;
   font-weight: 850;
   font-size: 35px;
@@ -136,7 +148,7 @@ function resetQuiz() {
   border-radius: 24px;
   padding: 12px 24px 24px;
   margin: 0 8px 20px 8px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--theme-accent) 10%, transparent);
 }
 
 .lesson-header {
@@ -154,7 +166,7 @@ function resetQuiz() {
 
 .topic-label {
   font-size: 13px;
-  color: #888;
+  color: color-mix(in srgb, var(--theme-accent) 45%, #888);
   margin: 0 0 4px 0;
   font-weight: 600;
 }
@@ -162,7 +174,7 @@ function resetQuiz() {
 .topic-title {
   font-size: 19px;
   font-weight: bold;
-  color: #333;
+  color: var(--theme-accent);
   margin: 0;
 }
 
@@ -183,7 +195,7 @@ function resetQuiz() {
 }
 
 .check-icon {
-  color: #ffca28; /* 노란색 포인트 */
+  color: var(--theme-primary);
   font-weight: bold;
 }
 
@@ -191,11 +203,11 @@ function resetQuiz() {
 .quiz-section {
   border-radius: 28px;
   padding: 40px 24px;
-  box-shadow: 0 8px 24px rgba(255, 217, 83, 0.3);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--theme-primary) 35%, transparent);
 }
 
 .gradient-bg {
-  background: linear-gradient(180deg, #ffea73 0%, #e3f29f 100%);
+  background: linear-gradient(180deg, var(--theme-primary) 0%, var(--theme-secondary) 100%);
 }
 
 .quiz-header {
@@ -212,7 +224,7 @@ function resetQuiz() {
   font-size: 22px;
   font-weight: 800;
   margin: 0 0 8px 0;
-  color: #333;
+  color: var(--theme-accent);
 }
 
 .quiz-header p {
@@ -247,7 +259,7 @@ function resetQuiz() {
   padding: 24px 0;
   font-size: 36px;
   font-weight: bold;
-  color: #333;
+  color: var(--theme-accent);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   transition: all 0.2s;
@@ -274,27 +286,34 @@ function resetQuiz() {
 }
 
 .quiz-result-card.correct strong {
-  color: #2e7d32;
+  color: var(--theme-accent);
 }
 
 .quiz-result-card.incorrect strong {
   color: #c62828;
 }
 
+.reward-message {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #2e7d32;
+}
+
 .btn-retry {
   margin-top: 20px;
   padding: 12px 32px;
   border-radius: 24px;
-  border: 1px solid #ddd;
-  background-color: #f9f9f9;
+  border: 1px solid color-mix(in srgb, var(--theme-secondary) 30%, white);
+  background-color: color-mix(in srgb, var(--theme-background) 45%, white);
   font-weight: 600;
-  color: #555;
+  color: var(--theme-accent);
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .btn-retry:hover {
-  background-color: #eee;
+  background-color: color-mix(in srgb, var(--theme-primary) 18%, white);
 }
 
 /* ⭐️ 3. 학습 완료 카드 스타일 */

@@ -4,6 +4,8 @@ import { api } from '@/api/client'
 import { useAuthStore } from '@/store/auth'
 import { useFinanceStore } from '@/store/finance'
 
+const THEME_STORAGE_KEY = 'selectedThemeId'
+
 export const useThemeStore = defineStore('theme', {
   state: () => ({
     initialized: false,
@@ -33,9 +35,18 @@ export const useThemeStore = defineStore('theme', {
     },
   },
   actions: {
+    loadPersistedTheme() {
+      const savedThemeId = localStorage.getItem(THEME_STORAGE_KEY)
+      if (savedThemeId) {
+        this.selectedThemeId = savedThemeId
+      }
+    },
+    persistTheme(themeId) {
+      localStorage.setItem(THEME_STORAGE_KEY, themeId)
+    },
     resetState() {
       this.initialized=false
-      this.selectedThemeId = 'default'
+      this.selectedThemeId = localStorage.getItem(THEME_STORAGE_KEY) || 'default'
       this.themes = []
       this.unlockedThemeIds =[]
       this.isLoading = false
@@ -43,6 +54,7 @@ export const useThemeStore = defineStore('theme', {
     },
     async initialize() {
       if (this.initialized) return
+      this.loadPersistedTheme()
       
       const authStore = useAuthStore();
       if (!authStore.initialized) {
@@ -73,6 +85,7 @@ export const useThemeStore = defineStore('theme', {
 
         this.themes = themesResponse.data
         this.selectedThemeId = userResponse.data.currentTheme || 'default'
+        this.persistTheme(this.selectedThemeId)
         this.unlockedThemeIds = unlockedResponse.data
           .filter((item) => String(item.userId) === String(authStore.userId))
           .map((item) => item.themeId)
@@ -111,6 +124,7 @@ export const useThemeStore = defineStore('theme', {
       }
 
       this.selectedThemeId = themeId
+      this.persistTheme(themeId)
       await authStore.updateUser({ currentTheme: themeId })
       return { ok: true }
     },
