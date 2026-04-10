@@ -101,6 +101,10 @@ p {
   gap: 0.75rem;
 }
 
+.content-page.detail-page {
+  align-content: start;
+}
+
 .login-page {
   min-height: 100vh;
   display: grid;
@@ -367,6 +371,12 @@ p {
   place-items: center;
   font-size: 1.8rem;
   background: rgba(255, 255, 255, 0.7);
+}
+
+.transaction-icon-image {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 
 .transaction-list,
