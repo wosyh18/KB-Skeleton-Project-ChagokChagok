@@ -1,5 +1,5 @@
 ﻿<script setup>
-import { computed, reactive, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import CategorySelector from '@/components/input/CategorySelector.vue'
 
 const props = defineProps({
@@ -9,6 +9,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'save'])
 const form = reactive({ category: '', description: '', amount: '' })
+const errorMessage = ref('')
 const isIncomeTransaction = computed(() => props.transaction?.type === 'income')
 const expenseCategories = ['식비', '교통', '문화', '취미', '교육', '기타']
 
@@ -19,15 +20,35 @@ watch(
     form.category = transaction.category
     form.description = transaction.description
     form.amount = String(transaction.amount)
+    errorMessage.value = ''
   },
   { immediate: true },
 )
 
+watch(
+  () => props.open,
+  (isOpen) => {
+    if (isOpen) errorMessage.value = ''
+  },
+)
+
 function submit() {
+  const amountNumber = Number(form.amount)
+  if (
+    form.amount === '' ||
+    Number.isNaN(amountNumber) ||
+    !Number.isFinite(amountNumber) ||
+    amountNumber <= 0
+  ) {
+    errorMessage.value = '금액은 1원 이상 입력해 주세요.'
+    return
+  }
+
+  errorMessage.value = ''
   emit('save', {
     category: form.category,
     description: form.description,
-    amount: Number(form.amount) || 0,
+    amount: amountNumber,
   })
 }
 </script>
@@ -55,8 +76,9 @@ function submit() {
       </label>
       <label>
         <span>금액</span>
-        <input v-model="form.amount" type="number" />
+        <input v-model="form.amount" type="number" min="1" />
       </label>
+      <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
       <div class="modal-actions">
         <button type="button" class="ghost-button" @click="emit('close')">취소</button>
         <button type="button" class="primary-button" @click="submit">저장</button>
