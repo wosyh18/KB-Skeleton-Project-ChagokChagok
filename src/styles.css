@@ -230,6 +230,7 @@ p {
 .hero-header h1,
 .section-card h1 {
   font-size: 1.9rem;
+  color: var(--theme-accent);
 }
 
 .icon-button,
@@ -280,6 +281,7 @@ p {
 
 .summary-grid strong {
   font-size: 1rem;
+  color: color-mix(in srgb, var(--theme-accent) 88%, #1f241b);
 }
 
 .calendar-weekdays,
@@ -315,6 +317,7 @@ p {
   align-content: center;
   justify-items: center;
   padding: 0.35rem;
+  color: color-mix(in srgb, var(--theme-accent) 82%, #253220);
 }
 
 .calendar-day.marked {
@@ -327,7 +330,7 @@ p {
 }
 
 .calendar-day small {
-  color: #d32f2f;
+  color: color-mix(in srgb, #d32f2f 78%, var(--theme-accent));
   font-weight: 700;
   font-size: 0.75rem;
 }
@@ -404,6 +407,12 @@ p {
   color: color-mix(in srgb, var(--theme-accent) 58%, #6e7b61);
 }
 
+.transaction-main strong,
+.section-card h2,
+.section-card h3 {
+  color: var(--theme-accent);
+}
+
 .transaction-actions {
   display: grid;
   justify-items: end;
@@ -411,11 +420,11 @@ p {
 }
 
 .transaction-actions .income {
-  color: #2d6a4f;
+  color: color-mix(in srgb, var(--theme-secondary) 35%, var(--theme-accent));
 }
 
 .transaction-actions .expense {
-  color: #b23a48;
+  color: color-mix(in srgb, #b23a48 82%, var(--theme-accent));
 }
 
 .action-group {
@@ -445,7 +454,7 @@ p {
 
 .empty-state {
   padding: 1rem 0;
-  color: #7c8870;
+  color: color-mix(in srgb, var(--theme-accent) 48%, #7c8870);
 }
 
 .tab-switch {
@@ -578,6 +587,11 @@ p {
 .input-field {
   display: grid;
   gap: 0.45rem;
+}
+
+.input-field span,
+label span {
+  color: var(--theme-accent);
 }
 
 .span-two {
@@ -748,6 +762,14 @@ p {
   border-bottom: 1px solid #eceee3;
 }
 
+.info-list span {
+  color: color-mix(in srgb, var(--theme-accent) 58%, #6e7b61);
+}
+
+.info-list strong {
+  color: var(--theme-accent);
+}
+
 .info-list div:last-child {
   border-bottom: none;
 }
@@ -767,6 +789,7 @@ p {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0.35rem;
+  z-index: 100;
 }
 
 .nav-item {
