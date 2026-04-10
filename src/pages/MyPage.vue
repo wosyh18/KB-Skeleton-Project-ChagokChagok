@@ -15,10 +15,13 @@ const authStore = useAuthStore()
 const financeStore = useFinanceStore()
 const themeStore = useThemeStore()
 const { user } = storeToRefs(authStore)
-const { points, topCategory } = storeToRefs(financeStore)
+const { isLoading, points, topCategory, hasCalendarMonthExpense } = storeToRefs(financeStore)
 const { currentTheme, selectedThemeId, normalizedThemes } = storeToRefs(themeStore)
 const showThemeDialog = ref(false)
 const feedback = ref('')
+const showNoData = computed(
+  () => financeStore.initialized && !isLoading.value && !hasCalendarMonthExpense.value,
+)
 const goalInput = computed({
   get: () => {
     const amount = financeStore.monthlyGoal || 0
@@ -65,15 +68,25 @@ function logout() {
       :current-theme="currentTheme" 
       :goal-input="goalInput" 
       :top-category="topCategory"
+      :show-no-data="showNoData"
       @update:goal-input="goalInput = $event" 
     />
     
-    <div class="character-description-card" v-if="topCategory" :style="{ borderColor: currentTheme.primary }">
-      <span class="category-tag" :style="{ backgroundColor: currentTheme.primary, color: currentTheme.accent }">
-        {{ topCategory.name }} 대장
-      </span>
-      <h3 class="character-title">{{ topCategory.characterName }}</h3>
-      <p class="character-text">{{ topCategory.description }}</p>
+    <div class="character-description-card" v-if="topCategory || showNoData" :style="{ borderColor: currentTheme.primary }">
+      <template v-if="showNoData">
+        <span class="category-tag" :style="{ backgroundColor: currentTheme.primary, color: currentTheme.accent }">
+          기록 없음
+        </span>
+        <h3 class="character-title">아직 소비 기록이 없어요</h3>
+        <p class="character-text">내역이 없습니다.</p>
+      </template>
+      <template v-else>
+        <span class="category-tag" :style="{ backgroundColor: currentTheme.primary, color: currentTheme.accent }">
+          {{ topCategory.name }} 대장
+        </span>
+        <h3 class="character-title">{{ topCategory.characterName }}</h3>
+        <p class="character-text">{{ topCategory.description }}</p>
+      </template>
     </div>
 
     <UserInfoCard :user="user" :feedback="feedback" @logout="logout" />
