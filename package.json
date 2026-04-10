@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "mock": "json-server --watch db.json --port 3000",
+    "dev:all": "concurrently \"npm run mock\" \"npm run dev\"",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -17,6 +19,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.5",
+    "concurrently": "^9.2.1",
+    "json-server": "^0.17.4",
     "vite": "^8.0.3",
     "vite-plugin-vue-devtools": "^8.1.1"
   },
