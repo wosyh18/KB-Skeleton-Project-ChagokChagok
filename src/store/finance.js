@@ -3,6 +3,11 @@ import { defineStore } from 'pinia'
 import { api } from '@/api/client'
 import { useAuthStore } from '@/store/auth'
 
+function getCurrentMonth() {
+  const today = new Date()
+  return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`
+}
+
 export const useFinanceStore = defineStore('finance', {
   state: () => ({
     initialized: false,
@@ -14,7 +19,7 @@ export const useFinanceStore = defineStore('finance', {
     categories: [],
     isLoading: false,
     error: '',
-    selectedMonth: '2026-04',
+    selectedMonth: getCurrentMonth(),
   }),
   getters: {
     currentMonthTotalExpense(state) {
@@ -92,12 +97,14 @@ export const useFinanceStore = defineStore('finance', {
       try {
         const [userResponse, transactionResponse] = await Promise.all([
           api.get(`/users/${authStore.userId}`),
-          api.get('/transactions', { params: { userId: authStore.userId } }),
+          api.get('/transactions'),
         ])
 
         this.monthlyGoal = userResponse.data.monthlyGoal ?? 150000
         this.points = userResponse.data.points ?? 0
-        this.transactions = transactionResponse.data
+        this.transactions = transactionResponse.data.filter(
+          (item) => String(item.userId) === String(authStore.userId),
+        )
       } catch (error) {
         this.error = '가계부 데이터를 불러오지 못했어요.'
         throw error
@@ -112,7 +119,6 @@ export const useFinanceStore = defineStore('finance', {
     getTransactionsByDate(date) {
       return [...this.transactions]
         .filter((item) => item.date === date)
-        .sort((a, b) => String(a.time || '').localeCompare(String(b.time || '')))
     },
     getExpenseByDate(date) {
       return this.getTransactionsByDate(date)
@@ -124,8 +130,7 @@ export const useFinanceStore = defineStore('finance', {
       if (!authStore.userId) return null
 
       const transactionPayload = {
-        userId: authStore.userId,
-        time: '',
+        userId: Number(authStore.userId),
         ...payload,
       }
 
