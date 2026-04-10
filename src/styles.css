@@ -68,6 +68,8 @@ p {
   width: min(100%, 480px);
   margin: 0 auto;
   min-height: 100vh;
+
+  padding-top: 40px;
 }
 
 .page-shell.has-navigation {
@@ -75,8 +77,10 @@ p {
 }
 
 .content-page {
-  min-height: 100vh;
-  padding: 0.85rem;
+  min-height: calc(100vh - 40px);
+  padding: 1rem;
+
+
   display: grid;
   gap: 0.75rem;
 }
@@ -86,6 +90,7 @@ p {
   display: grid;
   place-items: center;
   padding: 1rem;
+  padding-top: 40px;
   background: linear-gradient(135deg, #ffe66d 0%, #b4e88e 55%, #8bd3c7 100%);
 }
 
