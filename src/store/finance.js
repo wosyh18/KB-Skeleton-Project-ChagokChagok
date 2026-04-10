@@ -14,6 +14,30 @@ function getMonthEndDate(month) {
   return `${year}-${String(monthNumber).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`
 }
 
+function resolveTopCategory(transactions, categories, month) {
+  if (!transactions.length || !categories.length) return null
+
+  let targetTransactions = transactions.filter(
+    (item) => item.type === 'expense' && item.date.startsWith(month),
+  )
+
+  if (!targetTransactions.length) {
+    targetTransactions = transactions.filter((item) => item.type === 'expense')
+  }
+
+  if (!targetTransactions.length) return null
+
+  const summary = {}
+  targetTransactions.forEach((item) => {
+    summary[item.category] = (summary[item.category] || 0) + item.amount
+  })
+
+  const sorted = Object.entries(summary).sort((a, b) => b[1] - a[1])
+  const topName = sorted[0][0]
+
+  return categories.find((category) => category.name === topName) || null
+}
+
 export const useFinanceStore = defineStore('finance', {
   state: () => ({
     initialized: false,
@@ -23,6 +47,7 @@ export const useFinanceStore = defineStore('finance', {
     points: 0,
     transactions: [],
     categories: [],
+    calendarMonth: getCurrentMonth(),
     selectedMonth: getCurrentMonth(),
   }),
   getters: {
@@ -50,13 +75,13 @@ export const useFinanceStore = defineStore('finance', {
         .reduce((sum, item) => sum + item.amount, 0)
     },
     cumulativeIncomeUntilSelectedMonth(state) {
-      const monthEndDate = getMonthEndDate(state.selectedMonth)
+      const monthEndDate = getMonthEndDate(state.calendarMonth)
       return state.transactions
         .filter((item) => item.type === 'income' && item.date <= monthEndDate)
         .reduce((sum, item) => sum + item.amount, 0)
     },
     cumulativeExpenseUntilSelectedMonth(state) {
-      const monthEndDate = getMonthEndDate(state.selectedMonth)
+      const monthEndDate = getMonthEndDate(state.calendarMonth)
       return state.transactions
         .filter((item) => item.type === 'expense' && item.date <= monthEndDate)
         .reduce((sum, item) => sum + item.amount, 0)
@@ -68,30 +93,7 @@ export const useFinanceStore = defineStore('finance', {
       )
     },
     topCategory(state) {
-      if (!state.transactions.length || !state.categories.length) return null
-
-      let targetTransactions = state.transactions.filter(
-        (item) =>
-          item.type === 'expense' && item.date.startsWith(state.selectedMonth),
-      )
-
-      if (!targetTransactions.length) {
-        targetTransactions = state.transactions.filter(
-          (item) => item.type === 'expense',
-        )
-      }
-
-      if (!targetTransactions.length) return null
-
-      const summary = {}
-      targetTransactions.forEach((item) => {
-        summary[item.category] = (summary[item.category] || 0) + item.amount
-      })
-
-      const sorted = Object.entries(summary).sort((a, b) => b[1] - a[1])
-      const topName = sorted[0][0]
-
-      return state.categories.find((c) => c.name === topName) || null
+      return resolveTopCategory(state.transactions, state.categories, state.calendarMonth)
     },
   },
   actions: {
@@ -103,7 +105,11 @@ export const useFinanceStore = defineStore('finance', {
       this.points = 0
       this.transactions = []
       this.categories = []
+      this.calendarMonth = getCurrentMonth()
       this.selectedMonth = getCurrentMonth()
+    },
+    setCalendarMonth(month) {
+      this.calendarMonth = month
     },
     setSelectedMonth(month) {
       this.selectedMonth = month
