@@ -22,3 +22,13 @@ const emit = defineEmits(['close', 'confirm'])
     </div>
   </div>
 </template>
+
+<style scoped>
+.modal-card h3 {
+  color: var(--theme-accent);
+}
+
+.modal-card p {
+  color: color-mix(in srgb, var(--theme-accent) 70%, #5b6650);
+}
+</style>
