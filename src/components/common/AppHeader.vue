@@ -43,16 +43,23 @@
 }
 
 .header-side-logo {
-  position: absolute;
-  left: 1rem;
-  height: 34px;
-  width: auto;
-  object-fit: contain;
+  display: none;
 }
 
 .header-logo {
   height: 42px;
   width: auto;
   object-fit: contain;
+}
+
+@media (min-width: 900px) {
+  .header-side-logo {
+    position: absolute;
+    left: 1rem;
+    display: block;
+    height: 34px;
+    width: auto;
+    object-fit: contain;
+  }
 }
 </style>
