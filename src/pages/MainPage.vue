@@ -14,8 +14,8 @@ const financeStore = useFinanceStore()
 const { user } = storeToRefs(authStore)
 const {
   monthlyGoal,
-  cumulativeIncomeUntilSelectedMonth,
-  cumulativeExpenseUntilSelectedMonth,
+  currentMonthTotalIncome,
+  currentMonthTotalExpense,
   remainingAllowance,
 } = storeToRefs(financeStore)
 const currentDate = ref(new Date())
@@ -59,8 +59,8 @@ function expenseFor(day) {
     <MainSummaryCard
       :month-name="monthName"
       :monthly-goal="monthlyGoal"
-      :total-income="cumulativeIncomeUntilSelectedMonth"
-      :current-month-total-expense="cumulativeExpenseUntilSelectedMonth"
+      :total-income="currentMonthTotalIncome"
+      :current-month-total-expense="currentMonthTotalExpense"
       :remaining-allowance="remainingAllowance"
       @previous="previousMonth"
       @next="nextMonth"
