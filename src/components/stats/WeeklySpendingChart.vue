@@ -1,7 +1,6 @@
 <script setup>
-defineProps({
+const props = defineProps({
   items: { type: Array, required: true },
-  weeklyHeight: { type: Function, required: true },
   maxValue: { type: Number, default: 0 },
 })
 
@@ -9,6 +8,11 @@ function formatAmount(value) {
   if (value === 0) return '0원'
   if (value >= 10000) return `${(value / 10000).toFixed(1)}만원`
   return `${value.toLocaleString()}원`
+}
+
+function getBarHeight(value) {
+  if (value <= 0 || props.maxValue === 0) return '4px'
+  return `${Math.max((value / props.maxValue) * 100, 8)}%`
 }
 </script>
 
@@ -34,7 +38,7 @@ function formatAmount(value) {
       >
         <span class="value-label">{{ formatAmount(item.value) }}</span>
         <div class="weekly-bar-track">
-          <div class="weekly-bar-fill" :style="{ height: weeklyHeight(item.value) }">
+          <div class="weekly-bar-fill" :style="{ height: getBarHeight(item.value) }">
             <span v-if="maxValue > 0 && item.value === maxValue" class="max-badge">최고</span>
           </div>
         </div>
@@ -46,7 +50,10 @@ function formatAmount(value) {
 
 <style scoped>
 .weekly-card {
+  height: 100%;
   padding: 1.25rem;
+  display: grid;
+  grid-template-rows: auto 1fr;
 }
 
 .section-headline {
@@ -84,14 +91,16 @@ function formatAmount(value) {
   align-items: flex-end;
   gap: 0.75rem;
   min-height: 240px;
+  height: 100%;
 }
 
 .weekly-bar-card {
   display: grid;
-  grid-template-rows: auto minmax(180px, 1fr) auto;
-  align-items: center;
-  gap: 0.65rem;
+  grid-template-rows: auto 1fr auto;
+  align-items: stretch;
+  gap: 0;
   min-width: 0;
+  height: 100%;
 }
 
 .value-label {
@@ -101,11 +110,13 @@ function formatAmount(value) {
   line-height: 1.2;
   text-align: center;
   word-break: keep-all;
+  padding-bottom: 0.7rem;
 }
 
 .weekly-bar-track {
   width: 100%;
   height: 100%;
+  min-height: 0;
   background-color: #f4f5ef;
   border-radius: 18px;
   position: relative;
@@ -138,6 +149,8 @@ function formatAmount(value) {
   font-weight: 700;
   color: #4f5843;
   word-break: keep-all;
+  text-align: center;
+  padding-top: 0.75rem;
 }
 
 .max-badge {
@@ -195,16 +208,14 @@ function formatAmount(value) {
     min-height: 224px;
   }
 
-  .weekly-bar-card {
-    grid-template-rows: auto minmax(160px, 1fr) auto;
-  }
-
   .value-label {
     font-size: 0.75rem;
+    padding-bottom: 0.55rem;
   }
 
   .label {
     font-size: 0.85rem;
+    padding-top: 0.55rem;
   }
 }
 

@@ -83,7 +83,10 @@ const topCategoryRatio = computed(() => {
 
 <style scoped>
 .category-card {
+  height: 100%;
   padding: 1.25rem;
+  display: grid;
+  grid-template-rows: auto 1fr;
 }
 
 .section-headline {
@@ -121,6 +124,7 @@ const topCategoryRatio = computed(() => {
   align-items: center;
   justify-items: center;
   gap: 1.25rem;
+  align-content: start;
 }
 
 .chart-box {
@@ -225,6 +229,7 @@ const topCategoryRatio = computed(() => {
   font-weight: 600;
   color: #667055;
   word-break: keep-all;
+  white-space: nowrap;
 }
 
 @media (min-width: 521px) {
@@ -236,6 +241,12 @@ const topCategoryRatio = computed(() => {
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
+  }
+}
+
+@media (min-width: 900px) {
+  .category-card {
+    min-height: 100%;
   }
 }
 

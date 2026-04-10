@@ -65,11 +65,6 @@ const weeklyData = computed(() => {
 
 const maxWeeklyValue = computed(() => Math.max(...weeklyData.value.map((item) => item.value), 0))
 
-function weeklyHeight(value) {
-  if (value === 0 || maxWeeklyValue.value === 0) return '8%'
-  return `${Math.max((value / maxWeeklyValue.value) * 100, 8)}%`
-}
-
 function changeMonth(delta) {
   if (!selectedMonth.value) return
   const [year, month] = selectedMonth.value.split('-').map(Number)
@@ -107,9 +102,10 @@ const tipTitle = computed(() => `${topCategoryName.value} 지출 비중이 가�
       </div>
     </div>
 
-    <CategorySpendingList :items="categoryData" />
-
-    <WeeklySpendingChart :items="weeklyData" :weekly-height="weeklyHeight" :max-value="maxWeeklyValue" />
+    <div class="stats-insight-grid">
+      <CategorySpendingList :items="categoryData" />
+      <WeeklySpendingChart :items="weeklyData" :max-value="maxWeeklyValue" />
+    </div>
 
     <InfoTipCard
       icon="💡"
@@ -127,6 +123,11 @@ const tipTitle = computed(() => `${topCategoryName.value} 지출 비중이 가�
   gap: 1rem;
   padding: 1rem;
   margin: 0 auto;
+}
+
+.stats-insight-grid {
+  display: grid;
+  gap: 1rem;
 }
 
 .summary-card {
@@ -238,6 +239,10 @@ const tipTitle = computed(() => `${topCategoryName.value} 지출 비중이 가�
     padding: 1.25rem;
   }
 
+  .stats-insight-grid {
+    gap: 1.25rem;
+  }
+
   .summary-card {
     padding: 1.5rem;
   }
@@ -249,6 +254,17 @@ const tipTitle = computed(() => `${topCategoryName.value} 지출 비중이 가�
 
   .month-navigation {
     min-width: 220px;
+  }
+}
+
+@media (min-width: 900px) {
+  .stats-page {
+    width: min(100%, 1120px);
+  }
+
+  .stats-insight-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
   }
 }
 
