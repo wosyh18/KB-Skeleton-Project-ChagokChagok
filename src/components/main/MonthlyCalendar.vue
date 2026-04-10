@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 defineProps({
   weekdayLabels: { type: Array, required: true },
   firstDay: { type: Number, required: true },
@@ -35,7 +35,7 @@ function getTodayDate() {
         @click="emit('select-day', day)"
       >
         <span>{{ day }}</span>
-        <small v-if="expenseFor(day) > 0">-{{ Math.round(expenseFor(day) / 1000) }}k</small>
+        <small v-if="expenseFor(day) > 0">-{{ expenseFor(day).toLocaleString() }}</small>
       </button>
     </div>
   </div>
