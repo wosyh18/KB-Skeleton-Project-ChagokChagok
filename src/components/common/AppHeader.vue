@@ -1,12 +1,12 @@
-<script setup>
-import logo from '@/assets/icons/kb로고.png';
-</script>
-
-<template>
+﻿<template>
   <header class="app-header">
     <div class="header-inner">
-      <img :src="logo" alt="KB Logo" class="header-logo" />
-      <span class="service-name">차곡차곡</span>
+      <img src="/images/KB_s_kr3.png" alt="KB 로고" class="header-side-logo" />
+      <img
+        src="/images/chagok_logo.png"
+        alt="차곡차곡 로고"
+        class="header-logo"
+      />
     </div>
   </header>
 </template>
@@ -17,7 +17,7 @@ import logo from '@/assets/icons/kb로고.png';
   top: 0;
   left: 0;
   width: 100%;
-  height: 40px;
+  height: 62px;
   background: color-mix(in srgb, var(--theme-background) 72%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -30,9 +30,10 @@ import logo from '@/assets/icons/kb로고.png';
   width: min(100%, 480px);
   height: 100%;
   padding: 0 1rem;
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
 }
 
 @media (min-width: 900px) {
@@ -41,17 +42,17 @@ import logo from '@/assets/icons/kb로고.png';
   }
 }
 
-.header-logo {
-  height: 24px;
+.header-side-logo {
+  position: absolute;
+  left: 1rem;
+  height: 34px;
   width: auto;
   object-fit: contain;
 }
 
-.service-name {
-  font-family: 'Gowun Dodum', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: var(--theme-accent);
-  letter-spacing: -0.3px;
+.header-logo {
+  height: 42px;
+  width: auto;
+  object-fit: contain;
 }
 </style>
