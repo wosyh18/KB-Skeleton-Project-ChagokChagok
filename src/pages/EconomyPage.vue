@@ -127,9 +127,14 @@ function resetQuiz() {
 
 /* 전체 페이지 배경 및 기본 패딩 */
 .economy-page {
-
   padding: 16px 20px 180px;
-  background-color: #f7f4df;
+  background:
+    radial-gradient(circle at top, var(--theme-primary-soft), transparent 28%),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--theme-background) 88%, white) 0%,
+      color-mix(in srgb, var(--theme-background) 100%, var(--theme-secondary-soft)) 100%
+    );
   min-height: 50vh;
   font-family: 'Pretendard', sans-serif;
 }
