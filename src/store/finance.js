@@ -17,8 +17,6 @@ export const useFinanceStore = defineStore('finance', {
     points: 0,
     transactions: [],
     categories: [],
-    isLoading: false,
-    error: '',
     selectedMonth: getCurrentMonth(),
   }),
   getters: {
@@ -41,29 +39,42 @@ export const useFinanceStore = defineStore('finance', {
     },
     topCategory(state) {
       if (!state.transactions.length || !state.categories.length) return null
-      
+
       let targetTransactions = state.transactions.filter(
-        (item) => item.type === 'expense' && item.date.startsWith(state.selectedMonth)
+        (item) =>
+          item.type === 'expense' && item.date.startsWith(state.selectedMonth),
       )
-      
+
       if (!targetTransactions.length) {
-        targetTransactions = state.transactions.filter((item) => item.type === 'expense')
+        targetTransactions = state.transactions.filter(
+          (item) => item.type === 'expense',
+        )
       }
-      
+
       if (!targetTransactions.length) return null
-      
+
       const summary = {}
       targetTransactions.forEach((item) => {
         summary[item.category] = (summary[item.category] || 0) + item.amount
       })
-      
+
       const sorted = Object.entries(summary).sort((a, b) => b[1] - a[1])
       const topName = sorted[0][0]
-      
-      return state.categories.find(c => c.name === topName) || null
-    }
+
+      return state.categories.find((c) => c.name === topName) || null
+    },
   },
   actions: {
+    resetState() {
+      this.initialized = false
+      this.isLoading = false
+      this.error = ''
+      this.monthlyGoal = 150000
+      this.points = 0
+      this.transactions = []
+      this.categories = []
+      this.selectedMonth = getCurrentMonth()
+    },
     setSelectedMonth(month) {
       this.selectedMonth = month
     },
@@ -71,7 +82,12 @@ export const useFinanceStore = defineStore('finance', {
       if (this.initialized) return
 
       const authStore = useAuthStore()
+      if (!authStore.initialized) {
+        await authStore.initialize()
+      }
+
       if (!authStore.userId) {
+        this.resetState()
         this.initialized = true
         return
       }
@@ -117,8 +133,7 @@ export const useFinanceStore = defineStore('finance', {
       return this.transactions
     },
     getTransactionsByDate(date) {
-      return [...this.transactions]
-        .filter((item) => item.date === date)
+      return [...this.transactions].filter((item) => item.date === date)
     },
     getExpenseByDate(date) {
       return this.getTransactionsByDate(date)
