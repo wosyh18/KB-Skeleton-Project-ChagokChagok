@@ -1,5 +1,5 @@
 ﻿<script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import InfoTipCard from '@/components/common/InfoTipCard.vue'
@@ -33,12 +33,12 @@ function formatDate(day) {
 
 function previousMonth() {
   currentDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() - 1, 1)
-  financeStore.setSelectedMonth(formatMonth(currentDate.value))
+  financeStore.setCalendarMonth(formatMonth(currentDate.value))
 }
 
 function nextMonth() {
   currentDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() + 1, 1)
-  financeStore.setSelectedMonth(formatMonth(currentDate.value))
+  financeStore.setCalendarMonth(formatMonth(currentDate.value))
 }
 
 function formatMonth(date) {
@@ -52,6 +52,10 @@ function openDaily(day) {
 function expenseFor(day) {
   return financeStore.getExpenseByDate(formatDate(day))
 }
+
+onMounted(() => {
+  financeStore.setCalendarMonth(formatMonth(currentDate.value))
+})
 </script>
 
 <template>
