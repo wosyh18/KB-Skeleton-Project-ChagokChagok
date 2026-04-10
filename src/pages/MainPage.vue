@@ -12,7 +12,12 @@ const router = useRouter()
 const authStore = useAuthStore()
 const financeStore = useFinanceStore()
 const { user } = storeToRefs(authStore)
-const { monthlyGoal, currentMonthTotalExpense, remainingAllowance, totalIncome } = storeToRefs(financeStore)
+const {
+  monthlyGoal,
+  cumulativeIncomeUntilSelectedMonth,
+  cumulativeExpenseUntilSelectedMonth,
+  remainingAllowance,
+} = storeToRefs(financeStore)
 const currentDate = ref(new Date())
 const weekdayLabels = ['일', '월', '화', '수', '목', '금', '토']
 
@@ -54,8 +59,8 @@ function expenseFor(day) {
     <MainSummaryCard
       :month-name="monthName"
       :monthly-goal="monthlyGoal"
-      :total-income="totalIncome"
-      :current-month-total-expense="currentMonthTotalExpense"
+      :total-income="cumulativeIncomeUntilSelectedMonth"
+      :current-month-total-expense="cumulativeExpenseUntilSelectedMonth"
       :remaining-allowance="remainingAllowance"
       @previous="previousMonth"
       @next="nextMonth"

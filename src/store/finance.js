@@ -8,12 +8,18 @@ function getCurrentMonth() {
   return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`
 }
 
+function getMonthEndDate(month) {
+  const [year, monthNumber] = month.split('-').map(Number)
+  const lastDay = new Date(year, monthNumber, 0).getDate()
+  return `${year}-${String(monthNumber).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`
+}
+
 export const useFinanceStore = defineStore('finance', {
   state: () => ({
     initialized: false,
     isLoading: false,
     error: '',
-    monthlyGoal: 150000,
+    monthlyGoal: 0,
     points: 0,
     transactions: [],
     categories: [],
@@ -34,8 +40,23 @@ export const useFinanceStore = defineStore('finance', {
         .filter((item) => item.type === 'income')
         .reduce((sum, item) => sum + item.amount, 0)
     },
+    cumulativeIncomeUntilSelectedMonth(state) {
+      const monthEndDate = getMonthEndDate(state.selectedMonth)
+      return state.transactions
+        .filter((item) => item.type === 'income' && item.date <= monthEndDate)
+        .reduce((sum, item) => sum + item.amount, 0)
+    },
+    cumulativeExpenseUntilSelectedMonth(state) {
+      const monthEndDate = getMonthEndDate(state.selectedMonth)
+      return state.transactions
+        .filter((item) => item.type === 'expense' && item.date <= monthEndDate)
+        .reduce((sum, item) => sum + item.amount, 0)
+    },
     remainingAllowance() {
-      return this.monthlyGoal + this.totalIncome - this.currentMonthTotalExpense
+      return (
+        this.cumulativeIncomeUntilSelectedMonth -
+        this.cumulativeExpenseUntilSelectedMonth
+      )
     },
     topCategory(state) {
       if (!state.transactions.length || !state.categories.length) return null
@@ -69,7 +90,7 @@ export const useFinanceStore = defineStore('finance', {
       this.initialized = false
       this.isLoading = false
       this.error = ''
-      this.monthlyGoal = 150000
+      this.monthlyGoal = 0
       this.points = 0
       this.transactions = []
       this.categories = []
@@ -116,7 +137,7 @@ export const useFinanceStore = defineStore('finance', {
           api.get('/transactions'),
         ])
 
-        this.monthlyGoal = userResponse.data.monthlyGoal ?? 150000
+        this.monthlyGoal = userResponse.data.monthlyGoal ?? 0
         this.points = userResponse.data.points ?? 0
         this.transactions = transactionResponse.data.filter(
           (item) => String(item.userId) === String(authStore.userId),
@@ -139,6 +160,22 @@ export const useFinanceStore = defineStore('finance', {
       return this.getTransactionsByDate(date)
         .filter((item) => item.type === 'expense')
         .reduce((sum, item) => sum + item.amount, 0)
+    },
+    getTransactionsUntilDate(date) {
+      return [...this.transactions].filter((item) => item.date <= date)
+    },
+    getIncomeUntilDate(date) {
+      return this.getTransactionsUntilDate(date)
+        .filter((item) => item.type === 'income')
+        .reduce((sum, item) => sum + item.amount, 0)
+    },
+    getExpenseUntilDate(date) {
+      return this.getTransactionsUntilDate(date)
+        .filter((item) => item.type === 'expense')
+        .reduce((sum, item) => sum + item.amount, 0)
+    },
+    getRemainingByDate(date) {
+      return this.getIncomeUntilDate(date) - this.getExpenseUntilDate(date)
     },
     async addTransaction(payload) {
       const authStore = useAuthStore()
