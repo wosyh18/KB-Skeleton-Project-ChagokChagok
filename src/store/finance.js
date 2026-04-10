@@ -17,13 +17,9 @@ function getMonthEndDate(month) {
 function resolveTopCategory(transactions, categories, month) {
   if (!transactions.length || !categories.length) return null
 
-  let targetTransactions = transactions.filter(
+  const targetTransactions = transactions.filter(
     (item) => item.type === 'expense' && item.date.startsWith(month),
   )
-
-  if (!targetTransactions.length) {
-    targetTransactions = transactions.filter((item) => item.type === 'expense')
-  }
 
   if (!targetTransactions.length) return null
 
@@ -90,6 +86,12 @@ export const useFinanceStore = defineStore('finance', {
       return (
         this.cumulativeIncomeUntilSelectedMonth -
         this.cumulativeExpenseUntilSelectedMonth
+      )
+    },
+    hasCalendarMonthExpense(state) {
+      return state.transactions.some(
+        (item) =>
+          item.type === 'expense' && item.date.startsWith(state.calendarMonth),
       )
     },
     topCategory(state) {

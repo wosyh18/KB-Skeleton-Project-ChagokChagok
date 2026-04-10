@@ -5,6 +5,7 @@ const props = defineProps({
   currentTheme: { type: Object, required: true },
   goalInput: { type: String, required: true },
   topCategory: { type: Object, default: null },
+  showNoData: { type: Boolean, default: false },
 })
 
 const emit = defineEmits(['update:goalInput'])
@@ -41,7 +42,13 @@ const dynamicFontSize = computed(() => {
       <!-- 캐릭터 원형 (아래) -->
       <div class="character-orb-main">
         <img 
-          v-if="topCategory" 
+          v-if="showNoData"
+          src="/images/nodata.png"
+          alt="내역 없음"
+          class="orb-img-main" 
+        />
+        <img 
+          v-else-if="topCategory" 
           :src="topCategory.characterImg" 
           :alt="topCategory.characterName" 
           class="orb-img-main" 
