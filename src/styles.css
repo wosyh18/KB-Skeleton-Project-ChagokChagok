@@ -1,7 +1,13 @@
 :root {
   font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
-  color: #253220;
-  background: #f7f4df;
+  --theme-primary: #ffe66d;
+  --theme-secondary: #b4e88e;
+  --theme-accent: #6b8e23;
+  --theme-background: #fffef0;
+  --theme-primary-soft: rgba(255, 230, 109, 0.4);
+  --theme-secondary-soft: rgba(180, 232, 142, 0.35);
+  color: color-mix(in srgb, var(--theme-accent) 78%, #253220);
+  background: var(--theme-background);
   line-height: 1.5;
   font-weight: 400;
 }
@@ -15,13 +21,23 @@ body,
 #app {
   margin: 0;
   min-height: 100%;
+  background: var(--theme-background);
 }
 
 body {
   background:
-    radial-gradient(circle at top, rgba(255, 230, 109, 0.55), transparent 34%),
-    linear-gradient(180deg, #fffef0 0%, #f8f7ec 100%);
-  color: #253220;
+    radial-gradient(circle at top, var(--theme-primary-soft), transparent 34%),
+    linear-gradient(180deg, var(--theme-background) 0%, #f8f7ec 100%);
+  color: color-mix(in srgb, var(--theme-accent) 78%, #253220);
+}
+
+#app,
+.app-theme-root,
+.app-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, var(--theme-primary-soft), transparent 34%),
+    linear-gradient(180deg, var(--theme-background) 0%, #f8f7ec 100%);
 }
 
 button,
@@ -38,10 +54,10 @@ button {
 input,
 textarea {
   width: 100%;
-  border: 1px solid #d7d7c8;
+  border: 1px solid color-mix(in srgb, var(--theme-secondary) 30%, #d7d7c8);
   border-radius: 16px;
   padding: 0.9rem 1rem;
-  background: #fffef8;
+  background: color-mix(in srgb, var(--theme-background) 45%, white);
 }
 
 textarea {
@@ -91,7 +107,7 @@ p {
   place-items: center;
   padding: 1rem;
   padding-top: 40px;
-  background: linear-gradient(135deg, #ffe66d 0%, #b4e88e 55%, #8bd3c7 100%);
+  background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-secondary) 55%, #8bd3c7 100%);
 }
 
 .login-card {
@@ -113,7 +129,7 @@ p {
   display: grid;
   place-items: center;
   font-size: 3rem;
-  background: linear-gradient(135deg, #fff5ad, #b4e88e);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--theme-primary) 65%, white), var(--theme-secondary));
 }
 
 .login-card h1 {
@@ -121,7 +137,7 @@ p {
 }
 
 .login-card p {
-  color: #4c6040;
+  color: color-mix(in srgb, var(--theme-accent) 70%, #4c6040);
 }
 
 .login-form,
@@ -153,17 +169,17 @@ p {
 .primary-button {
   padding: 0.95rem 1.1rem;
   border-radius: 18px;
-  background: linear-gradient(135deg, #ffe66d, #b4e88e);
-  color: #324619;
+  background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+  color: var(--theme-accent);
   font-weight: 700;
-  box-shadow: 0 12px 25px rgba(107, 142, 35, 0.18);
+  box-shadow: 0 12px 25px color-mix(in srgb, var(--theme-accent) 22%, transparent);
 }
 
 .ghost-button {
   padding: 0.85rem 1rem;
   border-radius: 16px;
-  background: #f1f3ea;
-  color: #49583b;
+  background: color-mix(in srgb, var(--theme-secondary) 18%, white);
+  color: color-mix(in srgb, var(--theme-accent) 72%, #49583b);
   font-weight: 600;
 }
 
@@ -195,11 +211,11 @@ p {
   background: rgba(255, 255, 255, 0.92);
   border-radius: 28px;
   padding: 1.25rem;
-  box-shadow: 0 20px 44px rgba(78, 90, 40, 0.1);
+  box-shadow: 0 20px 44px color-mix(in srgb, var(--theme-accent) 12%, transparent);
 }
 
 .hero-card {
-  background: linear-gradient(135deg, #ffe66d, #b4e88e);
+  background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
 }
 
 .hero-header,
@@ -220,8 +236,8 @@ p {
 .back-button,
 .text-button,
 .chip-button {
-  background: white;
-  color: #49583b;
+  background: color-mix(in srgb, var(--theme-background) 55%, white);
+  color: color-mix(in srgb, var(--theme-accent) 72%, #49583b);
 }
 
 .icon-button {
@@ -259,7 +275,7 @@ p {
 
 .summary-grid span {
   font-size: 0.82rem;
-  color: #53624b;
+  color: color-mix(in srgb, var(--theme-accent) 62%, #53624b);
 }
 
 .summary-grid strong {
@@ -283,7 +299,7 @@ p {
 .calendar-weekdays {
   margin-bottom: 0.5rem;
   text-align: center;
-  color: #708068;
+  color: color-mix(in srgb, var(--theme-accent) 55%, #708068);
   font-weight: 700;
 }
 
@@ -294,7 +310,7 @@ p {
 
 .calendar-day {
   border-radius: 20px;
-  background: #fbfbf4;
+  background: color-mix(in srgb, var(--theme-background) 65%, white);
   display: grid;
   align-content: center;
   justify-items: center;
@@ -302,11 +318,11 @@ p {
 }
 
 .calendar-day.marked {
-  background: rgba(255, 230, 109, 0.36);
+  background: var(--theme-primary-soft);
 }
 
 .calendar-day.today {
-  background: linear-gradient(135deg, #ffe66d, #ffd93d);
+  background: linear-gradient(135deg, var(--theme-primary), color-mix(in srgb, var(--theme-primary) 75%, #d79b00));
   font-weight: 700;
 }
 
@@ -322,12 +338,20 @@ p {
   align-items: center;
   padding: 1rem 1.1rem;
   border-radius: 24px;
-  background: linear-gradient(135deg, #fff5b5, #f2f7ce);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--theme-primary) 45%, white),
+    color-mix(in srgb, var(--theme-secondary) 35%, white)
+  );
   box-shadow: 0 15px 32px rgba(100, 118, 62, 0.08);
 }
 
 .floating-tip.secondary {
-  background: linear-gradient(135deg, #eef7d2, #fff8d0);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--theme-secondary) 28%, white),
+    color-mix(in srgb, var(--theme-primary) 28%, white)
+  );
 }
 
 .floating-icon,
@@ -355,7 +379,7 @@ p {
   display: grid;
   gap: 0.75rem;
   align-items: center;
-  background: #f8f8f0;
+  background: color-mix(in srgb, var(--theme-background) 48%, white);
   border-radius: 22px;
   padding: 1rem;
 }
@@ -377,7 +401,7 @@ p {
 .lesson-heading span,
 .section-headline span,
 .field-label {
-  color: #6e7b61;
+  color: color-mix(in srgb, var(--theme-accent) 58%, #6e7b61);
 }
 
 .transaction-actions {
@@ -403,16 +427,16 @@ p {
   padding: 0.65rem 0.9rem;
   border-radius: 16px;
   font-weight: 600;
-  border: 1px solid #d7dec7;
+  border: 1px solid color-mix(in srgb, var(--theme-secondary) 28%, #d7dec7);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65);
 }
 
 .chip-button.selected,
 .nav-item.active,
 .tab-switch button.active {
-  background: linear-gradient(135deg, #ffe66d, #b4e88e);
-  color: #324619;
-  border-color: #9eb56b;
+  background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+  color: var(--theme-accent);
+  border-color: color-mix(in srgb, var(--theme-accent) 40%, white);
 }
 
 .chip-button.danger {
@@ -434,9 +458,9 @@ p {
 .tab-switch button {
   padding: 0.95rem;
   border-radius: 18px;
-  background: #f2f3e8;
+  background: color-mix(in srgb, var(--theme-secondary) 18%, white);
   font-weight: 700;
-  color: #637156;
+  color: color-mix(in srgb, var(--theme-accent) 72%, #637156);
 }
 
 .quick-grid {
@@ -474,9 +498,13 @@ p {
   padding: 1.5rem;
   border-radius: 30px;
   background:
-    radial-gradient(circle at top left, rgba(255, 230, 109, 0.65), transparent 28%),
-    linear-gradient(145deg, #ffffff 0%, #f4f8e8 100%);
-  box-shadow: 0 20px 44px rgba(78, 90, 40, 0.1);
+    radial-gradient(circle at top left, var(--theme-primary-soft), transparent 28%),
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--theme-background) 50%, white) 0%,
+      color-mix(in srgb, var(--theme-secondary) 18%, white) 100%
+    );
+  box-shadow: 0 20px 44px color-mix(in srgb, var(--theme-accent) 12%, transparent);
 }
 
 @media (max-width: 899px) {
@@ -495,7 +523,7 @@ p {
   background: transparent;
   border: none;
   font-weight: 700;
-  color: #566642;
+  color: color-mix(in srgb, var(--theme-accent) 70%, #566642);
 }
 
 .input-intro-badge-icon {
@@ -513,7 +541,7 @@ p {
 }
 
 .input-intro-text {
-  color: #5f6e4f;
+  color: color-mix(in srgb, var(--theme-accent) 65%, #5f6e4f);
 }
 
 .input-intro-points {
@@ -526,15 +554,15 @@ p {
 .input-intro-tip {
   padding: 1rem;
   border-radius: 22px;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid #e3e7d5;
+  background: color-mix(in srgb, var(--theme-background) 42%, white);
+  border: 1px solid color-mix(in srgb, var(--theme-secondary) 22%, white);
 }
 
 .input-intro-points span {
   display: block;
   margin-bottom: 0.4rem;
   font-size: 0.82rem;
-  color: #6e7b61;
+  color: color-mix(in srgb, var(--theme-accent) 58%, #6e7b61);
 }
 
 .input-intro-points strong,
@@ -544,7 +572,7 @@ p {
 
 .input-intro-tip p {
   margin-top: 0.45rem;
-  color: #6e7b61;
+  color: color-mix(in srgb, var(--theme-accent) 58%, #6e7b61);
 }
 
 .input-field {
@@ -557,7 +585,7 @@ p {
 }
 
 .accent-card {
-  background: linear-gradient(135deg, #ffe66d, #b4e88e);
+  background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
 }
 
 .accent-card h1 {
@@ -577,7 +605,7 @@ p {
 .category-bar-track {
   height: 12px;
   border-radius: 999px;
-  background: #edf0e6;
+  background: color-mix(in srgb, var(--theme-secondary) 18%, white);
   overflow: hidden;
 }
 
@@ -604,7 +632,7 @@ p {
   height: 150px;
   width: 100%;
   border-radius: 18px;
-  background: #f3f3eb;
+  background: color-mix(in srgb, var(--theme-background) 45%, white);
   display: flex;
   align-items: end;
   padding: 0.45rem;
@@ -613,7 +641,7 @@ p {
 .weekly-bar-fill {
   width: 100%;
   border-radius: 14px;
-  background: linear-gradient(180deg, #ffd93d, #ffb703);
+  background: linear-gradient(180deg, var(--theme-primary), color-mix(in srgb, var(--theme-accent) 40%, var(--theme-primary)));
 }
 
 .lesson-card,
@@ -628,7 +656,7 @@ p {
 }
 
 .chat-bubble {
-  background: #f6f7ec;
+  background: color-mix(in srgb, var(--theme-background) 42%, white);
   padding: 1rem;
   border-radius: 18px;
 }
@@ -649,8 +677,8 @@ p {
 }
 
 .quiz-button.yes {
-  background: #ebf8dc;
-  color: #2d6a4f;
+  background: color-mix(in srgb, var(--theme-secondary) 30%, white);
+  color: var(--theme-accent);
 }
 
 .quiz-button.no {
@@ -666,7 +694,7 @@ p {
 }
 
 .quiz-result.correct {
-  background: #ebf8dc;
+  background: color-mix(in srgb, var(--theme-secondary) 24%, white);
 }
 
 .quiz-result.incorrect {
@@ -730,10 +758,10 @@ p {
   bottom: 0.75rem;
   transform: translateX(-50%);
   width: min(calc(100% - 1rem), 472px);
-  background: rgba(255, 255, 255, 0.95);
+  background: color-mix(in srgb, var(--theme-background) 45%, white);
   backdrop-filter: blur(14px);
-  border: 1px solid rgba(107, 142, 35, 0.08);
-  box-shadow: 0 16px 38px rgba(85, 88, 52, 0.18);
+  border: 1px solid color-mix(in srgb, var(--theme-accent) 10%, white);
+  box-shadow: 0 16px 38px color-mix(in srgb, var(--theme-accent) 18%, transparent);
   border-radius: 24px;
   padding: 0.5rem;
   display: grid;
@@ -747,7 +775,7 @@ p {
   padding: 0.8rem 0.25rem;
   border-radius: 18px;
   background: transparent;
-  color: #84927c;
+  color: color-mix(in srgb, var(--theme-accent) 45%, #84927c);
 }
 
 .nav-icon {
@@ -771,7 +799,7 @@ p {
 
 .modal-card {
   width: min(100%, 420px);
-  background: white;
+  background: color-mix(in srgb, var(--theme-background) 40%, white);
   border-radius: 28px;
   padding: 1.25rem;
   display: grid;
@@ -807,7 +835,7 @@ p {
 }
 
 .theme-card.selected {
-  border-color: #2d6a4f;
+  border-color: var(--theme-accent);
 }
 
 @media (min-width: 900px) {

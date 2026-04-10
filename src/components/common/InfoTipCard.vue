@@ -26,21 +26,25 @@ defineProps({
   align-items: flex-start;
   padding: 1.25rem;
   border-radius: 24px;
-  background: #fff;
-  border: 1px solid #f0f0f0;
+  background: color-mix(in srgb, var(--theme-background) 55%, white);
+  border: 1px solid color-mix(in srgb, var(--theme-secondary) 20%, white);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
 }
 
 .secondary {
-  background: linear-gradient(135deg, #fdfbf0, #f7f9e8);
-  border-color: #f1f4e0;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--theme-primary) 18%, white),
+    color-mix(in srgb, var(--theme-secondary) 22%, white)
+  );
+  border-color: color-mix(in srgb, var(--theme-secondary) 26%, white);
 }
 
 .floating-icon {
   width: 48px;
   height: 48px;
   flex-shrink: 0;
-  background: #f8f9fa;
+  background: color-mix(in srgb, var(--theme-primary) 18%, white);
   border-radius: 14px;
   display: flex;
   align-items: center;
@@ -65,7 +69,7 @@ defineProps({
 .tip-title {
   font-size: 1.05rem;
   font-weight: 700;
-  color: #333;
+  color: var(--theme-accent);
   margin: 0;
   line-height: 1.3;
 }

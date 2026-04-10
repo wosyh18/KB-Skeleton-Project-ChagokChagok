@@ -41,7 +41,7 @@ const topCategoryRatio = computed(() => {
     <div class="stats-viz-container">
       <div class="chart-box">
         <svg viewBox="0 0 42 42" class="donut-chart">
-          <circle cx="21" cy="21" r="15.915494309189533" fill="transparent" stroke="#eef1e8" stroke-width="4"></circle>
+          <circle cx="21" cy="21" r="15.915494309189533" fill="transparent" :stroke="'color-mix(in srgb, var(--theme-secondary) 18%, white)'" stroke-width="4"></circle>
           <circle
             v-for="slice in slices"
             :key="slice.name"
@@ -107,14 +107,14 @@ const topCategoryRatio = computed(() => {
   margin: 0;
   font-size: 1.2rem;
   font-weight: 700;
-  color: #31372b;
+  color: var(--theme-accent);
   line-height: 1.3;
   word-break: keep-all;
 }
 
 .card-description {
   font-size: 0.88rem;
-  color: #7a806f;
+  color: color-mix(in srgb, var(--theme-accent) 55%, #7a806f);
   line-height: 1.45;
   word-break: keep-all;
 }
@@ -143,13 +143,13 @@ const topCategoryRatio = computed(() => {
   font-size: 0.34em;
   font-weight: 800;
   text-anchor: middle;
-  fill: #1f241b;
+  fill: var(--theme-accent);
   dominant-baseline: middle;
 }
 
 .chart-label {
   font-size: 0.115em;
-  fill: #7b826f;
+  fill: color-mix(in srgb, var(--theme-accent) 45%, #7b826f);
   text-anchor: middle;
   font-weight: 500;
 }
@@ -167,13 +167,13 @@ const topCategoryRatio = computed(() => {
   gap: 0.75rem;
   padding: 0.85rem 0.95rem;
   border-radius: 18px;
-  background: #fafbf7;
-  border: 1px solid #edf0e6;
+  background: color-mix(in srgb, var(--theme-background) 45%, white);
+  border: 1px solid color-mix(in srgb, var(--theme-secondary) 20%, white);
 }
 
 .top-row {
-  background: rgba(255, 230, 109, 0.16);
-  border-color: rgba(248, 203, 46, 0.28);
+  background: color-mix(in srgb, var(--theme-primary) 16%, white);
+  border-color: color-mix(in srgb, var(--theme-primary) 28%, white);
 }
 
 .legend-meta {
@@ -192,7 +192,7 @@ const topCategoryRatio = computed(() => {
 
 .category-name {
   font-size: 0.98rem;
-  color: #39402f;
+  color: var(--theme-accent);
   line-height: 1.3;
   word-break: keep-all;
   white-space: nowrap;
@@ -207,14 +207,14 @@ const topCategoryRatio = computed(() => {
 
 .percentage {
   font-size: 0.85rem;
-  color: #7a816f;
+  color: color-mix(in srgb, var(--theme-accent) 55%, #7a816f);
   font-weight: 600;
 }
 
 .amount {
   font-size: 1rem;
   font-weight: 700;
-  color: #2e3428;
+  color: color-mix(in srgb, var(--theme-accent) 85%, #2e3428);
   letter-spacing: -0.02em;
   word-break: keep-all;
 }
@@ -222,12 +222,12 @@ const topCategoryRatio = computed(() => {
 .top-badge {
   display: inline-flex;
   align-items: center;
-  background: #f3f4ee;
+  background: color-mix(in srgb, var(--theme-secondary) 20%, white);
   padding: 0.35rem 0.7rem;
   border-radius: 20px;
   font-size: 0.74rem;
   font-weight: 600;
-  color: #667055;
+  color: var(--theme-accent);
   word-break: keep-all;
   white-space: nowrap;
 }
