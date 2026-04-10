@@ -231,3 +231,17 @@ async function submitForm() {
     </div>
   </section>
 </template>
+
+<style scoped>
+.input-intro-card,
+.input-intro-card h1,
+.input-intro-card strong,
+.input-intro-card span {
+  color: var(--theme-accent);
+}
+
+.input-intro-text,
+.input-intro-tip p {
+  color: color-mix(in srgb, var(--theme-accent) 68%, #5f6e4f);
+}
+</style>

@@ -113,6 +113,7 @@ const dynamicFontSize = computed(() => {
 .goal-input-row strong {
   font-size: 1.1rem;
   font-weight: 700;
+  color: var(--theme-accent);
 }
 
 .badge-tail-down {

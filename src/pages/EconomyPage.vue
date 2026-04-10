@@ -122,6 +122,7 @@ function resetQuiz() {
   position: relative;
   min-height: 100vh;
   background-color: var(--theme-background);
+  padding-bottom: 8.5rem;
 }
 
 /* 전체 페이지 배경 및 기본 패딩 */
@@ -188,7 +189,7 @@ function resetQuiz() {
 .lesson-line {
   font-size: 15px;
   line-height: 1.6;
-  color: #444;
+  color: color-mix(in srgb, var(--theme-accent) 78%, #444);
   display: flex;
   align-items: flex-start;
   gap: 8px;
@@ -229,7 +230,7 @@ function resetQuiz() {
 
 .quiz-header p {
   font-size: 15px;
-  color: #666;
+  color: color-mix(in srgb, var(--theme-accent) 62%, #666);
   margin: 0;
 }
 
@@ -240,6 +241,7 @@ function resetQuiz() {
   text-align: center;
   font-size: 17px;
   font-weight: 600;
+  color: var(--theme-accent);
   margin-bottom: 24px;
   line-height: 1.5;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -285,6 +287,10 @@ function resetQuiz() {
   margin-bottom: 12px;
 }
 
+.quiz-result-card p {
+  color: color-mix(in srgb, var(--theme-accent) 72%, #555);
+}
+
 .quiz-result-card.correct strong {
   color: var(--theme-accent);
 }
@@ -297,7 +303,7 @@ function resetQuiz() {
   margin-top: 12px;
   font-size: 14px;
   font-weight: 700;
-  color: #2e7d32;
+  color: var(--theme-accent);
 }
 
 .btn-retry {
@@ -321,13 +327,13 @@ function resetQuiz() {
   background-color: white;
   border-radius: 24px;
   padding: 24px 20px;
-  margin: -52px 8px 20px 8px;
+  margin: -52px 8px 0 8px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
   display: flex;
   align-items: center;
   gap: 16px;
   position: relative;
-  z-index: 2;
+  z-index: 1;
 }
 
 .completion-icon {
@@ -337,13 +343,13 @@ function resetQuiz() {
 .completion-info h3 {
   font-size: 17px;
   font-weight: 800;
-  color: #222;
+  color: var(--theme-accent);
   margin: 0 0 6px 0;
 }
 
 .completion-info p {
   font-size: 14px;
-  color: #555;
+  color: color-mix(in srgb, var(--theme-accent) 68%, #555);
   margin: 0;
   line-height: 1.4;
 }
