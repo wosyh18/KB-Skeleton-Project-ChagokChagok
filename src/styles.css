@@ -233,6 +233,7 @@ p {
 }
 
 .hero-card {
+  height: 235px;
   background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
 }
 
@@ -940,6 +941,7 @@ label span {
 
   .calendar-card {
     padding: 2rem;
+    
   }
 
   .calendar-day {
