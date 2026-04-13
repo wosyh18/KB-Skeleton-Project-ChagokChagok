@@ -7,8 +7,8 @@
       "name": "김용돈",
       "age": 16,
       "monthlyGoal": 150000,
-      "points": 370,
-      "currentTheme": "berry"
+      "points": 20,
+      "currentTheme": "cocoa"
     }
   ],
   "transactions": [
@@ -553,7 +553,9 @@
         "incorrect": "땡! 늦게 시작하면 이자가 붙을 시간이 부족해요."
       },
       "rewardPoints": 50,
-      "completedUserIds": []
+      "completedUserIds": [
+        1
+      ]
     },
     {
       "id": "3",
@@ -570,7 +572,9 @@
         "incorrect": "아쉬워요. 포기한 것들 중 가장 아까운 것, 즉 가장 큰 가치가 기회비용이에요."
       },
       "rewardPoints": 50,
-      "completedUserIds": []
+      "completedUserIds": [
+        1
+      ]
     },
     {
       "id": "4",
@@ -723,7 +727,9 @@
         "incorrect": "아니에요. 투자는 원금이 줄어들 수도 있어서 위험을 이해하는 게 중요해요."
       },
       "rewardPoints": 50,
-      "completedUserIds": []
+      "completedUserIds": [
+        1
+      ]
     },
     {
       "id": "13",
@@ -753,6 +759,11 @@
       "id": "2",
       "userId": 1,
       "themeId": "berry"
+    },
+    {
+      "userId": 1,
+      "themeId": "cocoa",
+      "id": "EbcuryguzQQ"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

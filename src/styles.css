@@ -140,14 +140,16 @@ p {
 }
 
 .login-logo {
-  width: 90px;
-  height: 90px;
+  width: 100%;
   margin: 0 auto;
-  border-radius: 28px;
   display: grid;
   place-items: center;
-  font-size: 3rem;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--theme-primary) 65%, white), var(--theme-secondary));
+}
+
+.login-logo-image {
+  width: min(220px, 68vw);
+  height: auto;
+  object-fit: contain;
 }
 
 .login-card h1 {
