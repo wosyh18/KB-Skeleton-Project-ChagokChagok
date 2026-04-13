@@ -134,7 +134,10 @@ function resetQuiz() {
                   <span class="history-badge">완료</span>
                   <h4>{{ story.title }}</h4>
                   <p class="history-question">{{ story.quiz.question }}</p>
-                  <p class="history-answer">{{ story.quiz.correct }}</p>
+                  <p class="history-answer">
+                    정답: {{ story.quiz.answer ? 'O' : 'X' }}
+                  </p>
+                  <p class="history-explanation">{{ story.quiz.correct }}</p>
                 </article>
               </div>
 
@@ -400,6 +403,10 @@ function resetQuiz() {
 
 .history-section {
   padding: 24px 20px;
+  max-height: 460px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .history-header {
@@ -424,6 +431,12 @@ function resetQuiz() {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--theme-accent) 28%, transparent)
+    transparent;
 }
 
 .history-grid {
@@ -471,6 +484,26 @@ function resetQuiz() {
   color: color-mix(in srgb, var(--theme-accent) 72%, #555);
 }
 
+.history-explanation {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--theme-accent) 72%, #555);
+}
+
+.history-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.history-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.history-content::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--theme-accent) 24%, transparent);
+  border-radius: 999px;
+}
+
 @media (min-width: 768px) {
   .history-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -497,19 +530,13 @@ function resetQuiz() {
   .history-section {
     flex: 1;
     min-height: 0;
-    display: flex;
-    flex-direction: column;
     overflow: hidden;
+    max-height: 560px;
   }
 
   .history-content {
     flex: 1;
     min-height: 0;
-    overflow-y: auto;
-    padding-right: 6px;
-    scrollbar-width: thin;
-    scrollbar-color: color-mix(in srgb, var(--theme-accent) 28%, transparent)
-      transparent;
   }
 
   .history-grid {

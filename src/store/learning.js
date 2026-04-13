@@ -7,6 +7,7 @@ import { useFinanceStore } from '@/store/finance';
 export const useLearningStore = defineStore('learning', {
   state: () => ({
     initialized: false,
+    stories: [],
     lessons: {
       id: '',
       title: '',
@@ -23,6 +24,18 @@ export const useLearningStore = defineStore('learning', {
     isLoading: false,
     error: '',
   }),
+  getters: {
+    completedLessons(state) {
+      const authStore = useAuthStore();
+      if (!authStore.userId) return [];
+
+      return state.stories.filter((story) =>
+        (story.completedUserIds || []).some(
+          (id) => String(id) === String(authStore.userId),
+        ),
+      );
+    },
+  },
   actions: {
     async initialize() {
       if (this.initialized) return;
@@ -40,6 +53,7 @@ export const useLearningStore = defineStore('learning', {
       try {
         const { data } = await api.get('/economicStories');
         if (data.length > 0) {
+          this.stories = data;
           const randomIndex = Math.floor(Math.random() * data.length);
           this.lessons = data[randomIndex];
         }
@@ -84,6 +98,11 @@ export const useLearningStore = defineStore('learning', {
 
       financeStore.points = nextPoints;
       this.lessons.completedUserIds = nextCompletedUserIds;
+      this.stories = this.stories.map((story) =>
+        String(story.id) === String(this.lessons.id)
+          ? { ...story, completedUserIds: nextCompletedUserIds }
+          : story,
+      );
 
       return {
         ok: true,
