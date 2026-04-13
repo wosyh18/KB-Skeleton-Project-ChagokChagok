@@ -7,8 +7,8 @@
       "name": "김용돈",
       "age": 16,
       "monthlyGoal": 150000,
-      "points": 170,
-      "currentTheme": "default"
+      "points": 370,
+      "currentTheme": "berry"
     }
   ],
   "transactions": [
@@ -100,7 +100,7 @@
       "amount": 4500,
       "date": "2025-12-28",
       "category": "식비",
-      "description": "붕어빵과 어묵과 떡볶이 간식"
+      "description": "붕어빵과 어묵 간식"
     },
     {
       "id": "1",
@@ -482,7 +482,7 @@
       "secondary": "#F4ACB7",
       "accent": "#B23A48",
       "background": "#FFF6F7",
-      "requiredPoints": 100
+      "requiredPoints": 120
     },
     {
       "id": "sky",
@@ -491,7 +491,7 @@
       "secondary": "#8ECAE6",
       "accent": "#1877B8",
       "background": "#F3FBFF",
-      "requiredPoints": 200
+      "requiredPoints": 160
     },
     {
       "id": "mint",
@@ -500,7 +500,7 @@
       "secondary": "#80ED99",
       "accent": "#2D6A4F",
       "background": "#F4FFF6",
-      "requiredPoints": 300
+      "requiredPoints": 180
     },
     {
       "id": "sunset",
@@ -509,7 +509,7 @@
       "secondary": "#FFADAD",
       "accent": "#E76F51",
       "background": "#FFF7F2",
-      "requiredPoints": 400
+      "requiredPoints": 220
     },
     {
       "id": "cocoa",
@@ -537,9 +537,7 @@
         "incorrect": "아쉬워요. 먼저 저축 금액을 정해두면 충동 지출을 줄이는 데 도움이 돼요."
       },
       "rewardPoints": 50,
-      "completedUserIds": [
-        1
-      ]
+      "completedUserIds": []
     },
     {
       "id": "2",
@@ -657,9 +655,7 @@
         "incorrect": "다시 생각해 볼까요? 비상금은 급하게 꼭 필요한 상황을 위한 돈이에요."
       },
       "rewardPoints": 50,
-      "completedUserIds": [
-        1
-      ]
+      "completedUserIds": []
     },
     {
       "id": "9",
@@ -693,9 +689,7 @@
         "incorrect": "땡! 할인은 필요한 물건일 때만 이득이 될 수 있어요."
       },
       "rewardPoints": 50,
-      "completedUserIds": [
-        1
-      ]
+      "completedUserIds": []
     },
     {
       "id": "11",
@@ -729,9 +723,7 @@
         "incorrect": "아니에요. 투자는 원금이 줄어들 수도 있어서 위험을 이해하는 게 중요해요."
       },
       "rewardPoints": 50,
-      "completedUserIds": [
-        1
-      ]
+      "completedUserIds": []
     },
     {
       "id": "13",
@@ -761,16 +753,6 @@
       "id": "2",
       "userId": 1,
       "themeId": "berry"
-    },
-    {
-      "userId": 1,
-      "themeId": "mint",
-      "id": "dU7wSVl_Jv8"
-    },
-    {
-      "userId": 1,
-      "themeId": "sunset",
-      "id": "YzPtKH90bko"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
