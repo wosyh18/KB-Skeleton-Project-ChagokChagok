@@ -31,6 +31,7 @@ export const useThemeStore = defineStore('theme', {
       return state.themes.map((theme) => ({
         ...theme,
         cost: theme.requiredPoints ?? 0,
+        unlocked: theme.requiredPoints === 0 || state.unlockedThemeIds.includes(theme.id),
       }))
     },
   },

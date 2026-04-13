@@ -55,7 +55,6 @@ onMounted(async () => {
 
 async function chooseTheme(themeId) {
   const result = await themeStore.selectTheme(themeId)
-  feedback.value = result.ok ? '테마가 적용되었어요.' : result.message
   if (result.ok) {
     showThemeDialog.value = false
   }
