@@ -78,28 +78,28 @@ onMounted(() => {
 <template>
   <section class="content-page home-page">
     <div class="main-layout">
-      <div class="calendar-section">
-        <MainSummaryCard
-          :month-name="monthName"
-          :monthly-goal="monthlyGoal"
-          :total-income="currentMonthTotalIncome"
-          :current-month-total-expense="currentMonthTotalExpense"
-          :remaining-allowance="remainingAllowance"
-          @previous="previousMonth"
-          @next="nextMonth"
-        />
+      <MainSummaryCard
+        class="summary-panel"
+        :month-name="monthName"
+        :monthly-goal="monthlyGoal"
+        :total-income="currentMonthTotalIncome"
+        :current-month-total-expense="currentMonthTotalExpense"
+        :remaining-allowance="remainingAllowance"
+        @previous="previousMonth"
+        @next="nextMonth"
+      />
 
-        <MonthlyCalendar
-          :weekday-labels="weekdayLabels"
-          :first-day="firstDay"
-          :days-in-month="daysInMonth"
-          :expense-for="expenseFor"
-          :format-date="formatDate"
-          @select-day="openDaily"
-        />
-      </div>
+      <MonthlyCalendar
+        class="calendar-panel"
+        :weekday-labels="weekdayLabels"
+        :first-day="firstDay"
+        :days-in-month="daysInMonth"
+        :expense-for="expenseFor"
+        :format-date="formatDate"
+        @select-day="openDaily"
+      />
 
-      <div class="sidebar-section desktop-only">
+      <div class="desktop-only filter-panel">
         <div class="section-card filter-card">
           <div class="section-headline">
             <h2>필터링</h2>
@@ -117,13 +117,13 @@ onMounted(() => {
             </button>
           </div>
         </div>
+      </div>
 
-        <div class="scrollable-list">
-          <TransactionList
-            :transactions="filteredTransactions"
-            :show-actions="false"
-          />
-        </div>
+      <div class="scrollable-list transaction-panel desktop-only">
+        <TransactionList
+          :transactions="filteredTransactions"
+          :show-actions="false"
+        />
       </div>
     </div>
 
@@ -141,23 +141,18 @@ onMounted(() => {
   gap: 1rem;
 }
 
-.calendar-section {
-  display: grid;
-  gap: 1rem;
-}
-
-.sidebar-section {
-  display: grid;
-  gap: 1rem;
-  align-content: start;
-}
-
 .filter-card {
   padding: 1rem;
 }
 
 .scrollable-list {
   overflow-y: auto;
+}
+
+.summary-panel,
+.filter-panel,
+.filter-card {
+  height: 100%;
 }
 
 /* Custom scrollbar for better look */
@@ -179,29 +174,45 @@ onMounted(() => {
 @media (min-width: 900px) {
   .main-layout {
     grid-template-columns: 1fr 400px;
+    grid-template-areas:
+      'summary filter'
+      'calendar transactions';
     align-items: stretch;
   }
 
-  .calendar-section {
-    position: sticky;
-    top: 60px; /* Adjust based on header height */
-  }
-
-  .sidebar-section {
-    display: flex;
-    flex-direction: column;
-  }
-
   .scrollable-list {
-    flex: 1;
     overflow-y: auto;
     background: rgba(255, 255, 255, 0.5);
     border-radius: 28px;
     border: 1px solid rgba(0, 0, 0, 0.05);
   }
 
-  .desktop-only {
+  .summary-panel {
+    grid-area: summary;
+  }
+
+  .calendar-panel {
+    grid-area: calendar;
+  }
+
+  .filter-panel {
+    grid-area: filter;
+    display: block;
+  }
+
+  .filter-card {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .transaction-panel {
+    grid-area: transactions;
+    min-height: 0;
+  }
+
+  .desktop-only {
+    display: block;
   }
 }
 </style>

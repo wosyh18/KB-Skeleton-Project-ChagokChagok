@@ -379,6 +379,18 @@ p {
   padding: 0 2px;
 }
 
+@media (max-width: 899px) {
+  .calendar-day small {
+    position: static;
+    margin-top: auto;
+    width: auto;
+    max-width: 100%;
+    font-size: 0.56rem;
+    line-height: 1.1;
+    padding: 0;
+  }
+}
+
 .floating-tip {
   display: flex;
   gap: 0.85rem;
