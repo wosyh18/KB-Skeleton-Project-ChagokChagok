@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
@@ -23,20 +23,38 @@ const {
   categories,
   calendarMonth,
 } = storeToRefs(financeStore)
+
 const currentDate = ref(new Date())
 const weekdayLabels = ['일', '월', '화', '수', '목', '금', '토']
 const selectedCategory = ref('전체')
 
 const monthName = computed(() => `${currentDate.value.getMonth() + 1}월`)
-const daysInMonth = computed(() => new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() + 1, 0).getDate())
-const firstDay = computed(() => new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), 1).getDay())
+const daysInMonth = computed(
+  () => new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() + 1, 0).getDate(),
+)
+const firstDay = computed(
+  () => new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), 1).getDay(),
+)
 
-const filterCategories = computed(() => ['전체', ...categories.value.map(c => c.name)])
+const filterCategories = computed(() => {
+  const categoryNames = categories.value.map((category) => category.name)
+  return [...categoryNames].sort((left, right) => {
+    if (left === '기타') return 1
+    if (right === '기타') return -1
+    return 0
+  })
+})
 
 const filteredTransactions = computed(() => {
-  const monthTransactions = transactions.value.filter(t => t.date.startsWith(calendarMonth.value))
-  if (selectedCategory.value === '전체') return monthTransactions
-  return monthTransactions.filter(t => t.category === selectedCategory.value)
+  const monthTransactions = transactions.value.filter((item) =>
+    item.date.startsWith(calendarMonth.value),
+  )
+
+  if (selectedCategory.value === '전체') {
+    return monthTransactions
+  }
+
+  return monthTransactions.filter((item) => item.category === selectedCategory.value)
 })
 
 function formatDate(day) {
@@ -45,20 +63,30 @@ function formatDate(day) {
   return `${year}-${month}-${String(day).padStart(2, '0')}`
 }
 
+function formatMonth(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
+}
+
 function previousMonth() {
-  currentDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() - 1, 1)
-  financeStore.setCalendarMonth(formatMonth(currentDate.value))
-  financeStore.setSelectedMonth(formatMonth(currentDate.value))
+  currentDate.value = new Date(
+    currentDate.value.getFullYear(),
+    currentDate.value.getMonth() - 1,
+    1,
+  )
+  const month = formatMonth(currentDate.value)
+  financeStore.setCalendarMonth(month)
+  financeStore.setSelectedMonth(month)
 }
 
 function nextMonth() {
-  currentDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() + 1, 1)
-  financeStore.setCalendarMonth(formatMonth(currentDate.value))
-  financeStore.setSelectedMonth(formatMonth(currentDate.value))
-}
-
-function formatMonth(date) {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
+  currentDate.value = new Date(
+    currentDate.value.getFullYear(),
+    currentDate.value.getMonth() + 1,
+    1,
+  )
+  const month = formatMonth(currentDate.value)
+  financeStore.setCalendarMonth(month)
+  financeStore.setSelectedMonth(month)
 }
 
 function openDaily(day) {
@@ -70,8 +98,9 @@ function expenseFor(day) {
 }
 
 onMounted(() => {
-  financeStore.setCalendarMonth(formatMonth(currentDate.value))
-  financeStore.setSelectedMonth(formatMonth(currentDate.value))
+  const month = formatMonth(currentDate.value)
+  financeStore.setCalendarMonth(month)
+  financeStore.setSelectedMonth(month)
 })
 </script>
 
@@ -102,9 +131,21 @@ onMounted(() => {
       <div class="desktop-only filter-panel">
         <div class="section-card filter-card">
           <div class="section-headline">
-            <h2>필터링</h2>
+            <h2>카테고리 필터</h2>
           </div>
-          <div class="quick-grid categories">
+
+          <div class="filter-top-row">
+            <button
+              type="button"
+              class="chip-button"
+              :class="{ selected: selectedCategory === '전체' }"
+              @click="selectedCategory = '전체'"
+            >
+              전체
+            </button>
+          </div>
+
+          <div class="filter-category-grid">
             <button
               v-for="cat in filterCategories"
               :key="cat"
@@ -120,17 +161,14 @@ onMounted(() => {
       </div>
 
       <div class="scrollable-list transaction-panel desktop-only">
-        <TransactionList
-          :transactions="filteredTransactions"
-          :show-actions="false"
-        />
+        <TransactionList :transactions="filteredTransactions" :show-actions="false" />
       </div>
     </div>
 
     <InfoTipCard
       :image="iconPaper"
-      :title="`${user?.name || '친구'}님, 오늘도 기록해 볼까요?`"
-      description="날짜를 눌러 하루 지출을 확인하거나 입력 화면에서 바로 추가할 수 있어요."
+      :title="`${user?.name || '친구'}의 이번 달 소비를 살펴볼까요?`"
+      description="날짜를 눌러 하루 지출을 확인하거나 입력 페이지에서 바로 거래를 추가할 수 있어요."
     />
   </section>
 </template>
@@ -145,6 +183,21 @@ onMounted(() => {
   padding: 1rem;
 }
 
+.filter-top-row {
+  margin-bottom: 0.75rem;
+  display: flex;
+}
+
+.filter-top-row .chip-button {
+  width: calc((100% - 1rem) / 3);
+}
+
+.filter-category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
 .scrollable-list {
   overflow-y: auto;
 }
@@ -155,13 +208,14 @@ onMounted(() => {
   height: 100%;
 }
 
-/* Custom scrollbar for better look */
 .scrollable-list::-webkit-scrollbar {
   width: 6px;
 }
+
 .scrollable-list::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .scrollable-list::-webkit-scrollbar-thumb {
   background: #d7dec7;
   border-radius: 10px;
