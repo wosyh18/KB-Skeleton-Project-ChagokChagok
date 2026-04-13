@@ -1,38 +1,117 @@
-# .
+# 차곡차곡
 
-This template should help get you started developing with Vue 3 in Vite.
+차곡차곡은 청소년이 용돈과 소비를 쉽고 꾸준하게 관리할 수 있도록 만든 금융 습관 형성 서비스입니다.  
+복잡한 가계부보다 부담 없이 기록하고, 달력과 통계로 흐름을 확인하고, 경제 학습과 포인트 보상까지 연결해 자연스럽게 돈 관리 습관을 만들도록 설계했습니다.
 
-## Recommended IDE Setup
+## 서비스 소개
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+많은 청소년이 용돈을 어디에 썼는지 기억은 하지만, 한 달 기준으로 얼마나 들어오고 나갔는지는 정리하지 못하는 경우가 많습니다. 차곡차곡은 이 지점을 해결하기 위해 만들어졌습니다.
 
-## Recommended Browser Setup
+- 월별 달력에서 수입과 지출 흐름을 한눈에 확인할 수 있습니다.
+- 날짜별 거래 내역을 빠르게 기록하고 수정할 수 있습니다.
+- 카테고리별, 주차별 소비 패턴을 시각적으로 분석할 수 있습니다.
+- 경제 이야기와 O/X 퀴즈를 통해 금융 개념을 가볍게 학습할 수 있습니다.
+- 기록과 학습으로 모은 포인트로 테마를 해금해 서비스 이용 경험을 확장할 수 있습니다.
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## 주요 기능
 
-## Customize configuration
+### 1. 메인 대시보드
+- 이번 달 목표 금액, 받은 금액, 총지출, 현재 잔액을 요약해서 보여줍니다.
+- 달력에서 날짜별 지출 내역을 확인할 수 있습니다.
+- 카테고리 필터를 통해 원하는 거래만 빠르게 볼 수 있습니다.
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+### 2. 날짜별 거래 관리
+- 특정 날짜의 거래를 조회할 수 있습니다.
+- 수입/지출 내역을 추가, 수정, 삭제할 수 있습니다.
+- 하루 기준 잔액 흐름도 함께 확인할 수 있습니다.
 
-## Project Setup
+### 3. 소비 입력
+- 거래 유형, 금액, 카테고리, 메모를 입력해 손쉽게 기록할 수 있습니다.
+- 기록 시 포인트가 적립되어 서비스 참여를 유도합니다.
+
+### 4. 통계 분석
+- 월별 총지출을 확인할 수 있습니다.
+- 카테고리별 지출 비중을 비교할 수 있습니다.
+- 주차별 소비 추이를 통해 언제 지출이 몰리는지 파악할 수 있습니다.
+
+### 5. 경제 학습
+- 오늘의 경제 이야기를 읽고 O/X 퀴즈를 풀 수 있습니다.
+- 정답을 맞히면 포인트를 받고, 완료한 학습 내역이 누적됩니다.
+
+### 6. 마이페이지와 테마
+- 월 목표를 직접 설정할 수 있습니다.
+- 현재 소비 성향에 맞는 대표 카테고리 캐릭터를 보여줍니다.
+- 포인트로 테마를 구매하고, 구매한 테마는 잠금 해제 상태로 다시 선택할 수 있습니다.
+
+## 사용자 경험 포인트
+
+- 청소년이 익숙한 달력 중심 UI로 진입 장벽을 낮췄습니다.
+- 기록, 분석, 학습, 보상을 하나의 흐름으로 연결했습니다.
+- 금융 관리 서비스를 딱딱하지 않게 만들기 위해 캐릭터와 테마 시스템을 넣었습니다.
+
+## 기술 스택
+
+- Frontend: Vue 3, Vite, Vue Router, Pinia
+- API Mock Server: json-server
+- HTTP Client: Axios
+- UI: CSS, Bootstrap 일부 사용
+
+## 실행 방법
+
+### 1. 패키지 설치
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### 2. 개발 서버와 목업 API 동시 실행
 
 ```sh
+npm run dev:all
+```
+
+- 프론트엔드 개발 서버: `http://localhost:5173`
+- 목업 API 서버: `http://localhost:3000`
+
+각각 따로 실행하려면 아래 명령을 사용하면 됩니다.
+
+```sh
+npm run mock
 npm run dev
 ```
 
-### Compile and Minify for Production
+### 3. 프로덕션 빌드
 
 ```sh
 npm run build
 ```
+
+### 4. 빌드 결과 미리보기
+
+```sh
+npm run preview
+```
+
+## 데모 계정
+
+`db.json` 기준으로 아래 계정으로 로그인할 수 있습니다.
+
+- 이메일: `yongdon@example.com`
+- 비밀번호: `hashed_password_123`
+
+## 프로젝트 구조
+
+```text
+src/
+  api/           API 클라이언트
+  components/    공통 및 기능별 UI 컴포넌트
+  pages/         메인, 입력, 통계, 경제, 마이페이지 등 화면 단위 컴포넌트
+  router/        라우팅 설정
+  store/         인증, 가계부, 테마, 학습 상태 관리
+db.json          json-server 목업 데이터
+```
+
+## 기대 효과
+
+차곡차곡은 단순한 지출 기록 앱이 아니라, 청소년이 스스로 소비를 돌아보고 더 나은 선택을 연습하도록 돕는 생활형 금융 서비스입니다.  
+기록을 습관으로 만들고, 분석으로 이해를 넓히고, 학습과 보상으로 지속 사용을 유도하는 것이 이 서비스의 핵심입니다.
