@@ -1,10 +1,11 @@
-﻿<script setup>
+<script setup>
 import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import InfoTipCard from '@/components/common/InfoTipCard.vue'
 import MainSummaryCard from '@/components/main/MainSummaryCard.vue'
 import MonthlyCalendar from '@/components/main/MonthlyCalendar.vue'
+import TransactionList from '@/components/daily/TransactionList.vue'
 import { useAuthStore } from '@/store/auth'
 import { useFinanceStore } from '@/store/finance'
 import iconPaper from '@/assets/icons/icon-paper.png'
@@ -18,13 +19,25 @@ const {
   currentMonthTotalIncome,
   currentMonthTotalExpense,
   remainingAllowance,
+  transactions,
+  categories,
+  calendarMonth,
 } = storeToRefs(financeStore)
 const currentDate = ref(new Date())
 const weekdayLabels = ['일', '월', '화', '수', '목', '금', '토']
+const selectedCategory = ref('전체')
 
 const monthName = computed(() => `${currentDate.value.getMonth() + 1}월`)
 const daysInMonth = computed(() => new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() + 1, 0).getDate())
 const firstDay = computed(() => new Date(currentDate.value.getFullYear(), currentDate.value.getMonth(), 1).getDay())
+
+const filterCategories = computed(() => ['전체', ...categories.value.map(c => c.name)])
+
+const filteredTransactions = computed(() => {
+  const monthTransactions = transactions.value.filter(t => t.date.startsWith(calendarMonth.value))
+  if (selectedCategory.value === '전체') return monthTransactions
+  return monthTransactions.filter(t => t.category === selectedCategory.value)
+})
 
 function formatDate(day) {
   const year = currentDate.value.getFullYear()
@@ -35,11 +48,13 @@ function formatDate(day) {
 function previousMonth() {
   currentDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() - 1, 1)
   financeStore.setCalendarMonth(formatMonth(currentDate.value))
+  financeStore.setSelectedMonth(formatMonth(currentDate.value))
 }
 
 function nextMonth() {
   currentDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() + 1, 1)
   financeStore.setCalendarMonth(formatMonth(currentDate.value))
+  financeStore.setSelectedMonth(formatMonth(currentDate.value))
 }
 
 function formatMonth(date) {
@@ -56,29 +71,61 @@ function expenseFor(day) {
 
 onMounted(() => {
   financeStore.setCalendarMonth(formatMonth(currentDate.value))
+  financeStore.setSelectedMonth(formatMonth(currentDate.value))
 })
 </script>
 
 <template>
   <section class="content-page home-page">
-    <MainSummaryCard
-      :month-name="monthName"
-      :monthly-goal="monthlyGoal"
-      :total-income="currentMonthTotalIncome"
-      :current-month-total-expense="currentMonthTotalExpense"
-      :remaining-allowance="remainingAllowance"
-      @previous="previousMonth"
-      @next="nextMonth"
-    />
+    <div class="main-layout">
+      <MainSummaryCard
+        class="summary-panel"
+        :month-name="monthName"
+        :monthly-goal="monthlyGoal"
+        :total-income="currentMonthTotalIncome"
+        :current-month-total-expense="currentMonthTotalExpense"
+        :remaining-allowance="remainingAllowance"
+        @previous="previousMonth"
+        @next="nextMonth"
+      />
 
-    <MonthlyCalendar
-      :weekday-labels="weekdayLabels"
-      :first-day="firstDay"
-      :days-in-month="daysInMonth"
-      :expense-for="expenseFor"
-      :format-date="formatDate"
-      @select-day="openDaily"
-    />
+      <MonthlyCalendar
+        class="calendar-panel"
+        :weekday-labels="weekdayLabels"
+        :first-day="firstDay"
+        :days-in-month="daysInMonth"
+        :expense-for="expenseFor"
+        :format-date="formatDate"
+        @select-day="openDaily"
+      />
+
+      <div class="desktop-only filter-panel">
+        <div class="section-card filter-card">
+          <div class="section-headline">
+            <h2>필터링</h2>
+          </div>
+          <div class="quick-grid categories">
+            <button
+              v-for="cat in filterCategories"
+              :key="cat"
+              type="button"
+              class="chip-button"
+              :class="{ selected: selectedCategory === cat }"
+              @click="selectedCategory = cat"
+            >
+              {{ cat }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="scrollable-list transaction-panel desktop-only">
+        <TransactionList
+          :transactions="filteredTransactions"
+          :show-actions="false"
+        />
+      </div>
+    </div>
 
     <InfoTipCard
       :image="iconPaper"
@@ -87,3 +134,85 @@ onMounted(() => {
     />
   </section>
 </template>
+
+<style scoped>
+.main-layout {
+  display: grid;
+  gap: 1rem;
+}
+
+.filter-card {
+  padding: 1rem;
+}
+
+.scrollable-list {
+  overflow-y: auto;
+}
+
+.summary-panel,
+.filter-panel,
+.filter-card {
+  height: 100%;
+}
+
+/* Custom scrollbar for better look */
+.scrollable-list::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollable-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollable-list::-webkit-scrollbar-thumb {
+  background: #d7dec7;
+  border-radius: 10px;
+}
+
+.desktop-only {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .main-layout {
+    grid-template-columns: 1fr 400px;
+    grid-template-areas:
+      'summary filter'
+      'calendar transactions';
+    align-items: stretch;
+  }
+
+  .scrollable-list {
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 28px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .summary-panel {
+    grid-area: summary;
+  }
+
+  .calendar-panel {
+    grid-area: calendar;
+  }
+
+  .filter-panel {
+    grid-area: filter;
+    display: block;
+  }
+
+  .filter-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .transaction-panel {
+    grid-area: transactions;
+    min-height: 0;
+  }
+
+  .desktop-only {
+    display: block;
+  }
+}
+</style>

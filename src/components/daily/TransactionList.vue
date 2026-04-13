@@ -1,4 +1,4 @@
-﻿<script setup>
+<script setup>
 import incomeIcon from '@/assets/icons/icon-income.png'
 import expenseIcon from '@/assets/icons/icon-outcome.png'
 import foodIcon from '@/assets/icons/icons-food.png'
@@ -10,6 +10,7 @@ import etcIcon from '@/assets/icons/icons8-star.png'
 
 defineProps({
   transactions: { type: Array, required: true },
+  showActions: { type: Boolean, default: true },
 })
 
 const emit = defineEmits(['add', 'edit', 'delete'])
@@ -38,7 +39,7 @@ function getTransactionIconAlt(item) {
   <div class="section-card">
     <div class="section-headline">
       <h2>거래 내역</h2>
-      <button type="button" class="text-button" @click="emit('add')">새 거래 추가</button>
+      <button v-if="showActions" type="button" class="text-button" @click="emit('add')">새 거래 추가</button>
     </div>
 
     <div v-if="transactions.length" class="transaction-list">
@@ -59,7 +60,7 @@ function getTransactionIconAlt(item) {
 
         <div class="transaction-actions">
           <strong :class="item.type">{{ item.type === 'income' ? '+' : '-' }}{{ item.amount.toLocaleString() }}원</strong>
-          <div class="action-group">
+          <div v-if="showActions" class="action-group">
             <button type="button" class="chip-button" @click="emit('edit', item.id)">수정</button>
             <button type="button" class="chip-button danger" @click="emit('delete', item.id)">삭제</button>
           </div>
