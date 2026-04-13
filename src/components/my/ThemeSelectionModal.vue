@@ -26,7 +26,15 @@ const emit = defineEmits(['close', 'select'])
           @click="emit('select', theme.id)"
         >
           <strong>{{ theme.name }}</strong>
-          <span>{{ theme.cost === 0 ? '무료' : `${theme.cost}P` }}</span>
+          <span>
+            {{
+              theme.cost === 0
+                ? '무료'
+                : theme.unlocked
+                  ? '잠금해제'
+                  : `${theme.cost}P`
+            }}
+          </span>
         </button>
       </div>
     </div>
