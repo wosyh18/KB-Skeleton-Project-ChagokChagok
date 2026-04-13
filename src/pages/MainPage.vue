@@ -209,6 +209,7 @@ onMounted(() => {
   .transaction-panel {
     grid-area: transactions;
     min-height: 0;
+    max-height: 620px;
   }
 
   .desktop-only {
